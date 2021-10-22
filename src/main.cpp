@@ -21,8 +21,18 @@ int height = 600;
 
 #pragma region GlobalVariables
 
+// OpenGL IDs.
 GLuint shader_program_id;
+
+// Keyboard presses.
 std::vector<bool> keys_pressed(256, false);
+
+// Camera variables.
+int last_x = 0;
+int last_y = 0;
+bool is_first_mouse_movement = true;
+float yaw = -90.0f;
+float pitch = 0;
 glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
 glm::vec3 camera_front(0.0f, 0.0f, -1.0f);
 glm::vec3 camera_up(0.0f, 1.0f, 0.0f);
@@ -239,7 +249,50 @@ void UpdateScene() {
   glutPostRedisplay();
 }
 
-void Keydown(unsigned char key, int x, int y) { keys_pressed[key] = true; }
+void MouseMove(int x, int y) {
+  if (is_first_mouse_movement) {
+    last_x = x;
+    last_y = y;
+    is_first_mouse_movement = false;
+  }
+
+  float xoffset = x - last_x;
+  float yoffset = last_y - y;
+
+  glutWarpPointer(width / 2, height / 2);
+
+  last_x = width / 2;
+  last_y = height / 2;
+
+  float sensitivity = 0.1f;
+  xoffset *= sensitivity;
+  yoffset *= sensitivity;
+
+  yaw += xoffset;
+  pitch += yoffset;
+
+  if (pitch > 89.0f) {
+    pitch = 89.0f;
+  }
+
+  if (pitch < -89.0f) {
+    pitch = -89.0f;
+  }
+
+  glm::vec3 direction;
+  direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+  direction.y = sin(glm::radians(pitch));
+  direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+  camera_front = glm::normalize(direction);
+}
+
+void Keydown(unsigned char key, int x, int y) {
+  if (key == 27) {
+    exit(0);
+  }
+
+  keys_pressed[key] = true;
+}
 
 void Keyup(unsigned char key, int x, int y) { keys_pressed[key] = false; }
 
@@ -249,12 +302,14 @@ int main(int argc, char** argv) {
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
   glutInitWindowSize(width, height);
   glutCreateWindow("Climate Change Visualisation");
+  glutSetCursor(GLUT_CURSOR_NONE);
 
   // Register callbacks.
   glutDisplayFunc(Display);
   glutIdleFunc(UpdateScene);
   glutKeyboardFunc(Keydown);
   glutKeyboardUpFunc(Keyup);
+  glutPassiveMotionFunc(MouseMove);
 
   glewExperimental = GL_TRUE;
   GLenum result = glewInit();
