@@ -21,8 +21,11 @@ int height = 600;
 
 #pragma region GlobalVariables
 
-std::vector<bool> keys_pressed(256, false);
 GLuint shader_program_id;
+std::vector<bool> keys_pressed(256, false);
+glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
+glm::vec3 camera_front(0.0f, 0.0f, -1.0f);
+glm::vec3 camera_up(0.0f, 1.0f, 0.0f);
 
 #pragma endregion
 
@@ -189,7 +192,8 @@ void Display() {
 
   model = glm::rotate<float>(glm::mat4(1.0f), glm::radians(45.0f),
                              glm::vec3(0.0f, 0.0f, 1.0f));
-  view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -40.0f));
+  model = glm::scale<float>(model, glm::vec3(0.1f, 0.1f, 0.1f));
+  view = glm::lookAt(camera_pos, camera_pos + camera_front, camera_up);
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
@@ -210,6 +214,26 @@ void UpdateScene() {
   float delta = (curr_time - last_time) * 0.001f;
   if (delta > 0.03f) delta = 0.03f;
   last_time = curr_time;
+
+  float camera_speed = 2.5f * delta;
+
+  if (keys_pressed['w']) {
+    camera_pos += camera_speed * camera_front;
+  }
+
+  if (keys_pressed['s']) {
+    camera_pos -= camera_speed * camera_front;
+  }
+
+  if (keys_pressed['a']) {
+    camera_pos -=
+        glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+  }
+
+  if (keys_pressed['d']) {
+    camera_pos +=
+        glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+  }
 
   // Draw the next frame
   glutPostRedisplay();
