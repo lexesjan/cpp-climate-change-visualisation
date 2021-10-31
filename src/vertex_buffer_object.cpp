@@ -1,9 +1,12 @@
+#include <GL/glew.h>
 #include "vertex_buffer_object.h"
 
-VertexBufferObject::VertexBufferObject() {}
+VertexBufferObject::VertexBufferObject(const void* data, unsigned int size) {
+  glGenBuffers(1, &id_);
+  Bind();
+  glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+}
 
-VertexBufferObject::~VertexBufferObject() {}
+void VertexBufferObject::Bind() { glBindBuffer(GL_ARRAY_BUFFER, id_); }
 
-void VertexBufferObject::Bind() {}
-
-void VertexBufferObject::Unbind() {}
+void VertexBufferObject::Unbind() { glBindBuffer(GL_ARRAY_BUFFER, 0); }

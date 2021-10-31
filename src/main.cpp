@@ -11,6 +11,7 @@
 #include <fstream>
 #include <sstream>
 #include "camera.h"
+#include "vertex_buffer_object.h"
 #include "teapot.h"
 
 #pragma region Constants
@@ -141,26 +142,21 @@ void GenerateObjectBufferTeapot() {
   GLuint loc1 = glGetAttribLocation(shader_program_id_, "vertex_position");
   GLuint loc2 = glGetAttribLocation(shader_program_id_, "vertex_normals");
 
-  GLuint vp_vbo;
-  glGenBuffers(1, &vp_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vp_vbo);
-  glBufferData(GL_ARRAY_BUFFER, 3 * teapot_vertex_count * sizeof(float),
-               teapot_vertex_points, GL_STATIC_DRAW);
-  GLuint vn_vbo;
-  glGenBuffers(1, &vn_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vn_vbo);
-  glBufferData(GL_ARRAY_BUFFER, 3 * teapot_vertex_count * sizeof(float),
-               teapot_normals, GL_STATIC_DRAW);
+  VertexBufferObject vp_vbo(teapot_vertex_points,
+                            3 * teapot_vertex_count * sizeof(float));
+
+  VertexBufferObject vn_vbo(teapot_normals,
+                            3 * teapot_vertex_count * sizeof(float));
 
   GLuint teapot_vao;
   glGenVertexArrays(1, &teapot_vao);
   glBindVertexArray(teapot_vao);
 
   glEnableVertexAttribArray(loc1);
-  glBindBuffer(GL_ARRAY_BUFFER, vp_vbo);
+  vp_vbo.Bind();
   glVertexAttribPointer(loc1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
   glEnableVertexAttribArray(loc2);
-  glBindBuffer(GL_ARRAY_BUFFER, vn_vbo);
+  vn_vbo.Bind();
   glVertexAttribPointer(loc2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
@@ -168,7 +164,7 @@ void InitialiseScene() {
   shader_program_id_ = CreateShaderProgram("shaders/simpleVertexShader.txt",
                                            "shaders/simpleFragmentShader.txt");
 
-  camera_ = Camera::Camera();
+  camera_ = Camera();
 
   GenerateObjectBufferTeapot();
 }

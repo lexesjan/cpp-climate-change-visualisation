@@ -5,8 +5,7 @@
 
 class VertexBufferObject {
  public:
-  explicit VertexBufferObject();
-  ~VertexBufferObject();
+  explicit VertexBufferObject(const void* data, unsigned int size);
 
   void Bind();
 
@@ -14,7 +13,6 @@ class VertexBufferObject {
 
  private:
   GLuint id_;
-  GLuint count_;
 };
 
 #endif
