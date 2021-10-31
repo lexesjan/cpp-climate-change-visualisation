@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\vertex_buffer_object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="shaders\simpleFragmentShader.txt" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\teapot.h" />
+    <ClInclude Include="src\vertex_buffer_object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
