@@ -10,6 +10,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include "camera.h"
 #include "teapot.h"
 
 #pragma region Constants
@@ -21,21 +22,14 @@ int height = 600;
 
 #pragma region GlobalVariables
 
+// Camera.
+Camera camera_;
+
 // OpenGL IDs.
-GLuint shader_program_id;
+GLuint shader_program_id_;
 
 // Keyboard presses.
 std::vector<bool> keys_pressed(256, false);
-
-// Camera variables.
-int last_x = 0;
-int last_y = 0;
-bool is_first_mouse_movement = true;
-float yaw = -90.0f;
-float pitch = 0;
-glm::vec3 camera_pos(0.0f, 0.0f, 3.0f);
-glm::vec3 camera_front(0.0f, 0.0f, -1.0f);
-glm::vec3 camera_up(0.0f, 1.0f, 0.0f);
 
 #pragma endregion
 
@@ -144,8 +138,8 @@ GLuint CreateShaderProgram(const std::string& vetex_shader_file_path,
 }
 
 void GenerateObjectBufferTeapot() {
-  GLuint loc1 = glGetAttribLocation(shader_program_id, "vertex_position");
-  GLuint loc2 = glGetAttribLocation(shader_program_id, "vertex_normals");
+  GLuint loc1 = glGetAttribLocation(shader_program_id_, "vertex_position");
+  GLuint loc2 = glGetAttribLocation(shader_program_id_, "vertex_normals");
 
   GLuint vp_vbo;
   glGenBuffers(1, &vp_vbo);
@@ -171,8 +165,10 @@ void GenerateObjectBufferTeapot() {
 }
 
 void InitialiseScene() {
-  shader_program_id = CreateShaderProgram("shaders/simpleVertexShader.txt",
-                                          "shaders/simpleFragmentShader.txt");
+  shader_program_id_ = CreateShaderProgram("shaders/simpleVertexShader.txt",
+                                           "shaders/simpleFragmentShader.txt");
+
+  camera_ = Camera::Camera();
 
   GenerateObjectBufferTeapot();
 }
@@ -184,12 +180,12 @@ void Display() {
   glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUseProgram(shader_program_id);
+  glUseProgram(shader_program_id_);
 
   // Declare your uniform variables that will be used in your shader
-  int matrix_location = glGetUniformLocation(shader_program_id, "model");
-  int view_mat_location = glGetUniformLocation(shader_program_id, "view");
-  int proj_mat_location = glGetUniformLocation(shader_program_id, "proj");
+  int matrix_location = glGetUniformLocation(shader_program_id_, "model");
+  int view_mat_location = glGetUniformLocation(shader_program_id_, "view");
+  int proj_mat_location = glGetUniformLocation(shader_program_id_, "proj");
 
   // Here is where the code for the viewport lab will go, to get you started I
   // have drawn a t-pot in the bottom left The model transform rotates the
@@ -203,7 +199,7 @@ void Display() {
   model = glm::rotate<float>(glm::mat4(1.0f), glm::radians(45.0f),
                              glm::vec3(0.0f, 0.0f, 1.0f));
   model = glm::scale<float>(model, glm::vec3(0.1f, 0.1f, 0.1f));
-  view = glm::lookAt(camera_pos, camera_pos + camera_front, camera_up);
+  view = camera_.GetMatrix();
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
@@ -225,76 +221,26 @@ void UpdateScene() {
   if (delta > 0.03f) delta = 0.03f;
   last_time = curr_time;
 
-  float camera_speed = 2.5f * delta;
-
-  if (keys_pressed['w']) {
-    camera_pos += camera_speed * camera_front;
-  }
-
-  if (keys_pressed['s']) {
-    camera_pos -= camera_speed * camera_front;
-  }
-
-  if (keys_pressed['a']) {
-    camera_pos -=
-        glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
-  }
-
-  if (keys_pressed['d']) {
-    camera_pos +=
-        glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
-  }
+  camera_.SetDelta(delta);
+  camera_.UpdatePosition();
 
   // Draw the next frame
   glutPostRedisplay();
 }
 
-void MouseMove(int x, int y) {
-  if (is_first_mouse_movement) {
-    last_x = x;
-    last_y = y;
-    is_first_mouse_movement = false;
-  }
+void OnMouseMove(int x, int y) { camera_.OnMouseMove(x, y); }
 
-  float xoffset = x - last_x;
-  float yoffset = last_y - y;
-
-  glutWarpPointer(width / 2, height / 2);
-
-  last_x = width / 2;
-  last_y = height / 2;
-
-  float sensitivity = 0.1f;
-  xoffset *= sensitivity;
-  yoffset *= sensitivity;
-
-  yaw += xoffset;
-  pitch += yoffset;
-
-  if (pitch > 89.0f) {
-    pitch = 89.0f;
-  }
-
-  if (pitch < -89.0f) {
-    pitch = -89.0f;
-  }
-
-  glm::vec3 direction;
-  direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-  direction.y = sin(glm::radians(pitch));
-  direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-  camera_front = glm::normalize(direction);
-}
-
-void Keydown(unsigned char key, int x, int y) {
+void OnKeyboardDown(unsigned char key, int x, int y) {
   if (key == 27) {
     exit(0);
   }
 
-  keys_pressed[key] = true;
+  camera_.OnKeyboardDown(key);
 }
 
-void Keyup(unsigned char key, int x, int y) { keys_pressed[key] = false; }
+void OnKeyboardUp(unsigned char key, int x, int y) {
+  camera_.OnKeyboardUp(key);
+}
 
 int main(int argc, char** argv) {
   // Setup the window.
@@ -307,9 +253,9 @@ int main(int argc, char** argv) {
   // Register callbacks.
   glutDisplayFunc(Display);
   glutIdleFunc(UpdateScene);
-  glutKeyboardFunc(Keydown);
-  glutKeyboardUpFunc(Keyup);
-  glutPassiveMotionFunc(MouseMove);
+  glutKeyboardFunc(OnKeyboardDown);
+  glutKeyboardUpFunc(OnKeyboardUp);
+  glutPassiveMotionFunc(OnMouseMove);
 
   glewExperimental = GL_TRUE;
   GLenum result = glewInit();
