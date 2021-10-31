@@ -235,6 +235,8 @@ void OnKeyboardDown(unsigned char key, int x, int y) {
     exit(0);
   }
 
+  std::cout << key << std::endl;
+
   camera_.OnKeyboardDown(key);
 }
 
