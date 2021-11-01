@@ -28,8 +28,11 @@ void InitialiseScene() {
   shader_ = Shader("shaders/simpleVertexShader.txt",
                    "shaders/simpleFragmentShader.txt");
 
-  meshes_.push_back(Mesh("models/polar_bear.dae"));
-  meshes_.push_back(Mesh("models/monkeyhead_smooth.dae"));
+  meshes_.push_back(Mesh("models/polar_bear_body.dae"));
+  meshes_.push_back(Mesh("models/polar_bear_front_left_leg.dae"));
+  meshes_.push_back(Mesh("models/polar_bear_front_right_leg.dae"));
+  meshes_.push_back(Mesh("models/polar_bear_bottom_left_leg.dae"));
+  meshes_.push_back(Mesh("models/polar_bear_bottom_right_leg.dae"));
 }
 
 void Display() {
