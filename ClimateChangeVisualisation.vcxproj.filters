@@ -36,10 +36,19 @@
     <None Include="README.md">
       <Filter>Solution Files</Filter>
     </None>
-    <None Include="models\monkeyhead_smooth.dae">
+    <None Include="models\polar_bear_body.dae">
       <Filter>Solution Files\models</Filter>
     </None>
-    <None Include="models\polar_bear.dae">
+    <None Include="models\polar_bear_bottom_left_leg.dae">
+      <Filter>Solution Files\models</Filter>
+    </None>
+    <None Include="models\polar_bear_bottom_right_leg.dae">
+      <Filter>Solution Files\models</Filter>
+    </None>
+    <None Include="models\polar_bear_front_left_leg.dae">
+      <Filter>Solution Files\models</Filter>
+    </None>
+    <None Include="models\polar_bear_front_right_leg.dae">
       <Filter>Solution Files\models</Filter>
     </None>
   </ItemGroup>

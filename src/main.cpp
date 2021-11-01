@@ -33,6 +33,7 @@ void InitialiseScene() {
   meshes_.push_back(Mesh("models/polar_bear_front_right_leg.dae"));
   meshes_.push_back(Mesh("models/polar_bear_bottom_left_leg.dae"));
   meshes_.push_back(Mesh("models/polar_bear_bottom_right_leg.dae"));
+  meshes_.push_back(Mesh("models/floor.dae"));
 }
 
 void Display() {
