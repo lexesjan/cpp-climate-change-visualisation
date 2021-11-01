@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <string>
+#include <unordered_map>
 
 class Shader {
  public:
@@ -15,10 +16,11 @@ class Shader {
   void Unbind() const;
 
   void SetUniformMatrix4fv(const std::string& name, GLboolean is_transpose,
-                           const GLfloat* data) const;
+                           const GLfloat* data);
 
  private:
   GLuint id_;
+  std::unordered_map<std::string, GLint> uniform_location_cache_;
 
   GLuint CompileShader(GLenum type, const std::string& source) const;
 
@@ -28,7 +30,7 @@ class Shader {
       const std::string& vetex_shader_file_path,
       const std::string& fragment_shader_file_path) const;
 
-  GLint GetUniformLocation(const std::string& name) const;
+  GLint GetUniformLocation(const std::string& name);
 };
 
 #endif

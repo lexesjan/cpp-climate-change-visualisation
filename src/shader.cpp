@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include "shader.h"
 
 Shader::Shader() : id_(0) {}
@@ -17,8 +18,7 @@ void Shader::Bind() const { glUseProgram(id_); }
 void Shader::Unbind() const { glUseProgram(0); }
 
 void Shader::SetUniformMatrix4fv(const std::string& name,
-                                 GLboolean is_transpose,
-                                 const GLfloat* data) const {
+                                 GLboolean is_transpose, const GLfloat* data) {
   glUniformMatrix4fv(GetUniformLocation(name), 1, is_transpose, data);
 }
 
@@ -127,6 +127,10 @@ GLuint Shader::CreateShaderProgram(
   return program;
 }
 
-GLint Shader::GetUniformLocation(const std::string& name) const {
+GLint Shader::GetUniformLocation(const std::string& name) {
+  if (uniform_location_cache_.find(name) != uniform_location_cache_.end()) {
+    return uniform_location_cache_[name];
+  }
+
   return glGetUniformLocation(id_, name.c_str());
 }
