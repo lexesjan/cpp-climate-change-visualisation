@@ -13,20 +13,14 @@
 #include "camera.h"
 #include "teapot.h"
 #include "shader.h"
+#include "renderer.h"
 
-#pragma region Constants
-
-int width = 800;
-int height = 600;
-
-#pragma endregion
-
-#pragma region GlobalVariables
-
+int width_ = 800;
+int height_ = 600;
+Renderer renderer_;
 Shader shader_;
 Camera camera_;
-
-#pragma endregion
+VertexArrayObject* teapot_vao_;
 
 void GenerateObjectBufferTeapot() {
   std::vector<glm::vec3> teapot_vertices;
@@ -49,26 +43,21 @@ void GenerateObjectBufferTeapot() {
   layout.AddElement<float>(3);
   layout.AddElement<float>(3);
 
-  VertexArrayObject teapot_vao;
-  teapot_vao.AddBuffer(vbo, layout);
+  teapot_vao_ = new VertexArrayObject();
+  teapot_vao_->AddBuffer(vbo, layout);
 }
 
 void InitialiseScene() {
+  renderer_.Init();
+
   shader_ = Shader("shaders/simpleVertexShader.txt",
                    "shaders/simpleFragmentShader.txt");
-  camera_ = Camera();
 
   GenerateObjectBufferTeapot();
 }
 
 void Display() {
-  // tell GL to only draw onto a pixel if the shape is closer to the viewer
-  glEnable(GL_DEPTH_TEST);  // enable depth-testing
-  glDepthFunc(GL_LESS);  // depth-testing interprets a smaller value as "closer"
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  shader_.Bind();
+  renderer_.Clear();
 
   glm::mat4 model(1.0f);
   glm::mat4 view(1.0f);
@@ -78,14 +67,14 @@ void Display() {
                              glm::vec3(0.0f, 0.0f, 1.0f));
   model = glm::scale<float>(model, glm::vec3(0.1f, 0.1f, 0.1f));
   view = camera_.GetMatrix();
-  persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
+  persp_proj = glm::perspective<float>(45.0f, (float)width_ / (float)height_,
                                        1.0f, 1000.0f);
 
   shader_.SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
   shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
-  glDrawArrays(GL_TRIANGLES, 0, teapot_vertex_count);
+  renderer_.Draw(*teapot_vao_, shader_, teapot_vertex_count);
 
   glutSwapBuffers();
 }
@@ -124,7 +113,7 @@ int main(int argc, char** argv) {
   // Setup the window.
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowSize(width, height);
+  glutInitWindowSize(width_, height_);
   glutCreateWindow("Climate Change Visualisation");
   glutSetCursor(GLUT_CURSOR_NONE);
 
