@@ -142,11 +142,13 @@
     <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
+    <None Include="models\monkeyhead_smooth.dae" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\vertex_array_object.cpp" />
@@ -159,9 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\mesh.h" />
+    <ClInclude Include="src\renderable.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\shader.h" />
-    <ClInclude Include="src\teapot.h" />
     <ClInclude Include="src\vertex_array_object.h" />
     <ClInclude Include="src\vertex_buffer_layout.h" />
     <ClInclude Include="src\vertex_buffer_object.h" />

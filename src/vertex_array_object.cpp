@@ -13,7 +13,7 @@ void VertexArrayObject::AddBuffer(
   const std::vector<VertexBufferObjectElement>& elements =
       vertex_buffer_layout.GetElements();
 
-  for (int i = 0; i < elements.size(); ++i) {
+  for (unsigned int i = 0; i < elements.size(); ++i) {
     const VertexBufferObjectElement& element = elements[i];
 
     glEnableVertexAttribArray(i);

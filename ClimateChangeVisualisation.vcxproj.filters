@@ -19,6 +19,9 @@
     <Filter Include="Solution Files\shaders">
       <UniqueIdentifier>{4647eb15-6100-4cb7-bc44-025e20952990}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Solution Files\models">
+      <UniqueIdentifier>{9b44583a-cc8c-4035-8875-af1590a96585}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -32,6 +35,9 @@
     </None>
     <None Include="README.md">
       <Filter>Solution Files</Filter>
+    </None>
+    <None Include="models\monkeyhead_smooth.dae">
+      <Filter>Solution Files\models</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +62,9 @@
     <ClCompile Include="src\renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shaders\simpleFragmentShader.txt">
@@ -66,9 +75,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\teapot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -85,6 +91,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

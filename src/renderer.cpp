@@ -1,5 +1,7 @@
 #include "renderer.h"
 
+#include <stdio.h>
+
 void Renderer::Init() const {
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
@@ -16,4 +18,11 @@ void Renderer::Draw(const VertexArrayObject& vertex_array_object,
   vertex_array_object.Bind();
 
   glDrawArrays(GL_TRIANGLES, 0, count);
+}
+
+void Renderer::Draw(const Renderable& entity, const Shader& shader) {
+  shader.Bind();
+  entity.GetVertexArrayObject().Bind();
+
+  glDrawArrays(GL_TRIANGLES, 0, entity.GetVertexCount());
 }

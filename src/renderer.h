@@ -3,6 +3,7 @@
 
 #include "vertex_array_object.h"
 #include "shader.h"
+#include "renderable.h"
 
 class Renderer {
  public:
@@ -12,6 +13,7 @@ class Renderer {
 
   void Draw(const VertexArrayObject &vertex_array_object, const Shader &shader,
             GLsizei count) const;
+  void Draw(const Renderable &entity, const Shader &shader);
 };
 
 #endif
