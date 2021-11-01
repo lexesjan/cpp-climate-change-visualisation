@@ -10,8 +10,9 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include "camera.h"
 #include "vertex_buffer_object.h"
+#include "vertex_array_object.h"
+#include "camera.h"
 #include "teapot.h"
 
 #pragma region Constants
@@ -139,25 +140,28 @@ GLuint CreateShaderProgram(const std::string& vetex_shader_file_path,
 }
 
 void GenerateObjectBufferTeapot() {
-  GLuint loc1 = glGetAttribLocation(shader_program_id_, "vertex_position");
-  GLuint loc2 = glGetAttribLocation(shader_program_id_, "vertex_normals");
+  std::vector<glm::vec3> teapot_vertices;
 
-  VertexBufferObject vp_vbo(teapot_vertex_points,
-                            3 * teapot_vertex_count * sizeof(float));
+  for (int i = 0; i < teapot_vertex_count * 3; i += 3) {
+    glm::vec3 location(teapot_vertex_points[i], teapot_vertex_points[i + 1],
+                       teapot_vertex_points[i + 2]);
+    teapot_vertices.push_back(location);
 
-  VertexBufferObject vn_vbo(teapot_normals,
-                            3 * teapot_vertex_count * sizeof(float));
+    glm::vec3 normal(teapot_normals[i], teapot_normals[i + 1],
+                     teapot_normals[i + 2]);
+    teapot_vertices.push_back(normal);
+  }
 
-  GLuint teapot_vao;
-  glGenVertexArrays(1, &teapot_vao);
-  glBindVertexArray(teapot_vao);
+  VertexBufferObject vbo(
+      teapot_vertices.data(),
+      teapot_vertices.size() * sizeof(teapot_vertices.front()));
 
-  glEnableVertexAttribArray(loc1);
-  vp_vbo.Bind();
-  glVertexAttribPointer(loc1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-  glEnableVertexAttribArray(loc2);
-  vn_vbo.Bind();
-  glVertexAttribPointer(loc2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+  VertexBufferLayout layout;
+  layout.AddElement<float>(3);
+  layout.AddElement<float>(3);
+
+  VertexArrayObject teapot_vao;
+  teapot_vao.AddBuffer(vbo, layout);
 }
 
 void InitialiseScene() {

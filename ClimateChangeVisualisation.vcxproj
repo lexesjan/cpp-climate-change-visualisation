@@ -147,6 +147,8 @@
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\vertex_array_object.cpp" />
+    <ClCompile Include="src\vertex_buffer_layout.cpp" />
     <ClCompile Include="src\vertex_buffer_object.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +158,8 @@
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\teapot.h" />
+    <ClInclude Include="src\vertex_array_object.h" />
+    <ClInclude Include="src\vertex_buffer_layout.h" />
     <ClInclude Include="src\vertex_buffer_object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

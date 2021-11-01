@@ -5,18 +5,17 @@
 #include <vector>
 #include "camera.h"
 
-Camera::Camera() {
-  last_x_ = 0;
-  last_y_ = 0;
-  is_first_mouse_movement_ = true;
-  yaw_ = -90.0f;
-  pitch_ = 0.0f;
-  delta_ = 0.0f;
-  is_key_pressed_ = std::vector<bool>(256, false);
-  camera_pos_ = glm::vec3(0.0f, 0.0f, 3.0);
-  camera_front_ = glm::vec3(0.0f, 0.0f, -1.0f);
-  camera_up_ = glm::vec3(0.0f, 1.0f, 0.0f);
-}
+Camera::Camera()
+    : last_x_(0),
+      last_y_(0),
+      is_first_mouse_movement_(true),
+      yaw_(-90.0f),
+      pitch_(0.0f),
+      delta_(0.0f),
+      is_key_pressed_(256, false),
+      camera_pos_(0.0f, 0.0f, 3.0),
+      camera_front_(0.0f, 0.0f, -1.0f),
+      camera_up_(0.0f, 1.0f, 0.0f) {}
 
 void Camera::OnMouseMove(int x, int y) {
   if (is_first_mouse_movement_) {

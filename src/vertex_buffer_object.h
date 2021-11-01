@@ -7,9 +7,9 @@ class VertexBufferObject {
  public:
   explicit VertexBufferObject(const void* data, unsigned int size);
 
-  void Bind();
+  void Bind() const;
 
-  void Unbind();
+  void Unbind() const;
 
  private:
   GLuint id_;
