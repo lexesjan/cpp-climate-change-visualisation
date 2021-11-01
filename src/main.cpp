@@ -14,6 +14,7 @@
 #include "shader.h"
 #include "renderer.h"
 #include "mesh.h"
+#include "polar_bear.h"
 
 int width_ = 800;
 int height_ = 600;
@@ -21,6 +22,7 @@ Renderer renderer_;
 Shader shader_;
 Camera camera_;
 std::vector<Mesh> meshes_;
+PolarBear* polar_bear_;
 
 void InitialiseScene() {
   renderer_.Init();
@@ -28,12 +30,9 @@ void InitialiseScene() {
   shader_ = Shader("shaders/simpleVertexShader.txt",
                    "shaders/simpleFragmentShader.txt");
 
-  meshes_.push_back(Mesh("models/polar_bear_body.dae"));
-  meshes_.push_back(Mesh("models/polar_bear_front_left_leg.dae"));
-  meshes_.push_back(Mesh("models/polar_bear_front_right_leg.dae"));
-  meshes_.push_back(Mesh("models/polar_bear_bottom_left_leg.dae"));
-  meshes_.push_back(Mesh("models/polar_bear_bottom_right_leg.dae"));
   meshes_.push_back(Mesh("models/floor.dae"));
+
+  polar_bear_ = new PolarBear();
 }
 
 void Display() {
@@ -54,6 +53,7 @@ void Display() {
   shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
   renderer_.Draw(meshes_, shader_);
+  renderer_.Draw(polar_bear_->GetMeshes(), shader_);
 
   glutSwapBuffers();
 }
@@ -66,6 +66,9 @@ void UpdateScene() {
   float delta = (curr_time - last_time) * 0.001f;
   if (delta > 0.03f) delta = 0.03f;
   last_time = curr_time;
+
+  polar_bear_->SetDelta(delta);
+  polar_bear_->UpdatePosition();
 
   camera_.SetDelta(delta);
   camera_.UpdatePosition();
@@ -81,10 +84,12 @@ void OnKeyboardDown(unsigned char key, int x, int y) {
     exit(0);
   }
 
+  polar_bear_->OnKeyboardDown(key);
   camera_.OnKeyboardDown(key);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
+  polar_bear_->OnKeyboardUp(key);
   camera_.OnKeyboardUp(key);
 }
 

@@ -24,6 +24,8 @@ class Mesh {
 
   const glm::mat4 &GetModelMatrix() const;
 
+  void SetModelMatrix(const glm::mat4 &model);
+
  private:
   glm::mat4 model_;
   std::vector<Vertex> vertices;

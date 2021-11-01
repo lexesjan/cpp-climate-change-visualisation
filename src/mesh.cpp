@@ -19,6 +19,8 @@ const GLsizei Mesh::GetVertexCount() const { return vertices.size(); }
 
 const glm::mat4& Mesh::GetModelMatrix() const { return model_; }
 
+void Mesh::SetModelMatrix(const glm::mat4& model) { model_ = model; }
+
 void Mesh::LoadMesh(const std::string& file_path) {
   const aiScene* scene =
       aiImportFile(file_path.c_str(),
