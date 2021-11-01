@@ -51,6 +51,9 @@
     <None Include="models\polar_bear_front_right_leg.dae">
       <Filter>Solution Files\models</Filter>
     </None>
+    <None Include="models\floor.dae">
+      <Filter>Solution Files\models</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

@@ -9,11 +9,11 @@ Camera::Camera()
     : last_x_(0),
       last_y_(0),
       is_first_mouse_movement_(true),
-      yaw_(-90.0f),
-      pitch_(0.0f),
+      yaw_(-230.0f),
+      pitch_(-30.0f),
       delta_(0.0f),
       is_key_pressed_(256, false),
-      camera_pos_(0.0f, 0.0f, 3.0),
+      camera_pos_(10.0f, 10.0f, -10.0f),
       camera_front_(0.0f, 0.0f, -1.0f),
       camera_up_(0.0f, 1.0f, 0.0f) {}
 
