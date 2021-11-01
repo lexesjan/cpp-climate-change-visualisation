@@ -62,7 +62,7 @@ void Camera::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 void Camera::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
 void Camera::UpdatePosition() {
-  float camera_speed = 2.5f * delta_;
+  float camera_speed = 5.0f * delta_;
 
   if (is_key_pressed_['w']) {
     camera_pos_ += camera_speed * camera_front_;

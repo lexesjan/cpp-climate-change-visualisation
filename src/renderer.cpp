@@ -1,6 +1,7 @@
+#include <vector>
+#include <glm/gtc/type_ptr.hpp>
 #include "renderer.h"
-
-#include <stdio.h>
+#include "mesh.h"
 
 void Renderer::Init() const {
   glEnable(GL_DEPTH_TEST);
@@ -20,9 +21,24 @@ void Renderer::Draw(const VertexArrayObject& vertex_array_object,
   glDrawArrays(GL_TRIANGLES, 0, count);
 }
 
-void Renderer::Draw(const Renderable& entity, const Shader& shader) {
+void Renderer::Draw(const Mesh& mesh, Shader& shader) const {
   shader.Bind();
-  entity.GetVertexArrayObject().Bind();
+  mesh.GetVertexArrayObject().Bind();
 
-  glDrawArrays(GL_TRIANGLES, 0, entity.GetVertexCount());
+  glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
+}
+
+void Renderer::Draw(const std::vector<Mesh>& meshes, Shader& shader) const {
+  shader.Bind();
+
+  for (unsigned int i = 0; i < meshes.size(); ++i) {
+    const Mesh& mesh = meshes[i];
+
+    shader.SetUniformMatrix4fv("model", GL_FALSE,
+                               glm::value_ptr(mesh.GetModelMatrix()));
+
+    mesh.GetVertexArrayObject().Bind();
+
+    glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
+  }
 }

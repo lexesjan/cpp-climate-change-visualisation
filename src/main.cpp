@@ -53,11 +53,7 @@ void Display() {
   shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
-  for (Mesh& mesh : meshes_) {
-    shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                                glm::value_ptr(mesh.GetModelMatrix()));
-    renderer_.Draw(mesh, shader_);
-  }
+  renderer_.Draw(meshes_, shader_);
 
   glutSwapBuffers();
 }

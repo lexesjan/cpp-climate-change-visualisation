@@ -167,7 +167,6 @@
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\mesh.h" />
-    <ClInclude Include="src\renderable.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\vertex_array_object.h" />

@@ -6,7 +6,7 @@
 #include <glm/vec2.hpp>
 #include <string>
 #include <vector>
-#include "renderable.h"
+#include "vertex_array_object.h"
 
 struct Vertex {
   glm::vec3 position;
@@ -14,7 +14,7 @@ struct Vertex {
   glm::vec2 texture_coords;
 };
 
-class Mesh : public Renderable {
+class Mesh {
  public:
   explicit Mesh(const std::string &file_path);
 
