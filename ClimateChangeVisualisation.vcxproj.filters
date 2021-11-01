@@ -20,7 +20,7 @@
       <UniqueIdentifier>{4647eb15-6100-4cb7-bc44-025e20952990}</UniqueIdentifier>
     </Filter>
     <Filter Include="Solution Files\models">
-      <UniqueIdentifier>{9b44583a-cc8c-4035-8875-af1590a96585}</UniqueIdentifier>
+      <UniqueIdentifier>{73806d73-a8f2-4876-b33f-b68c33ab4630}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +37,9 @@
       <Filter>Solution Files</Filter>
     </None>
     <None Include="models\monkeyhead_smooth.dae">
+      <Filter>Solution Files\models</Filter>
+    </None>
+    <None Include="models\polar_bear.dae">
       <Filter>Solution Files\models</Filter>
     </None>
   </ItemGroup>

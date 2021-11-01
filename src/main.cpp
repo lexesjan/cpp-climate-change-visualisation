@@ -20,7 +20,7 @@ int height_ = 600;
 Renderer renderer_;
 Shader shader_;
 Camera camera_;
-Mesh* mesh_;
+std::vector<Mesh> meshes_;
 
 void InitialiseScene() {
   renderer_.Init();
@@ -28,7 +28,8 @@ void InitialiseScene() {
   shader_ = Shader("shaders/simpleVertexShader.txt",
                    "shaders/simpleFragmentShader.txt");
 
-  mesh_ = new Mesh("models/monkeyhead_smooth.dae");
+  meshes_.push_back(Mesh("models/polar_bear.dae"));
+  meshes_.push_back(Mesh("models/monkeyhead_smooth.dae"));
 }
 
 void Display() {
@@ -45,12 +46,14 @@ void Display() {
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
-  shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                              glm::value_ptr(mesh_->GetModelMatrix()));
   shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
-  renderer_.Draw(*mesh_, shader_);
+  for (Mesh& mesh : meshes_) {
+    shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                glm::value_ptr(mesh.GetModelMatrix()));
+    renderer_.Draw(mesh, shader_);
+  }
 
   glutSwapBuffers();
 }

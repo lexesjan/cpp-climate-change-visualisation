@@ -143,6 +143,7 @@
     <None Include=".gitignore" />
     <None Include="LICENSE" />
     <None Include="models\monkeyhead_smooth.dae" />
+    <None Include="models\polar_bear.dae" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
