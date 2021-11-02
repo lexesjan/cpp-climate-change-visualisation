@@ -22,6 +22,8 @@ class PolarBear {
   std::vector<bool> is_key_pressed_;
   std::vector<Mesh> meshes_;
   float delta_;
+  float rotation_;
+  glm::mat4 model_;
 };
 
 #endif
