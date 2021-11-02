@@ -66,7 +66,7 @@ void PolarBear::UpdatePosition() {
 
   glm::mat4 front_left_leg(1.0f);
   front_left_leg =
-      glm::translate(front_left_leg, glm::vec3(0.27226f, 0.40636f, -0.6673f));
+      glm::translate(front_left_leg, glm::vec3(-0.27226f, 0.40636f, -0.6673f));
   front_left_leg = glm::rotate(front_left_leg, glm::radians(rotation_),
                                glm::vec3(1.0f, 0.0f, 0.0f));
   front_left_leg = model_ * front_left_leg;
@@ -74,7 +74,7 @@ void PolarBear::UpdatePosition() {
 
   glm::mat4 front_right_leg(1.0f);
   front_right_leg =
-      glm::translate(front_right_leg, glm::vec3(-0.32459f, 0.40636f, -0.6673f));
+      glm::translate(front_right_leg, glm::vec3(0.32459f, 0.40636f, -0.6673f));
   front_right_leg = glm::rotate(front_right_leg, glm::radians(-rotation_),
                                 glm::vec3(1.0f, 0.0f, 0.0f));
   front_right_leg = model_ * front_right_leg;
@@ -82,14 +82,14 @@ void PolarBear::UpdatePosition() {
 
   glm::mat4 back_left_leg(1.0f);
   back_left_leg =
-      glm::translate(back_left_leg, glm::vec3(0.40658f, 0.57055f, 0.6641f));
+      glm::translate(back_left_leg, glm::vec3(-0.40658f, 0.57055f, 0.6641f));
   back_left_leg = glm::rotate(back_left_leg, glm::radians(-rotation_),
                               glm::vec3(1.0f, 0.0f, 0.0f));
   back_left_leg = model_ * back_left_leg;
   meshes_[3].SetModelMatrix(back_left_leg);
 
   glm::mat4 back_right_leg(1.0f);
-  back_right_leg = glm::translate(back_right_leg, glm::vec3(-0.45, 0.57, 0.66));
+  back_right_leg = glm::translate(back_right_leg, glm::vec3(0.45, 0.57, 0.66));
   back_right_leg = glm::rotate(back_right_leg, glm::radians(rotation_),
                                glm::vec3(1.0f, 0.0f, 0.0f));
   back_right_leg = model_ * back_right_leg;
