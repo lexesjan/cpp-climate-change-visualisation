@@ -19,11 +19,13 @@ class PolarBear {
   void OnKeyboardUp(unsigned char key);
 
  private:
-  std::vector<bool> is_key_pressed_;
-  std::vector<Mesh> meshes_;
   float delta_;
   float rotation_;
+  float d_rotation_;
+  bool is_moving_;
   glm::mat4 model_;
+  std::vector<bool> is_key_pressed_;
+  std::vector<Mesh> meshes_;
 };
 
 #endif
