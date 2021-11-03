@@ -47,25 +47,28 @@ void PolarBear::UpdatePosition() {
   }
 
   if (is_moving_) {
-    if (rotation_ >= 30.0f) {
+    float tolerance = 25.0f;
+
+    if (rotation_ >= tolerance) {
       delta_rotation_ = -delta_rotation_;
-      rotation_ = 30.0f;
+      rotation_ = tolerance;
     }
 
-    if (rotation_ <= -30.0f) {
+    if (rotation_ <= -tolerance) {
       delta_rotation_ = -delta_rotation_;
-      rotation_ = -30.0f;
+      rotation_ = -tolerance;
     }
 
     rotation_ += delta_rotation_ * delta_;
   } else {
+    float tolerance = 5.0f;
     float abs_delta_rotation = abs(delta_rotation_);
 
-    if (rotation_ >= 5.0f) {
+    if (rotation_ >= tolerance) {
       rotation_ -= abs_delta_rotation * delta_;
     }
 
-    if (rotation_ <= -5.0f) {
+    if (rotation_ <= tolerance) {
       rotation_ += abs_delta_rotation * delta_;
     }
   }
