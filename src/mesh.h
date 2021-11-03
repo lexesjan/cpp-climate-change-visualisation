@@ -28,7 +28,7 @@ class Mesh {
 
  private:
   glm::mat4 model_;
-  std::vector<Vertex> vertices;
+  std::vector<Vertex> vertices_;
   VertexArrayObject vertex_array_object_;
 
   void LoadMesh(const std::string &file_path);

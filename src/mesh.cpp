@@ -15,7 +15,7 @@ const VertexArrayObject& Mesh::GetVertexArrayObject() const {
   return vertex_array_object_;
 }
 
-const GLsizei Mesh::GetVertexCount() const { return vertices.size(); }
+const GLsizei Mesh::GetVertexCount() const { return vertices_.size(); }
 
 const glm::mat4& Mesh::GetModelMatrix() const { return model_; }
 
@@ -57,14 +57,14 @@ void Mesh::LoadMesh(const std::string& file_path) {
         vertex.texture_coords = glm::vec2(texture_coord->x, texture_coord->y);
       }
 
-      vertices.push_back(vertex);
+      vertices_.push_back(vertex);
     }
   }
 }
 
 void Mesh::InitMesh() {
   VertexBufferObject vertex_buffer_object(
-      vertices.data(), vertices.size() * sizeof(vertices.front()));
+      vertices_.data(), vertices_.size() * sizeof(vertices_.front()));
 
   VertexBufferLayout layout;
   layout.AddElement<float>(3);
