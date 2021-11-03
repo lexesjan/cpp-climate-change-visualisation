@@ -14,19 +14,19 @@
 #include "mesh.h"
 #include "polar_bear.h"
 
-int width_ = 800;
-int height_ = 600;
-Renderer renderer_;
-Shader shader_;
-Camera camera_;
-std::vector<Mesh> meshes_;
+Renderer* renderer_;
+Shader* shader_;
+Camera* camera_;
 PolarBear* polar_bear_;
+std::vector<Mesh> meshes_;
 
 void InitialiseScene() {
-  renderer_.Init();
+  renderer_->Init();
 
-  shader_ = Shader("shaders/simpleVertexShader.txt",
-                   "shaders/simpleFragmentShader.txt");
+  renderer_ = new Renderer();
+  camera_ = new Camera();
+  shader_ = new Shader("shaders/simpleVertexShader.txt",
+                       "shaders/simpleFragmentShader.txt");
 
   meshes_.push_back(Mesh("models/floor.dae"));
 
@@ -34,7 +34,7 @@ void InitialiseScene() {
 }
 
 void Display() {
-  renderer_.Clear();
+  renderer_->Clear();
 
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -43,18 +43,18 @@ void Display() {
   glm::mat4 view(1.0f);
   glm::mat4 persp_proj(1.0f);
 
-  view = camera_.GetMatrix();
+  view = camera_->GetMatrix();
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
-  shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
-  shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
+  shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
+  shader_->SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
   polar_bear_->UpdatePosition();
-  camera_.UpdatePosition();
+  camera_->UpdatePosition();
 
-  renderer_.Draw(meshes_, shader_);
-  renderer_.Draw(polar_bear_->GetMeshes(), shader_);
+  renderer_->Draw(meshes_, *shader_);
+  renderer_->Draw(polar_bear_->GetMeshes(), *shader_);
 
   glutSwapBuffers();
 }
@@ -68,33 +68,41 @@ void UpdateScene() {
   last_time = curr_time;
 
   polar_bear_->SetDelta(delta);
-  camera_.SetDelta(delta);
+  camera_->SetDelta(delta);
 
   // Draw the next frame
   glutPostRedisplay();
 }
 
-void OnMouseMove(int x, int y) { camera_.OnMouseMove(x, y); }
+void Cleanup() {
+  delete renderer_;
+  delete shader_;
+  delete camera_;
+  delete polar_bear_;
+}
+
+void OnMouseMove(int x, int y) { camera_->OnMouseMove(x, y); }
 
 void OnKeyboardDown(unsigned char key, int x, int y) {
   if (key == 27) {
+    Cleanup();
     exit(0);
   }
 
   polar_bear_->OnKeyboardDown(key);
-  camera_.OnKeyboardDown(key);
+  camera_->OnKeyboardDown(key);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
   polar_bear_->OnKeyboardUp(key);
-  camera_.OnKeyboardUp(key);
+  camera_->OnKeyboardUp(key);
 }
 
 int main(int argc, char** argv) {
   // Setup the window.
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowSize(width_, height_);
+  glutInitWindowSize(800, 600);
   glutCreateWindow("Climate Change Visualisation");
   glutSetCursor(GLUT_CURSOR_NONE);
 
@@ -118,5 +126,6 @@ int main(int argc, char** argv) {
   InitialiseScene();
 
   glutMainLoop();
+
   return 0;
 }
