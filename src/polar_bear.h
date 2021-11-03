@@ -21,7 +21,7 @@ class PolarBear {
  private:
   float delta_;
   float rotation_;
-  float d_rotation_;
+  float delta_rotation_;
   bool is_moving_;
   glm::mat4 model_;
   std::vector<bool> is_key_pressed_;

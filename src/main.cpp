@@ -4,8 +4,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <windows.h>
-#include <mmsystem.h>
 #include <iostream>
 #include <vector>
 #include "vertex_buffer_object.h"
@@ -52,6 +50,9 @@ void Display() {
   shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_.SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
+  polar_bear_->UpdatePosition();
+  camera_.UpdatePosition();
+
   renderer_.Draw(meshes_, shader_);
   renderer_.Draw(polar_bear_->GetMeshes(), shader_);
 
@@ -61,17 +62,13 @@ void Display() {
 void UpdateScene() {
   // Wait until at least 16ms passed since start of last frame (Effectively caps
   // framerate at ~60fps)
-  static DWORD last_time = 0;
-  DWORD curr_time = timeGetTime();
-  float delta = (curr_time - last_time) * 0.001f;
-  if (delta > 0.03f) delta = 0.03f;
+  static float last_time = 0;
+  float curr_time = (float)glutGet(GLUT_ELAPSED_TIME);
+  float delta = curr_time - last_time;
   last_time = curr_time;
 
   polar_bear_->SetDelta(delta);
-  polar_bear_->UpdatePosition();
-
   camera_.SetDelta(delta);
-  camera_.UpdatePosition();
 
   // Draw the next frame
   glutPostRedisplay();
