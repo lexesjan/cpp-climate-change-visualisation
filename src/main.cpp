@@ -79,7 +79,7 @@ void OnMouseMove(int x, int y) { camera_->OnMouseMove(x, y); }
 
 void OnKeyboardDown(unsigned char key, int x, int y) {
   if (key == 27) {
-    exit(0);
+    glutLeaveMainLoop();
   }
 
   polar_bear_->OnKeyboardDown(key);
