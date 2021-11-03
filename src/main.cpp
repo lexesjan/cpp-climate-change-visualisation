@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "vertex_buffer_object.h"
 #include "vertex_array_object.h"
 #include "camera.h"
@@ -14,23 +15,23 @@
 #include "mesh.h"
 #include "polar_bear.h"
 
-Renderer* renderer_;
-Shader* shader_;
-Camera* camera_;
-PolarBear* polar_bear_;
+std::shared_ptr<Renderer> renderer_;
+std::shared_ptr<Shader> shader_;
+std::shared_ptr<Camera> camera_;
+std::shared_ptr<PolarBear> polar_bear_;
 std::vector<Mesh> meshes_;
 
 void InitialiseScene() {
   renderer_->Init();
 
-  renderer_ = new Renderer();
-  camera_ = new Camera();
-  shader_ = new Shader("shaders/simpleVertexShader.txt",
-                       "shaders/simpleFragmentShader.txt");
+  renderer_ = std::shared_ptr<Renderer>(new Renderer());
+  camera_ = std::shared_ptr<Camera>(new Camera());
+  shader_ = std::shared_ptr<Shader>(new Shader(
+      "shaders/simpleVertexShader.txt", "shaders/simpleFragmentShader.txt"));
 
   meshes_.push_back(Mesh("models/floor.dae"));
 
-  polar_bear_ = new PolarBear();
+  polar_bear_ = std::shared_ptr<PolarBear>(new PolarBear());
 }
 
 void Display() {
@@ -74,18 +75,10 @@ void UpdateScene() {
   glutPostRedisplay();
 }
 
-void Cleanup() {
-  delete renderer_;
-  delete shader_;
-  delete camera_;
-  delete polar_bear_;
-}
-
 void OnMouseMove(int x, int y) { camera_->OnMouseMove(x, y); }
 
 void OnKeyboardDown(unsigned char key, int x, int y) {
   if (key == 27) {
-    Cleanup();
     exit(0);
   }
 
