@@ -3,8 +3,6 @@
 #include <cmath>
 #include "polar_bear.h"
 
-#include <iostream>
-
 PolarBear::PolarBear() {
   delta_ = 0.0f;
   rotation_ = 0.0f;
