@@ -1,4 +1,4 @@
-#include <assimp/cimport.h>
+#include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <glm/mat4x4.hpp>
@@ -22,9 +22,10 @@ const glm::mat4& Mesh::GetModelMatrix() const { return model_; }
 void Mesh::SetModelMatrix(const glm::mat4& model) { model_ = model; }
 
 void Mesh::LoadMesh(const std::string& file_path) {
+  Assimp::Importer import;
   const aiScene* scene =
-      aiImportFile(file_path.c_str(),
-                   aiProcess_Triangulate | aiProcess_PreTransformVertices);
+      import.ReadFile(file_path.c_str(),
+                      aiProcess_Triangulate | aiProcess_PreTransformVertices);
 
   if (!scene) {
     std::cerr << "ERROR: reading mesh: " << file_path << std::endl;
@@ -59,8 +60,6 @@ void Mesh::LoadMesh(const std::string& file_path) {
       vertices.push_back(vertex);
     }
   }
-
-  aiReleaseImport(scene);
 }
 
 void Mesh::InitMesh() {
