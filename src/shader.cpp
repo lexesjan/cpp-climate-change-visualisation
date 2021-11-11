@@ -38,6 +38,7 @@ GLuint Shader::CompileShader(GLenum type, const std::string& source) const {
     glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
 
     char* error_log = (char*)malloc(sizeof(char) * length);
+    glGetShaderInfoLog(shader, length, &length, error_log);
 
     std::cerr << "Failed to compile "
               << (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
