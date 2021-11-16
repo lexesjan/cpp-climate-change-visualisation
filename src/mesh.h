@@ -1,12 +1,9 @@
 #ifndef CLIMATE_CHANGE_VISUALISATION_MESH_H_
 #define CLIMATE_CHANGE_VISUALISATION_MESH_H_
 
-#include <glm/mat4x4.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec2.hpp>
-#include <string>
-#include <vector>
-#include "vertex_array_object.h"
+#include <glm/ext/vector_float3.hpp>
+#include <glm/ext/vector_float2.hpp>
+#include "renderer.h"
 
 struct Vertex {
   glm::vec3 position;
@@ -14,24 +11,24 @@ struct Vertex {
   glm::vec2 texture_coords;
 };
 
+struct Texture {
+  unsigned int id;
+  std::string type;
+};
+
 class Mesh {
  public:
-  explicit Mesh(const std::string &file_path);
-
-  const VertexArrayObject &GetVertexArrayObject() const;
-
-  const GLsizei GetVertexCount() const;
-
-  const glm::mat4 &GetModelMatrix() const;
-
-  void SetModelMatrix(const glm::mat4 &model);
+  Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices,
+       std::vector<Texture>& textures, Shader& shader, Renderer& renderer);
+  void Draw();
 
  private:
-  glm::mat4 model_;
   std::vector<Vertex> vertices_;
+  std::vector<unsigned int> indices_;
+  std::vector<Texture> textures_;
+  Shader shader_;
   VertexArrayObject vertex_array_object_;
-
-  void LoadMesh(const std::string &file_path);
+  Renderer renderer_;
 
   void InitMesh();
 };
