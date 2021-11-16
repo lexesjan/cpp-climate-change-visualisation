@@ -92,6 +92,9 @@
     <ClCompile Include="src\texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shaders\simpleFragmentShader.txt">
@@ -129,10 +132,10 @@
     <ClInclude Include="src\element_buffer_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\model.h">
+    <ClInclude Include="src\texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\texture.h">
+    <ClInclude Include="src\model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

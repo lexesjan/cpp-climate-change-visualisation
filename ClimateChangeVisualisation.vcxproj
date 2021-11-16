@@ -158,6 +158,7 @@
     <ClCompile Include="src\polar_bear.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\vertex_array_object.cpp" />
     <ClCompile Include="src\vertex_buffer_layout.cpp" />
