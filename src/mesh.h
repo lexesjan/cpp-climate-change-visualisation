@@ -4,16 +4,12 @@
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float2.hpp>
 #include "renderer.h"
+#include "texture.h"
 
 struct Vertex {
   glm::vec3 position;
   glm::vec3 normal;
   glm::vec2 texture_coords;
-};
-
-struct Texture {
-  unsigned int id;
-  std::string type;
 };
 
 class Mesh {

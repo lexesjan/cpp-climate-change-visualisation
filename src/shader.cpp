@@ -17,6 +17,14 @@ void Shader::Bind() const { glUseProgram(id_); }
 
 void Shader::Unbind() const { glUseProgram(0); }
 
+void Shader::SetUniform1i(const std::string& name, const GLint data) {
+  glUniform1f(GetUniformLocation(name), data);
+}
+
+void Shader::SetUniform1f(const std::string& name, const GLfloat data) {
+  glUniform1f(GetUniformLocation(name), data);
+}
+
 void Shader::SetUniformMatrix4fv(const std::string& name,
                                  GLboolean is_transpose, const GLfloat* data) {
   glUniformMatrix4fv(GetUniformLocation(name), 1, is_transpose, data);

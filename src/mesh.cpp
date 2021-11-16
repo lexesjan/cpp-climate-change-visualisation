@@ -13,6 +13,24 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
 }
 
 void Mesh::Draw() {
+  unsigned int num_diffuse = 1;
+  unsigned int num_specular = 1;
+
+  for (unsigned int i = 0; i < textures_.size(); i++) {
+    const Texture& texture = textures_[i];
+    texture.Bind(i);
+
+    std::string number;
+    std::string type = texture.GetType();
+
+    if (type == "texture_diffuse")
+      number = std::to_string(num_diffuse++);
+    else if (type == "texture_specular")
+      number = std::to_string(num_specular++);
+
+    shader_.SetUniform1i("material." + type + number, i);
+  }
+
   renderer_.Draw(vertex_array_object_, shader_, indices_.size());
 }
 

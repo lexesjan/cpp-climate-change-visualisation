@@ -15,6 +15,10 @@ class Shader {
 
   void Unbind() const;
 
+  void SetUniform1i(const std::string& name, const GLint data);
+
+  void SetUniform1f(const std::string& name, const GLfloat data);
+
   void SetUniformMatrix4fv(const std::string& name, GLboolean is_transpose,
                            const GLfloat* data);
 
