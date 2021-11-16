@@ -22,6 +22,9 @@
     <Filter Include="Solution Files\models">
       <UniqueIdentifier>{73806d73-a8f2-4876-b33f-b68c33ab4630}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Solution Files\textures">
+      <UniqueIdentifier>{13d53962-7edb-4d99-9ce2-a58e75a92c15}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -117,5 +120,25 @@
     <ClInclude Include="src\polar_bear.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="textures\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
+    <Image Include="textures\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
+    <Image Include="textures\WaxDynaMesh129_001_TXTR.png">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
+    <Image Include="textures\WaxDynaMesh129_001-AO_u0_v0.jpg">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
+    <Image Include="textures\WaxDynaMesh129_001-CV_u0_v0.jpg">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
+    <Image Include="textures\WaxDynaMesh129_001-DM(0.020153)4096_u0_v0.jpg">
+      <Filter>Solution Files\textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>
