@@ -86,6 +86,12 @@
     <ClCompile Include="src\polar_bear.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\element_buffer_object.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="shaders\simpleFragmentShader.txt">
@@ -118,6 +124,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\polar_bear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\element_buffer_object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

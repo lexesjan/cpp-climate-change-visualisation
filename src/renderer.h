@@ -1,7 +1,6 @@
 #ifndef CLIMATE_CHANGE_VISUALISATION_RENDERER_H_
 #define CLIMATE_CHANGE_VISUALISATION_RENDERER_H_
 
-#include "mesh.h"
 #include "vertex_array_object.h"
 #include "shader.h"
 

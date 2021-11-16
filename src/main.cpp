@@ -18,8 +18,8 @@
 std::shared_ptr<Renderer> renderer_;
 std::shared_ptr<Shader> shader_;
 std::shared_ptr<Camera> camera_;
-std::shared_ptr<PolarBear> polar_bear_;
-std::vector<Mesh> meshes_;
+// std::shared_ptr<PolarBear> polar_bear_;
+// std::vector<Mesh> meshes_;
 
 void InitialiseScene() {
   renderer_->Init();
@@ -29,9 +29,9 @@ void InitialiseScene() {
   shader_ = std::shared_ptr<Shader>(new Shader(
       "shaders/simpleVertexShader.txt", "shaders/simpleFragmentShader.txt"));
 
-  meshes_.push_back(Mesh("models/floor.dae"));
+  // meshes_.push_back(Mesh("models/floor.dae"));
 
-  polar_bear_ = std::shared_ptr<PolarBear>(new PolarBear());
+  // polar_bear_ = std::shared_ptr<PolarBear>(new PolarBear());
 }
 
 void Display() {
@@ -51,11 +51,11 @@ void Display() {
   shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_->SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
 
-  polar_bear_->UpdatePosition();
+  // polar_bear_->UpdatePosition();
   camera_->UpdatePosition();
 
-  renderer_->Draw(meshes_, *shader_);
-  renderer_->Draw(polar_bear_->GetMeshes(), *shader_);
+  // renderer_->Draw(meshes_, *shader_);
+  // renderer_->Draw(polar_bear_->GetMeshes(), *shader_);
 
   glutSwapBuffers();
 }
@@ -68,7 +68,7 @@ void UpdateScene() {
   float delta = curr_time - last_time;
   last_time = curr_time;
 
-  polar_bear_->SetDelta(delta);
+  // polar_bear_->SetDelta(delta);
   camera_->SetDelta(delta);
 
   // Draw the next frame
@@ -82,12 +82,12 @@ void OnKeyboardDown(unsigned char key, int x, int y) {
     glutLeaveMainLoop();
   }
 
-  polar_bear_->OnKeyboardDown(key);
+  // polar_bear_->OnKeyboardDown(key);
   camera_->OnKeyboardDown(key);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
-  polar_bear_->OnKeyboardUp(key);
+  // polar_bear_->OnKeyboardUp(key);
   camera_->OnKeyboardUp(key);
 }
 

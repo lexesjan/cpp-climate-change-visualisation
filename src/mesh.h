@@ -18,10 +18,10 @@ struct Texture {
 
 class Mesh {
  public:
-  Mesh(const std::vector<Vertex>& vertices,
-       const std::vector<unsigned int>& indices,
-       const std::vector<Texture>& textures, const Shader& shader,
-       const Renderer& renderer);
+  explicit Mesh(const std::vector<Vertex>& vertices,
+                const std::vector<unsigned int>& indices,
+                const std::vector<Texture>& textures, const Shader& shader,
+                const Renderer& renderer);
   void Draw();
 
  private:
