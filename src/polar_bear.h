@@ -28,4 +28,4 @@ class PolarBear {
   std::vector<Mesh> meshes_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_POLAR_BEAR_H_

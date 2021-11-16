@@ -37,4 +37,4 @@ class VertexBufferLayout {
   std::vector<VertexBufferObjectElement> elements_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_VERTEX_BUFFER_LAYOUT_H_

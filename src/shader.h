@@ -33,4 +33,4 @@ class Shader {
   GLint GetUniformLocation(const std::string& name);
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_SHADER_H_

@@ -17,4 +17,4 @@ class Renderer {
   void Draw(const std::vector<Mesh> &meshes, Shader &shader) const;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_RENDERER_H_

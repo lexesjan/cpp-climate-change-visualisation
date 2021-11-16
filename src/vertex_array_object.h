@@ -4,13 +4,15 @@
 #include <GL/glew.h>
 #include "vertex_buffer_layout.h"
 #include "vertex_buffer_object.h"
+#include "element_buffer_object.h"
 
 class VertexArrayObject {
  public:
   explicit VertexArrayObject();
 
   void AddBuffer(const VertexBufferObject& vertex_buffer_object,
-                 const VertexBufferLayout& vertex_buffer_layout);
+                 const VertexBufferLayout& vertex_buffer_layout,
+                 const ElementBufferObject& element_buffer_object);
 
   void Bind() const;
 
@@ -20,4 +22,4 @@ class VertexArrayObject {
   GLuint id_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_VERTEX_ARRAY_OBJECT_H_

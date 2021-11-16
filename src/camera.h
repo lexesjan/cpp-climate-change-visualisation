@@ -34,4 +34,4 @@ class Camera {
   glm::vec3 camera_up_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_CAMERA_H_
