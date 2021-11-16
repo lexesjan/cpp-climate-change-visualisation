@@ -12,7 +12,9 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
   InitMesh();
 }
 
-void Mesh::Draw() {}
+void Mesh::Draw() {
+  renderer_.Draw(vertex_array_object_, shader_, indices_.size());
+}
 
 void Mesh::InitMesh() {
   VertexBufferObject vertex_buffer_object(
@@ -23,8 +25,7 @@ void Mesh::InitMesh() {
   vertex_buffer_layout.AddElement<float>(3);
   vertex_buffer_layout.AddElement<float>(2);
 
-  ElementBufferObject element_buffer_object(
-      indices_.data(), indices_.size() * sizeof(indices_.front()));
+  ElementBufferObject element_buffer_object(indices_.data(), indices_.size());
 
   vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout,
                                  element_buffer_object);

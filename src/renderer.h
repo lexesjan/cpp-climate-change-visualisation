@@ -13,8 +13,6 @@ class Renderer {
 
   void Draw(const VertexArrayObject &vertex_array_object, const Shader &shader,
             GLsizei count) const;
-  void Draw(const Mesh &mesh, Shader &shader) const;
-  void Draw(const std::vector<Mesh> &meshes, Shader &shader) const;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_RENDERER_H_
