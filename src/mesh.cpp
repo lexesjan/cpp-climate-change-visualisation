@@ -1,7 +1,9 @@
 #include "mesh.h"
 
-Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<unsigned int>& indices,
-           std::vector<Texture>& textures, Shader& shader, Renderer& renderer)
+Mesh::Mesh(const std::vector<Vertex>& vertices,
+           const std::vector<unsigned int>& indices,
+           const std::vector<Texture>& textures, const Shader& shader,
+           const Renderer& renderer)
     : vertices_(vertices),
       indices_(indices),
       textures_(textures),
@@ -21,5 +23,9 @@ void Mesh::InitMesh() {
   vertex_buffer_layout.AddElement<float>(3);
   vertex_buffer_layout.AddElement<float>(2);
 
-  vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout);
+  ElementBufferObject element_buffer_object(
+      indices_.data(), indices_.size() * sizeof(indices_.front()));
+
+  vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout,
+                                 element_buffer_object);
 }
