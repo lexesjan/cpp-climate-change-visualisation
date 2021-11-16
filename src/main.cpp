@@ -14,20 +14,24 @@
 #include "renderer.h"
 #include "mesh.h"
 #include "polar_bear.h"
+#include "model.h"
 
 std::shared_ptr<Renderer> renderer_;
 std::shared_ptr<Shader> shader_;
 std::shared_ptr<Camera> camera_;
 // std::shared_ptr<PolarBear> polar_bear_;
 // std::vector<Mesh> meshes_;
+std::shared_ptr<Model> model_;
 
 void InitialiseScene() {
   renderer_->Init();
 
-  renderer_ = std::shared_ptr<Renderer>(new Renderer());
-  camera_ = std::shared_ptr<Camera>(new Camera());
-  shader_ = std::shared_ptr<Shader>(new Shader(
-      "shaders/simpleVertexShader.txt", "shaders/simpleFragmentShader.txt"));
+  renderer_ = std::make_shared<Renderer>();
+  camera_ = std::make_shared<Camera>();
+  shader_ = std::make_shared<Shader>("shaders/simpleVertexShader.txt",
+                                     "shaders/simpleFragmentShader.txt");
+
+  model_ = std::make_shared<Model>("models/floor.dae", *shader_, *renderer_);
 
   // meshes_.push_back(Mesh("models/floor.dae"));
 
@@ -53,6 +57,7 @@ void Display() {
 
   // polar_bear_->UpdatePosition();
   camera_->UpdatePosition();
+  model_->Draw();
 
   // renderer_->Draw(meshes_, *shader_);
   // renderer_->Draw(polar_bear_->GetMeshes(), *shader_);

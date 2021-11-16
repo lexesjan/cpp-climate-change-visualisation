@@ -2,7 +2,7 @@
 #include <stb_image.h>
 #include "texture.h"
 
-Texture::Texture(std::string &path) : id_(-1) {
+Texture::Texture(std::string &path) : id_(-1), path_(path) {
   stbi_set_flip_vertically_on_load(1);
 
   int width;
@@ -13,7 +13,7 @@ Texture::Texture(std::string &path) : id_(-1) {
       stbi_load(path.c_str(), &width, &height, &num_channels, 0);
 
   if (!data) {
-    std::cout << "Failed to load texture at path: " << path << std::endl;
+    std::cerr << "Failed to load texture at path: " << path << std::endl;
 
     return;
   }
@@ -50,7 +50,11 @@ GLuint Texture::GetId() const { return id_; }
 
 const std::string &Texture::GetType() const { return type_; }
 
-void Texture::Bind(unsigned int slot = 0) const {
+void Texture::SetType(std::string &type) { type_ = type; }
+
+const std::string &Texture::GetPath() const { return path_; }
+
+void Texture::Bind(unsigned int slot) const {
   glActiveTexture(GL_TEXTURE0 + slot);
   glBindTexture(GL_TEXTURE_2D, id_);
 }

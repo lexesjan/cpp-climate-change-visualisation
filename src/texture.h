@@ -12,6 +12,10 @@ class Texture {
 
   const std::string& GetType() const;
 
+  void SetType(std::string& type);
+
+  const std::string& GetPath() const;
+
   void Bind(unsigned int slot = 0) const;
 
   void Unbind() const;

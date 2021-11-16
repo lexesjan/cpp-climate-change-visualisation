@@ -15,12 +15,12 @@ class Shader {
 
   void Unbind() const;
 
-  void SetUniform1i(const std::string& name, const GLint data);
+  void SetUniform1i(const std::string& name, const GLint data) const;
 
-  void SetUniform1f(const std::string& name, const GLfloat data);
+  void SetUniform1f(const std::string& name, const GLfloat data) const;
 
   void SetUniformMatrix4fv(const std::string& name, GLboolean is_transpose,
-                           const GLfloat* data);
+                           const GLfloat* data) const;
 
  private:
   GLuint id_;
@@ -34,7 +34,7 @@ class Shader {
       const std::string& vetex_shader_file_path,
       const std::string& fragment_shader_file_path) const;
 
-  GLint GetUniformLocation(const std::string& name);
+  GLint GetUniformLocation(const std::string& name) const;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_SHADER_H_

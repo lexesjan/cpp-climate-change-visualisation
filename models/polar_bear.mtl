@@ -10,8 +10,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Bump -bm 0.000000 ../textures/polar_bear_normal.jpg
-map_Ks ../textures/polar_bear_specular.jpg
+map_Bump -bm 0.000000 /../textures/polar_bear_normal.jpg
+map_Ks /../textures/polar_bear_specular.jpg
 
 newmtl MAT_EYE.L
 Ns 225.000000
@@ -22,7 +22,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ../textures/polar_bear_left_eye_texture.png
+map_Kd /../textures/polar_bear_left_eye_texture.png
 
 newmtl MAT_EYE.R
 Ns 225.000000
@@ -33,4 +33,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd ../textures/polar_bear_right_eye_texture.png
+map_Kd /../textures/polar_bear_right_eye_texture.png
