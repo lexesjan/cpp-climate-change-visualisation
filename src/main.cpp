@@ -15,7 +15,7 @@
 #include "model.h"
 
 std::shared_ptr<Renderer> renderer_;
-std::shared_ptr<Shader> shader_;
+std::shared_ptr<Shader> model_shader_;
 std::shared_ptr<Camera> camera_;
 std::vector<Model> models_;
 
@@ -24,10 +24,11 @@ void InitialiseScene() {
 
   renderer_ = std::make_shared<Renderer>();
   camera_ = std::make_shared<Camera>();
-  shader_ = std::make_shared<Shader>("shaders/simpleVertexShader.txt",
-                                     "shaders/simpleFragmentShader.txt");
+  model_shader_ = std::make_shared<Shader>("shaders/model_shader.vs",
+                                           "shaders/model_shader.fs");
 
-  models_.push_back(Model("models/polar_bear/body.fbx", *shader_, *renderer_));
+  models_.push_back(
+      Model("models/polar_bear/body.fbx", *model_shader_, *renderer_));
 }
 
 void Display() {
@@ -46,10 +47,11 @@ void Display() {
 
   model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
 
-  shader_->Bind();
-  shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
-  shader_->SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
-  shader_->SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
+  model_shader_->Bind();
+  model_shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
+  model_shader_->SetUniformMatrix4fv("proj", GL_FALSE,
+                                     glm::value_ptr(persp_proj));
+  model_shader_->SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
 
   camera_->UpdatePosition();
 
