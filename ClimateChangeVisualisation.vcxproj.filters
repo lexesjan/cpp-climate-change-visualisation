@@ -51,6 +51,12 @@
     <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx">
       <Filter>Solution Files\models\polar_bear</Filter>
     </None>
+    <None Include="shaders\model_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\model_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -89,14 +95,6 @@
     <ClCompile Include="src\model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="shaders\simpleFragmentShader.txt">
-      <Filter>Solution Files\shaders</Filter>
-    </Text>
-    <Text Include="shaders\simpleVertexShader.txt">
-      <Filter>Solution Files\shaders</Filter>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">

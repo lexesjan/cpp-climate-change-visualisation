@@ -147,6 +147,8 @@
     <None Include="models\polar_bear\body.fbx" />
     <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx" />
     <None Include="README.md" />
+    <None Include="shaders\model_shader.fs" />
+    <None Include="shaders\model_shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\camera.cpp" />
@@ -161,10 +163,6 @@
     <ClCompile Include="src\vertex_array_object.cpp" />
     <ClCompile Include="src\vertex_buffer_layout.cpp" />
     <ClCompile Include="src\vertex_buffer_object.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="shaders\simpleFragmentShader.txt" />
-    <Text Include="shaders\simpleVertexShader.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h" />
