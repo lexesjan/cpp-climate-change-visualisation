@@ -21,7 +21,7 @@ std::shared_ptr<Shader> shader_;
 std::shared_ptr<Camera> camera_;
 // std::shared_ptr<PolarBear> polar_bear_;
 // std::vector<Mesh> meshes_;
-std::shared_ptr<Model> model_;
+std::vector<Model> models_;
 
 void InitialiseScene() {
   renderer_->Init();
@@ -31,7 +31,8 @@ void InitialiseScene() {
   shader_ = std::make_shared<Shader>("shaders/simpleVertexShader.txt",
                                      "shaders/simpleFragmentShader.txt");
 
-  model_ = std::make_shared<Model>("models/floor.dae", *shader_, *renderer_);
+  models_.push_back(Model("models/floor.dae", *shader_, *renderer_));
+  // models_.push_back(Model("models/polar_bear.obj", *shader_, *renderer_));
 
   // meshes_.push_back(Mesh("models/floor.dae"));
 
@@ -52,12 +53,17 @@ void Display() {
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
+  shader_->Bind();
   shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_->SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
+  shader_->SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
 
   // polar_bear_->UpdatePosition();
   camera_->UpdatePosition();
-  model_->Draw();
+
+  for (Model& model : models_) {
+    model.Draw();
+  }
 
   // renderer_->Draw(meshes_, *shader_);
   // renderer_->Draw(polar_bear_->GetMeshes(), *shader_);
