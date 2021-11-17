@@ -412,3 +412,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# blender
+*.blend*
