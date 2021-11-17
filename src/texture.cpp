@@ -3,7 +3,7 @@
 #include "texture.h"
 
 Texture::Texture(std::string &path) : id_(-1), path_(path) {
-  stbi_set_flip_vertically_on_load(1);
+  stbi_set_flip_vertically_on_load(true);
 
   int width;
   int height;

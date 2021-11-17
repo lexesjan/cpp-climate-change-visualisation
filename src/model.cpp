@@ -26,7 +26,14 @@ void Model::LoadModel(std::string path) {
     return;
   }
 
-  directory_ = path.substr(0, path.find_last_of('/'));
+  std::string directory = path.substr(0, path.find_last_of('/'));
+
+  if (directory.find_last_of('/') == directory.npos ||
+      directory.find_last_of('/') != directory.size() - 1) {
+    directory += "/";
+  }
+
+  directory_ = directory;
 
   ProcessNode(scene->mRootNode, scene);
 }
