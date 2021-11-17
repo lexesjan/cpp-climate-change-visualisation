@@ -12,15 +12,11 @@
 #include "camera.h"
 #include "shader.h"
 #include "renderer.h"
-#include "mesh.h"
-#include "polar_bear.h"
 #include "model.h"
 
 std::shared_ptr<Renderer> renderer_;
 std::shared_ptr<Shader> shader_;
 std::shared_ptr<Camera> camera_;
-// std::shared_ptr<PolarBear> polar_bear_;
-// std::vector<Mesh> meshes_;
 std::vector<Model> models_;
 
 void InitialiseScene() {
@@ -31,12 +27,7 @@ void InitialiseScene() {
   shader_ = std::make_shared<Shader>("shaders/simpleVertexShader.txt",
                                      "shaders/simpleFragmentShader.txt");
 
-  models_.push_back(Model("models/floor.dae", *shader_, *renderer_));
-  // models_.push_back(Model("models/polar_bear.obj", *shader_, *renderer_));
-
-  // meshes_.push_back(Mesh("models/floor.dae"));
-
-  // polar_bear_ = std::shared_ptr<PolarBear>(new PolarBear());
+  models_.push_back(Model("models/polar_bear/body.fbx", *shader_, *renderer_));
 }
 
 void Display() {
@@ -53,20 +44,18 @@ void Display() {
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
+  model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+
   shader_->Bind();
   shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
   shader_->SetUniformMatrix4fv("proj", GL_FALSE, glm::value_ptr(persp_proj));
   shader_->SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
 
-  // polar_bear_->UpdatePosition();
   camera_->UpdatePosition();
 
   for (Model& model : models_) {
     model.Draw();
   }
-
-  // renderer_->Draw(meshes_, *shader_);
-  // renderer_->Draw(polar_bear_->GetMeshes(), *shader_);
 
   glutSwapBuffers();
 }
@@ -79,7 +68,6 @@ void UpdateScene() {
   float delta = curr_time - last_time;
   last_time = curr_time;
 
-  // polar_bear_->SetDelta(delta);
   camera_->SetDelta(delta);
 
   // Draw the next frame
@@ -93,12 +81,10 @@ void OnKeyboardDown(unsigned char key, int x, int y) {
     glutLeaveMainLoop();
   }
 
-  // polar_bear_->OnKeyboardDown(key);
   camera_->OnKeyboardDown(key);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
-  // polar_bear_->OnKeyboardUp(key);
   camera_->OnKeyboardUp(key);
 }
 
