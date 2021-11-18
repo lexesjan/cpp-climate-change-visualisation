@@ -156,7 +156,7 @@ void Model::InsertBoneInfo(Vertex& vertex, int bone_id, float weight) const {
   }
 }
 
-void Model::ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh* mesh,
+void Model::ExtractBoneInfo(std::vector<Vertex>& vertices, aiMesh* mesh,
                             const aiScene* scene) {
   for (unsigned int i = 0; i < mesh->mNumBones; i++) {
     int bone_id = -1;

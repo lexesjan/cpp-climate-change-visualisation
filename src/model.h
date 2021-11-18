@@ -45,7 +45,7 @@ class Model {
 
   void InsertBoneInfo(Vertex &vertex, int bone_id, float weight) const;
 
-  void ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh *mesh,
+  void ExtractBoneInfo(std::vector<Vertex> &vertices, aiMesh *mesh,
                        const aiScene *scene);
 };
 
