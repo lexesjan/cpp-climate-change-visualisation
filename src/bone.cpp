@@ -85,7 +85,9 @@ int Bone::GetScaleIndex(float animation_time) {
   return -1;
 }
 
-std::string Bone::GetBoneName() const { return name_; }
+const std::string& Bone::GetBoneName() const { return name_; }
+
+const glm::mat4& Bone::GetLocalTransform() const { return local_transform_; }
 
 float Bone::GetScaleFactor(float last_time_stamp, float next_time_stamp,
                            float animation_time) const {

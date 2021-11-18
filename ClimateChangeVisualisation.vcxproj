@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\animation.cpp" />
+    <ClCompile Include="src\animator.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\camera.cpp" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animation.h" />
+    <ClInclude Include="src\animator.h" />
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\bone.h" />
     <ClInclude Include="src\camera.h" />

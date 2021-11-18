@@ -22,6 +22,7 @@ class Mesh {
                 const std::vector<unsigned int>& indices,
                 const std::vector<Texture>& textures, const Shader& shader,
                 const Renderer& renderer);
+
   void Draw() const;
 
  private:

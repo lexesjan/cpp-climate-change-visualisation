@@ -20,6 +20,14 @@ class Animation {
 
   Bone* FindBone(const std::string& name);
 
+  float GetDuration() const;
+
+  int GetTicksPerSecond() const;
+
+  const AssimpNodeData& GetRootNode() const;
+
+  const std::unordered_map<std::string, BoneInfo>& GetBoneInfoMap() const;
+
  private:
   float duration_;
   int ticks_per_second_;

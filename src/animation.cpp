@@ -39,6 +39,17 @@ Bone* Animation::FindBone(const std::string& name) {
   return &(*iter);
 }
 
+float Animation::GetDuration() const { return duration_; }
+
+int Animation::GetTicksPerSecond() const { return ticks_per_second_; }
+
+const AssimpNodeData& Animation::GetRootNode() const { return root_node_; }
+
+const std::unordered_map<std::string, BoneInfo>& Animation::GetBoneInfoMap()
+    const {
+  return bone_info_map_;
+}
+
 void Animation::ReadMissingBones(const aiAnimation* animation, Model& model) {
   int size = animation->mNumChannels;
 
