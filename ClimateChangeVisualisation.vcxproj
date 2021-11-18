@@ -147,10 +147,12 @@
     <None Include="models\polar_bear\body.fbx" />
     <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx" />
     <None Include="README.md" />
+    <None Include="shaders\animated_model_shader.vs" />
     <None Include="shaders\model_shader.fs" />
     <None Include="shaders\model_shader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="src\vertex_buffer_object.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\element_buffer_object.h" />
     <ClInclude Include="src\mesh.h" />

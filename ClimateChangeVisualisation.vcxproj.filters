@@ -57,6 +57,9 @@
     <None Include="shaders\model_shader.vs">
       <Filter>Solution Files\shaders</Filter>
     </None>
+    <None Include="shaders\animated_model_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -95,6 +98,9 @@
     <ClCompile Include="src\model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\assimp_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -125,6 +131,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\assimp_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
