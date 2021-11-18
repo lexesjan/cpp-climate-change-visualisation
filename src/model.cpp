@@ -139,14 +139,14 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material,
 }
 
 void Model::InitialiseVertexBoneInfo(Vertex& vertex) const {
-  for (unsigned int i = 0; i < vertex.bone_ids.length(); i++) {
+  for (unsigned int i = 0; i < (unsigned int)vertex.bone_ids.length(); i++) {
     vertex.bone_ids[i] = -1;
     vertex.weights[i] = 0.0f;
   }
 }
 
 void Model::InsertBoneInfo(Vertex& vertex, int bone_id, float weight) const {
-  for (unsigned int i = 0; i < vertex.bone_ids.length(); i++) {
+  for (unsigned int i = 0; i < (unsigned int)vertex.bone_ids.length(); i++) {
     if (vertex.bone_ids[i] == -1) {
       vertex.bone_ids[i] = bone_id;
       vertex.weights[i] = weight;
@@ -180,7 +180,7 @@ void Model::ExtractBoneInfo(std::vector<Vertex>& vertices, aiMesh* mesh,
     }
 
     aiVertexWeight* weights = bone->mWeights;
-    int num_weights = bone->mNumWeights;
+    unsigned int num_weights = bone->mNumWeights;
 
     for (unsigned int j = 0; j < num_weights; j++) {
       int vertex_id = weights[j].mVertexId;

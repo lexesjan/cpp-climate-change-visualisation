@@ -153,10 +153,7 @@
     <None Include="shaders\simple_shader.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\animation.cpp" />
-    <ClCompile Include="src\animator.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
-    <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -171,10 +168,7 @@
     <ClCompile Include="src\vertex_buffer_object.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\animation.h" />
-    <ClInclude Include="src\animator.h" />
     <ClInclude Include="src\assimp_utils.h" />
-    <ClInclude Include="src\bone.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\element_buffer_object.h" />
     <ClInclude Include="src\mesh.h" />
