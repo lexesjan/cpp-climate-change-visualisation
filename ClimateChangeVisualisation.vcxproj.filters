@@ -63,6 +63,9 @@
     <None Include="models\polar_bear\body.fbx">
       <Filter>Solution Files\models\polar_bear</Filter>
     </None>
+    <None Include="shaders\simple_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">

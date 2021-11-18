@@ -3,9 +3,13 @@
 #include "bone.h"
 #include "assimp_utils.h"
 
+#include <iostream>
+
 Bone::Bone(const std::string& name, int ID, const aiNodeAnim* channel)
     : name_(name), id_(ID), local_transform_(1.0f) {
   num_positions_ = channel->mNumPositionKeys;
+
+  std::cout << name << std::endl;
 
   for (unsigned int i = 0; i < num_positions_; i++) {
     aiVector3D position = channel->mPositionKeys[i].mValue;

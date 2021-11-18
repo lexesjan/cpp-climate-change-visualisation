@@ -20,7 +20,7 @@ class Shader {
   void SetUniform1f(const std::string& name, const GLfloat data) const;
 
   void SetUniformMatrix4fv(const std::string& name, GLboolean is_transpose,
-                           const GLfloat* data) const;
+                           const GLfloat* data, GLsizei count = 1) const;
 
  private:
   GLuint id_;

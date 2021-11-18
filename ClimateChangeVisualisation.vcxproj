@@ -150,6 +150,7 @@
     <None Include="shaders\animated_model_shader.vs" />
     <None Include="shaders\model_shader.fs" />
     <None Include="shaders\model_shader.vs" />
+    <None Include="shaders\simple_shader.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\animation.cpp" />

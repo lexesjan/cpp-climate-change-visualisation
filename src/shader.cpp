@@ -26,9 +26,9 @@ void Shader::SetUniform1f(const std::string& name, const GLfloat data) const {
 }
 
 void Shader::SetUniformMatrix4fv(const std::string& name,
-                                 GLboolean is_transpose,
-                                 const GLfloat* data) const {
-  glUniformMatrix4fv(GetUniformLocation(name), 1, is_transpose, data);
+                                 GLboolean is_transpose, const GLfloat* data,
+                                 GLsizei count) const {
+  glUniformMatrix4fv(GetUniformLocation(name), count, is_transpose, data);
 }
 
 GLuint Shader::CompileShader(GLenum type, const std::string& source) const {

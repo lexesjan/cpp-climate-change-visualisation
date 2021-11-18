@@ -34,11 +34,10 @@ void InitialiseScene() {
                                            "shaders/model_shader.fs");
 
   animated_model_shader_ = std::make_unique<Shader>(
-      "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
-  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.fbx",
+      "shaders/animated_model_shader.vs", "shaders/simple_shader.fs");
+  polar_bear_ = std::make_unique<Model>("models/arm.dae",
                                         *animated_model_shader_, *renderer_);
-  animation_ =
-      std::make_unique<Animation>("models/polar_bear/body.fbx", *polar_bear_);
+  animation_ = std::make_unique<Animation>("models/arm.dae", *polar_bear_);
   animator_ = std::make_unique<Animator>(animation_.get());
 }
 
@@ -55,9 +54,6 @@ void Display() {
   view = camera_->GetMatrix();
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
-
-  // model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f,
-  // 0.0f));
 
   model_shader_->Bind();
   model_shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
@@ -81,11 +77,9 @@ void Display() {
 
   std::vector<glm::mat4> transforms = animator_->GetFinalBoneMatrices();
 
-  for (int i = 0; i < transforms.size(); i++) {
-    animated_model_shader_->SetUniformMatrix4fv(
-        "final_bones_matrices[" + std::to_string(i) + "]", GL_FALSE,
-        glm::value_ptr(transforms[i]));
-  }
+  animated_model_shader_->SetUniformMatrix4fv(
+      "final_bones_matrices", GL_FALSE, glm::value_ptr(transforms.front()),
+      transforms.size());
 
   polar_bear_->Draw();
 
