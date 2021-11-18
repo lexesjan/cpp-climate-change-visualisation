@@ -59,22 +59,12 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 
     InitialiseVertexBoneInfo(vertex);
 
-    if (mesh->HasPositions()) {
-      const aiVector3D* position = &(mesh->mVertices[i]);
-
-      vertex.position = glm::vec3(position->x, position->y, position->z);
-    }
-
-    if (mesh->HasNormals()) {
-      const aiVector3D* normal = &(mesh->mNormals[i]);
-
-      vertex.normal = glm::vec3(normal->x, normal->y, normal->z);
-    }
+    vertex.position = assimp_utils::ConvertToVec3(mesh->mVertices[i]);
+    vertex.normal = assimp_utils::ConvertToVec3(mesh->mNormals[i]);
 
     if (mesh->HasTextureCoords(0)) {
-      const aiVector3D* texture_coord = &(mesh->mTextureCoords[0][i]);
-
-      vertex.texture_coords = glm::vec2(texture_coord->x, texture_coord->y);
+      vertex.texture_coords =
+          assimp_utils::ConvertToVec2(mesh->mTextureCoords[0][i]);
     } else {
       vertex.texture_coords = glm::vec2(0.0f, 0.0f);
     }
