@@ -1,6 +1,9 @@
+#include <GL/glew.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <unordered_map>
 #include "shader.h"
 
 Shader::Shader() : id_(0) {}

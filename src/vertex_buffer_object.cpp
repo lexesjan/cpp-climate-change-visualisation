@@ -1,3 +1,4 @@
+#include <GL/glew.h>
 #include "vertex_buffer_object.h"
 
 VertexBufferObject::VertexBufferObject(const void* data, unsigned int size) {

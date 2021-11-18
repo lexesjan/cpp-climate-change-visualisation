@@ -10,9 +10,7 @@ namespace assimp_utils {
 
 glm::mat4 ConvertToMat4(aiMatrix4x4& matrix);
 
-glm::vec3 ConvertToVec3(aiVector3D& input);
-
-glm::vec2 ConvertToVec2(aiVector3D& input);
+glm::vec3 ConvertToVec3(aiVector3D& position);
 
 glm::quat ConvertToQuat(aiQuaternion& quaternion);
 

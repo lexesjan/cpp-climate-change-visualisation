@@ -1,3 +1,5 @@
+#include <GL/glew.h>
+#include <vector>
 #include "vertex_buffer_layout.h"
 
 VertexBufferLayout::VertexBufferLayout() : stride_(0), elements_() {}
