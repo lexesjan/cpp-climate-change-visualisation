@@ -3,6 +3,8 @@
 
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float2.hpp>
+#include <glm/ext/vector_int4.hpp>
+#include <glm/ext/vector_float4.hpp>
 #include "renderer.h"
 #include "texture.h"
 
@@ -10,6 +12,8 @@ struct Vertex {
   glm::vec3 position;
   glm::vec3 normal;
   glm::vec2 texture_coords;
+  glm::ivec4 bone_ids;
+  glm::vec4 weights;
 };
 
 class Mesh {

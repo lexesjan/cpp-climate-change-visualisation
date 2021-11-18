@@ -26,6 +26,13 @@ class VertexBufferLayout {
     stride_ += GetSizeOfType(GL_FLOAT) * count;
   }
 
+  template <>
+  void AddElement<int>(GLint count) {
+    elements_.push_back({count, GL_INT, GL_FALSE});
+
+    stride_ += GetSizeOfType(GL_INT) * count;
+  }
+
   unsigned int GetStride() const;
 
   const std::vector<VertexBufferObjectElement> &GetElements() const;

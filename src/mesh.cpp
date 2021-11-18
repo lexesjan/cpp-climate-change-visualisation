@@ -46,6 +46,8 @@ void Mesh::InitMesh() {
   vertex_buffer_layout.AddElement<float>(3);
   vertex_buffer_layout.AddElement<float>(3);
   vertex_buffer_layout.AddElement<float>(2);
+  vertex_buffer_layout.AddElement<int>(4);
+  vertex_buffer_layout.AddElement<float>(4);
 
   ElementBufferObject element_buffer_object(indices_.data(), indices_.size());
 

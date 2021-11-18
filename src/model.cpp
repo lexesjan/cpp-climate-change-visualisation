@@ -1,5 +1,6 @@
 #include <iostream>
 #include "model.h"
+#include "assimp_utils.h"
 
 Model::Model(std::string path, Shader shader, Renderer renderer)
     : shader_(shader), renderer_(renderer) {
@@ -116,7 +117,7 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material,
 
     material->GetTexture(type, i, &str);
 
-    std::string path = directory_ + std::string(str.C_Str());
+    std::string path = directory_ + str.C_Str();
 
     if (loaded_textures_.find(path) != loaded_textures_.end()) {
       continue;
@@ -131,4 +132,57 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material,
   }
 
   return textures;
+}
+
+void Model::InitialiseVertexBoneInfo(Vertex& vertex) const {
+  for (unsigned int i = 0; i < vertex.bone_ids.length(); i++) {
+    vertex.bone_ids[i] = -1;
+    vertex.weights[i] = 0.0f;
+  }
+}
+
+void Model::InsertBoneInfo(Vertex& vertex, int bone_id, float weight) const {
+  for (unsigned int i = 0; i < vertex.bone_ids.length(); i++) {
+    if (vertex.bone_ids[i] == -1) {
+      vertex.bone_ids[i] = bone_id;
+      vertex.weights[i] = weight;
+
+      break;
+    }
+  }
+}
+
+void Model::ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh* mesh,
+                            const aiScene* scene) {
+  for (unsigned int i = 0; i < mesh->mNumBones; i++) {
+    int bone_id = -1;
+
+    aiBone* bone = mesh->mBones[i];
+
+    std::string bone_name = bone->mName.C_Str();
+
+    if (bone_info_map_.find(bone_name) == bone_info_map_.end()) {
+      BoneInfo bone_info;
+      bone_info.id = bone_count_;
+      bone_info.offset = assimp_utils::ConvertToMat4(bone->mOffsetMatrix);
+
+      bone_info_map_[bone_name] = bone_info;
+
+      bone_id = bone_count_;
+
+      bone_count_++;
+    } else {
+      bone_id = bone_info_map_[bone_name].id;
+    }
+
+    aiVertexWeight* weights = bone->mWeights;
+    int num_weights = bone->mNumWeights;
+
+    for (unsigned int i = 0; i < num_weights; i++) {
+      int vertex_id = weights[i].mVertexId;
+      float weight = weights[i].mWeight;
+
+      InsertBoneInfo(vertices[vertex_id], bone_id, weight);
+    }
+  }
 }
