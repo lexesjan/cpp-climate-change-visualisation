@@ -10,14 +10,18 @@
 #include "mesh.h"
 
 struct BoneInfo {
-  int id_;
+  int id;
   // Offset to transform bone from model space to bone space.
   glm::mat4 offset;
 };
 
 class Model {
  public:
+  int bone_count_;
+  std::unordered_map<std::string, BoneInfo> bone_info_map_;
+
   explicit Model(std::string path, Shader shader, Renderer renderer);
+
   void Draw() const;
 
  private:
@@ -26,8 +30,6 @@ class Model {
   std::string directory_;
   Shader shader_;
   Renderer renderer_;
-  int bone_count_;
-  std::unordered_map<std::string, BoneInfo> bone_info_map_;
 
   void LoadModel(std::string path);
 

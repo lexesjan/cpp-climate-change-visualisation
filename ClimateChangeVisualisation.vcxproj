@@ -152,6 +152,7 @@
     <None Include="shaders\model_shader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\animation.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\camera.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\vertex_buffer_object.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\animation.h" />
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\bone.h" />
     <ClInclude Include="src\camera.h" />

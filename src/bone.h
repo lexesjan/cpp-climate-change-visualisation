@@ -34,6 +34,8 @@ class Bone {
 
   int GetScaleIndex(float animation_time);
 
+  std::string GetBoneName() const;
+
  private:
   std::vector<KeyPosition> positions_;
   std::vector<KeyRotation> rotations_;
