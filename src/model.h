@@ -10,7 +10,7 @@
 #include "mesh.h"
 
 struct BoneInfo {
-  int id;
+  int id_;
   // Offset to transform bone from model space to bone space.
   glm::mat4 offset;
 };

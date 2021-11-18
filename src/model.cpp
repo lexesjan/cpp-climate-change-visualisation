@@ -165,7 +165,7 @@ void Model::ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh* mesh,
 
     if (bone_info_map_.find(bone_name) == bone_info_map_.end()) {
       BoneInfo bone_info;
-      bone_info.id = bone_count_;
+      bone_info.id_ = bone_count_;
       bone_info.offset = assimp_utils::ConvertToMat4(bone->mOffsetMatrix);
 
       bone_info_map_[bone_name] = bone_info;
@@ -174,7 +174,7 @@ void Model::ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh* mesh,
 
       bone_count_++;
     } else {
-      bone_id = bone_info_map_[bone_name].id;
+      bone_id = bone_info_map_[bone_name].id_;
     }
 
     aiVertexWeight* weights = bone->mWeights;

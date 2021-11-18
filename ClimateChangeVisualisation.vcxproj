@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\assimp_utils.cpp" />
+    <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\assimp_utils.h" />
+    <ClInclude Include="src\bone.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\element_buffer_object.h" />
     <ClInclude Include="src\mesh.h" />

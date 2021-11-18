@@ -22,3 +22,11 @@ glm::mat4 assimp_utils::ConvertToMat4(aiMatrix4x4& matrix) {
 
   return output;
 }
+
+glm::vec3 assimp_utils::ConvertToVec3(aiVector3D& position) {
+  return glm::vec3(position.x, position.y, position.z);
+}
+
+glm::quat assimp_utils::ConvertToQuat(aiQuaternion& quaternion) {
+  return glm::quat(quaternion.w, quaternion.x, quaternion.y, quaternion.z);
+}
