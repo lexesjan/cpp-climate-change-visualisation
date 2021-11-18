@@ -104,6 +104,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
     textures.insert(textures.end(), normal_maps.begin(), normal_maps.end());
   }
 
+  ExtractBoneInfo(vertices, mesh, scene);
+
   return Mesh(vertices, indices, textures, shader_, renderer_);
 }
 
