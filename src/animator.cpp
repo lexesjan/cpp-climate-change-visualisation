@@ -1,6 +1,6 @@
 #include "animator.h"
 
-Animator::Animator(Animation* animation) {
+Animator::Animator(Animation* animation) : delta_(0.0f) {
   current_time_ = 0.0;
   current_animation_ = animation;
 

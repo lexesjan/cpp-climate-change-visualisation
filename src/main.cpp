@@ -80,6 +80,7 @@ void Display() {
                                               glm::value_ptr(model));
 
   std::vector<glm::mat4> transforms = animator_->GetFinalBoneMatrices();
+
   for (int i = 0; i < transforms.size(); i++) {
     animated_model_shader_->SetUniformMatrix4fv(
         "final_bones_matrices[" + std::to_string(i) + "]", GL_FALSE,
@@ -95,11 +96,12 @@ void UpdateScene() {
   // Wait until at least 16ms passed since start of last frame (Effectively caps
   // framerate at ~60fps)
   static float last_time = 0;
-  float curr_time = (float)glutGet(GLUT_ELAPSED_TIME);
+  float curr_time = ((float)glutGet(GLUT_ELAPSED_TIME)) / 1000;
   float delta = curr_time - last_time;
   last_time = curr_time;
 
   camera_->SetDelta(delta);
+  animator_->UpdateAnimation(delta);
 
   // Draw the next frame
   glutPostRedisplay();
