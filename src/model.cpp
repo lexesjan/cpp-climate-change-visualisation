@@ -57,6 +57,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
   for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
     Vertex vertex;
 
+    InitialiseVertexBoneInfo(vertex);
+
     if (mesh->HasPositions()) {
       const aiVector3D* position = &(mesh->mVertices[i]);
 
@@ -180,9 +182,9 @@ void Model::ExtractBoneInfo(std::vector<Vertex> vertices, aiMesh* mesh,
     aiVertexWeight* weights = bone->mWeights;
     int num_weights = bone->mNumWeights;
 
-    for (unsigned int i = 0; i < num_weights; i++) {
-      int vertex_id = weights[i].mVertexId;
-      float weight = weights[i].mWeight;
+    for (unsigned int j = 0; j < num_weights; j++) {
+      int vertex_id = weights[j].mVertexId;
+      float weight = weights[j].mWeight;
 
       InsertBoneInfo(vertices[vertex_id], bone_id, weight);
     }

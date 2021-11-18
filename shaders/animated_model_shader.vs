@@ -6,7 +6,7 @@ layout(location = 2) in vec2 tex_coords;
 layout(location = 3) in ivec4 bone_ids;
 layout(location = 4) in vec4 weights;
 
-uniform mat4 projection;
+uniform mat4 proj;
 uniform mat4 view;
 uniform mat4 model;
 
@@ -25,11 +25,11 @@ void main() {
     }
 
     if (bone_ids[i] >= MAX_BONES) {
-      total_position = vec4(pos, 1.0f);
+      total_position = vec4(vertex_position, 1.0f);
       break;
     }
 
-    vec4 local_position = final_bones_matrices[bone_ids[i]] * vec4(pos, 1.0f);
+    vec4 local_position = final_bones_matrices[bone_ids[i]] * vec4(vertex_position, 1.0f);
     total_position += local_position * weights[i];
 
     // TODO: Use normals for lighting

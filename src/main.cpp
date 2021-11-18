@@ -13,22 +13,33 @@
 #include "shader.h"
 #include "renderer.h"
 #include "model.h"
+#include "animation.h"
+#include "animator.h"
 
-std::shared_ptr<Renderer> renderer_;
-std::shared_ptr<Shader> model_shader_;
-std::shared_ptr<Camera> camera_;
+std::unique_ptr<Renderer> renderer_;
+std::unique_ptr<Shader> model_shader_;
+std::unique_ptr<Shader> animated_model_shader_;
+std::unique_ptr<Camera> camera_;
+std::unique_ptr<Model> polar_bear_;
+std::unique_ptr<Animation> animation_;
+std::unique_ptr<Animator> animator_;
 std::vector<Model> models_;
 
 void InitialiseScene() {
   renderer_->Init();
 
-  renderer_ = std::make_shared<Renderer>();
-  camera_ = std::make_shared<Camera>();
-  model_shader_ = std::make_shared<Shader>("shaders/model_shader.vs",
+  renderer_ = std::make_unique<Renderer>();
+  camera_ = std::make_unique<Camera>();
+  model_shader_ = std::make_unique<Shader>("shaders/model_shader.vs",
                                            "shaders/model_shader.fs");
 
-  models_.push_back(
-      Model("models/polar_bear/body.fbx", *model_shader_, *renderer_));
+  animated_model_shader_ = std::make_unique<Shader>(
+      "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
+  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.fbx",
+                                        *animated_model_shader_, *renderer_);
+  animation_ =
+      std::make_unique<Animation>("models/polar_bear/body.fbx", *polar_bear_);
+  animator_ = std::make_unique<Animator>(animation_.get());
 }
 
 void Display() {
@@ -45,7 +56,8 @@ void Display() {
   persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
                                        1.0f, 1000.0f);
 
-  model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+  // model = glm::rotate(model, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f,
+  // 0.0f));
 
   model_shader_->Bind();
   model_shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
@@ -58,6 +70,23 @@ void Display() {
   for (Model& model : models_) {
     model.Draw();
   }
+
+  animated_model_shader_->Bind();
+  animated_model_shader_->SetUniformMatrix4fv("view", GL_FALSE,
+                                              glm::value_ptr(view));
+  animated_model_shader_->SetUniformMatrix4fv("proj", GL_FALSE,
+                                              glm::value_ptr(persp_proj));
+  animated_model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
+                                              glm::value_ptr(model));
+
+  std::vector<glm::mat4> transforms = animator_->GetFinalBoneMatrices();
+  for (int i = 0; i < transforms.size(); i++) {
+    animated_model_shader_->SetUniformMatrix4fv(
+        "final_bones_matrices[" + std::to_string(i) + "]", GL_FALSE,
+        glm::value_ptr(transforms[i]));
+  }
+
+  polar_bear_->Draw();
 
   glutSwapBuffers();
 }
