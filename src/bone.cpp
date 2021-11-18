@@ -1,5 +1,3 @@
-#include <glm/ext/quaternion_common.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include "bone.h"
 #include "assimp_utils.h"
 
