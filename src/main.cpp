@@ -12,18 +12,11 @@
 #include "camera.h"
 #include "shader.h"
 #include "renderer.h"
-#include "model.h"
-#include "animation.h"
-#include "animator.h"
 
 std::unique_ptr<Renderer> renderer_;
 std::unique_ptr<Shader> model_shader_;
 std::unique_ptr<Shader> animated_model_shader_;
 std::unique_ptr<Camera> camera_;
-std::unique_ptr<Model> polar_bear_;
-std::unique_ptr<Animation> animation_;
-std::unique_ptr<Animator> animator_;
-std::vector<Model> models_;
 
 void InitialiseScene() {
   renderer_->Init();
@@ -35,10 +28,6 @@ void InitialiseScene() {
 
   animated_model_shader_ = std::make_unique<Shader>(
       "shaders/animated_model_shader.vs", "shaders/simple_shader.fs");
-  polar_bear_ = std::make_unique<Model>("models/arm.dae",
-                                        *animated_model_shader_, *renderer_);
-  animation_ = std::make_unique<Animation>("models/arm.dae", *polar_bear_);
-  animator_ = std::make_unique<Animator>(animation_.get());
 }
 
 void Display() {
@@ -63,26 +52,6 @@ void Display() {
 
   camera_->UpdatePosition();
 
-  for (Model& model : models_) {
-    model.Draw();
-  }
-
-  animated_model_shader_->Bind();
-  animated_model_shader_->SetUniformMatrix4fv("view", GL_FALSE,
-                                              glm::value_ptr(view));
-  animated_model_shader_->SetUniformMatrix4fv("proj", GL_FALSE,
-                                              glm::value_ptr(persp_proj));
-  animated_model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
-                                              glm::value_ptr(model));
-
-  std::vector<glm::mat4> transforms = animator_->GetFinalBoneMatrices();
-
-  animated_model_shader_->SetUniformMatrix4fv(
-      "final_bones_matrices", GL_FALSE, glm::value_ptr(transforms.front()),
-      transforms.size());
-
-  polar_bear_->Draw();
-
   glutSwapBuffers();
 }
 
@@ -95,7 +64,6 @@ void UpdateScene() {
   last_time = curr_time;
 
   camera_->SetDelta(delta);
-  animator_->UpdateAnimation(delta);
 
   // Draw the next frame
   glutPostRedisplay();

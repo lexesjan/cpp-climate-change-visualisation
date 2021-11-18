@@ -1,7 +1,4 @@
-#include <vector>
-#include <glm/gtc/type_ptr.hpp>
 #include "renderer.h"
-#include "mesh.h"
 
 void Renderer::Init() const {
   glEnable(GL_DEPTH_TEST);
