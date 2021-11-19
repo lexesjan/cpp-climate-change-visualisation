@@ -198,11 +198,13 @@ void Model::UpdateBoneTransformations(float delta) {
     return;
   }
 
-  float ticks_per_second = scene_->mAnimations[0]->mTicksPerSecond;
-  current_time_ += ticks_per_second * delta;
-  current_time_ = fmod(current_time_, scene_->mAnimations[0]->mDuration);
+  current_time_ += delta;
 
-  ReadNodeHeirarchy(current_time_, scene_->mRootNode, glm::mat4(1.0f));
+  float ticks_per_second = scene_->mAnimations[0]->mTicksPerSecond;
+  float ticks_in_seconds = ticks_per_second * current_time_;
+  float animation_time = fmod(current_time_, scene_->mAnimations[0]->mDuration);
+
+  ReadNodeHeirarchy(animation_time, scene_->mRootNode, glm::mat4(1.0f));
 }
 
 const std::vector<glm::mat4>& Model::GetFinalTransforms() const {
@@ -240,6 +242,14 @@ void Model::ReadNodeHeirarchy(float animation_time, aiNode* node,
   }
 }
 
+float Model::GetScalingFactor(float last_time_stamp, float next_time_stamp,
+                              float animation_time) const {
+  float mid_way_length = animation_time - last_time_stamp;
+  float frames_difference = next_time_stamp - last_time_stamp;
+
+  return mid_way_length / frames_difference;
+}
+
 const glm::mat4& Model::InterpolateScaling(float animation_time,
                                            aiNodeAnim* node_animation) const {
   if (node_animation->mNumScalingKeys == 1) {
@@ -261,13 +271,9 @@ const glm::mat4& Model::InterpolateScaling(float animation_time,
 
   assert(next_scaling_index < node_animation->mNumScalingKeys);
 
-  float delta_time =
-      (float)(node_animation->mScalingKeys[next_scaling_index].mTime -
-              node_animation->mScalingKeys[scaling_index].mTime);
-
-  float factor = (animation_time -
-                  (float)node_animation->mScalingKeys[scaling_index].mTime) /
-                 delta_time;
+  float factor = GetScalingFactor(
+      node_animation->mScalingKeys[scaling_index].mTime,
+      node_animation->mScalingKeys[next_scaling_index].mTime, animation_time);
 
   assert(factor >= 0.0f && factor <= 1.0f);
 
@@ -298,13 +304,9 @@ const glm::mat4& Model::InterpolateRotation(float animation_time,
 
   assert(next_rotation_index < node_animation->mNumRotationKeys);
 
-  float delta_time =
-      (float)(node_animation->mRotationKeys[next_rotation_index].mTime -
-              node_animation->mRotationKeys[rotation_index].mTime);
-
-  float factor = (animation_time -
-                  (float)node_animation->mRotationKeys[rotation_index].mTime) /
-                 delta_time;
+  float factor = GetScalingFactor(
+      node_animation->mRotationKeys[rotation_index].mTime,
+      node_animation->mRotationKeys[next_rotation_index].mTime, animation_time);
 
   assert(factor >= 0.0f && factor <= 1.0f);
 
@@ -339,13 +341,9 @@ const glm::mat4& Model::InterpolateTranslation(
 
   assert(next_position_index < node_animation->mNumPositionKeys);
 
-  float delta_time =
-      (float)(node_animation->mPositionKeys[next_position_index].mTime -
-              node_animation->mPositionKeys[position_index].mTime);
-
-  float factor = (animation_time -
-                  (float)node_animation->mPositionKeys[position_index].mTime) /
-                 delta_time;
+  float factor = GetScalingFactor(
+      node_animation->mPositionKeys[position_index].mTime,
+      node_animation->mPositionKeys[next_position_index].mTime, animation_time);
 
   assert(factor >= 0.0f && factor <= 1.0f);
 

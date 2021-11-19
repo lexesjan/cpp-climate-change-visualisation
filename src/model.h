@@ -58,6 +58,9 @@ class Model {
   void ReadNodeHeirarchy(float animation_time, aiNode *node,
                          glm::mat4 parent_transform);
 
+  float GetScalingFactor(float last_time_stamp, float next_time_stamp,
+                         float animation_time) const;
+
   const glm::mat4 &InterpolateScaling(float animation_time,
                                       aiNodeAnim *node_animation) const;
 
