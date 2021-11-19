@@ -31,7 +31,7 @@ void InitialiseScene() {
 
   animated_model_shader_ = std::make_unique<Shader>(
       "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
-  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.dae",
+  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.fbx",
                                         *animated_model_shader_, *renderer_);
 }
 
