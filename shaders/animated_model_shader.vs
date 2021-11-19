@@ -12,7 +12,7 @@ uniform mat4 model;
 
 const int MAX_BONES = 100;
 const int MAX_BONE_INFLUENCE = 4;
-uniform mat4 final_bones_matrices[MAX_BONES];
+uniform mat4 final_bone_transforms[MAX_BONES];
 
 out vec2 texture_coordinates;
 
@@ -26,29 +26,16 @@ vec3 ld = vec3(1.0, 1.0, 1.0);   // Light source intensity
 // --------------------------------------------------------------------------------
 
 void main() {
-  vec4 total_position = vec4(0.0f);
+  texture_coordinates = tex_coords;
+
+  mat4 bone_transform = mat4(0.0f);
 
   for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
-    if (bone_ids[i] == -1) {
-      continue;
-    }
-
-    if (bone_ids[i] >= MAX_BONES) {
-      total_position = vec4(vertex_position, 1.0f);
-      break;
-    }
-
-    vec4 local_position =
-        final_bones_matrices[bone_ids[i]] * vec4(vertex_position, 1.0f);
-    total_position += local_position * weights[i];
-
-    // TODO: Use normals for lighting
-    vec3 local_normal =
-        mat3(final_bones_matrices[bone_ids[i]]) * vertex_normals;
+    bone_transform += final_bone_transforms[bone_ids[i]] * weights[i];
   }
 
-  texture_coordinates = tex_coords;
-  gl_Position = proj * view * model * total_position;
+  gl_Position =
+      proj * view * model * bone_transform * vec4(vertex_position, 1.0f);
 
   // --------------------------------------------------------------------------------
   mat4 mv_mat = view * model;

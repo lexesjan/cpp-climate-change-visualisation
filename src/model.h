@@ -11,25 +11,32 @@
 
 struct BoneInfo {
   int id;
-  // Offset to transform bone from model space to bone space.
   glm::mat4 offset;
 };
 
 class Model {
  public:
-  int bone_count_;
-  std::unordered_map<std::string, BoneInfo> bone_info_map_;
-
   explicit Model(std::string path, Shader shader, Renderer renderer);
+
+  void UpdateBoneTransformations(float delta);
+
+  const std::vector<glm::mat4> &GetFinalTransforms() const;
 
   void Draw() const;
 
  private:
+  Assimp::Importer importer_;
+  const aiScene *scene_;
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;
   std::string directory_;
+  std::vector<glm::mat4> final_transforms_;
+  std::unordered_map<std::string, aiNodeAnim *> node_animations_map_;
+  int bone_count_;
+  std::unordered_map<std::string, BoneInfo> bone_info_map_;
   Shader shader_;
   Renderer renderer_;
+  float current_time_;
 
   void LoadModel(std::string path);
 
@@ -47,6 +54,18 @@ class Model {
 
   void ExtractBoneInfo(std::vector<Vertex> &vertices, aiMesh *mesh,
                        const aiScene *scene);
+
+  void ReadNodeHeirarchy(float animation_time, aiNode *node,
+                         glm::mat4 parent_transform);
+
+  const glm::mat4 &InterpolateScaling(float animation_time,
+                                      aiNodeAnim *node_animation) const;
+
+  const glm::mat4 &InterpolateRotation(float animation_time,
+                                       aiNodeAnim *node_animation) const;
+
+  const glm::mat4 &InterpolateTranslation(float animation_time,
+                                          aiNodeAnim *node_animation) const;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_MODEL_H_

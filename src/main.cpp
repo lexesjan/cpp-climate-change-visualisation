@@ -69,10 +69,10 @@ void Display() {
   animated_model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
                                               glm::value_ptr(model));
 
-  std::vector<glm::mat4> transforms(100, glm::mat4(1.0f));
+  const std::vector<glm::mat4>& transforms = polar_bear_->GetFinalTransforms();
 
   animated_model_shader_->SetUniformMatrix4fv(
-      "final_bones_matrices", GL_FALSE, glm::value_ptr(transforms.front()),
+      "final_bone_transforms", GL_FALSE, glm::value_ptr(transforms.front()),
       (GLsizei)transforms.size());
 
   polar_bear_->Draw();
@@ -89,6 +89,7 @@ void UpdateScene() {
   last_time = curr_time;
 
   camera_->SetDelta(delta);
+  polar_bear_->UpdateBoneTransformations(delta);
 
   // Draw the next frame
   glutPostRedisplay();
