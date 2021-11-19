@@ -37,6 +37,7 @@ class Model {
   Shader shader_;
   Renderer renderer_;
   float current_time_;
+  glm::mat4 global_inverse_transform_;
 
   void LoadModel(std::string path);
 

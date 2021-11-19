@@ -28,14 +28,14 @@ vec3 ld = vec3(1.0, 1.0, 1.0);   // Light source intensity
 void main() {
   texture_coordinates = tex_coords;
 
-  mat4 bone_transform = mat4(0.0f);
+  mat4 bone_transform = final_bone_transforms[bone_ids[0]] * weights[0];
+  bone_transform += final_bone_transforms[bone_ids[1]] * weights[1];
+  bone_transform += final_bone_transforms[bone_ids[2]] * weights[2];
+  bone_transform += final_bone_transforms[bone_ids[3]] * weights[3];
 
-  for (int i = 0; i < MAX_BONE_INFLUENCE; i++) {
-    bone_transform += final_bone_transforms[bone_ids[i]] * weights[i];
-  }
+  vec4 pos_l = bone_transform * vec4(vertex_position, 1.0f);
 
-  gl_Position =
-      proj * view * model * bone_transform * vec4(vertex_position, 1.0f);
+  gl_Position = proj * view * model * pos_l;
 
   // --------------------------------------------------------------------------------
   mat4 mv_mat = view * model;

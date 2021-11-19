@@ -30,8 +30,8 @@ void InitialiseScene() {
                                            "shaders/model_shader.fs");
 
   animated_model_shader_ = std::make_unique<Shader>(
-      "shaders/animated_model_shader.vs", "shaders/simple_shader.fs");
-  polar_bear_ = std::make_unique<Model>("models/arm.dae",
+      "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
+  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.dae",
                                         *animated_model_shader_, *renderer_);
 }
 
@@ -70,6 +70,7 @@ void Display() {
                                               glm::value_ptr(model));
 
   const std::vector<glm::mat4>& transforms = polar_bear_->GetFinalTransforms();
+  // const std::vector<glm::mat4> transforms(100, glm::mat4(1.0f));
 
   animated_model_shader_->SetUniformMatrix4fv(
       "final_bone_transforms", GL_FALSE, glm::value_ptr(transforms.front()),
