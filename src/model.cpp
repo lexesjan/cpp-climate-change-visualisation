@@ -202,7 +202,8 @@ void Model::UpdateBoneTransformations(float delta) {
 
   float ticks_per_second = scene_->mAnimations[0]->mTicksPerSecond;
   float ticks_in_seconds = ticks_per_second * current_time_;
-  float animation_time = fmod(current_time_, scene_->mAnimations[0]->mDuration);
+  float animation_time =
+      fmod(ticks_in_seconds, scene_->mAnimations[0]->mDuration);
 
   ReadNodeHeirarchy(animation_time, scene_->mRootNode, glm::mat4(1.0f));
 }
@@ -263,6 +264,7 @@ const glm::mat4& Model::InterpolateScaling(float animation_time,
   for (unsigned int i = 0; i < node_animation->mNumScalingKeys - 1; i++) {
     if (animation_time < (float)node_animation->mScalingKeys[i + 1].mTime) {
       scaling_index = i;
+
       break;
     }
   }
@@ -275,7 +277,7 @@ const glm::mat4& Model::InterpolateScaling(float animation_time,
       node_animation->mScalingKeys[scaling_index].mTime,
       node_animation->mScalingKeys[next_scaling_index].mTime, animation_time);
 
-  assert(factor >= 0.0f && factor <= 1.0f);
+  // assert(factor >= 0.0f && factor <= 1.0f);
 
   aiVector3D start = node_animation->mScalingKeys[scaling_index].mValue;
   aiVector3D end = node_animation->mScalingKeys[next_scaling_index].mValue;
@@ -297,6 +299,8 @@ const glm::mat4& Model::InterpolateRotation(float animation_time,
   for (unsigned int i = 0; i < node_animation->mNumRotationKeys - 1; i++) {
     if (animation_time < (float)node_animation->mRotationKeys[i + 1].mTime) {
       rotation_index = i;
+
+      break;
     }
   }
 
@@ -308,7 +312,7 @@ const glm::mat4& Model::InterpolateRotation(float animation_time,
       node_animation->mRotationKeys[rotation_index].mTime,
       node_animation->mRotationKeys[next_rotation_index].mTime, animation_time);
 
-  assert(factor >= 0.0f && factor <= 1.0f);
+  // assert(factor >= 0.0f && factor <= 1.0f);
 
   const aiQuaternion& start_rotation =
       node_animation->mRotationKeys[rotation_index].mValue;
@@ -334,6 +338,8 @@ const glm::mat4& Model::InterpolateTranslation(
   for (unsigned int i = 0; i < node_animation->mNumPositionKeys - 1; i++) {
     if (animation_time < (float)node_animation->mPositionKeys[i + 1].mTime) {
       position_index = i;
+
+      break;
     }
   }
 
@@ -345,7 +351,7 @@ const glm::mat4& Model::InterpolateTranslation(
       node_animation->mPositionKeys[position_index].mTime,
       node_animation->mPositionKeys[next_position_index].mTime, animation_time);
 
-  assert(factor >= 0.0f && factor <= 1.0f);
+  // assert(factor >= 0.0f && factor <= 1.0f);
 
   const aiVector3D& start =
       node_animation->mPositionKeys[position_index].mValue;
