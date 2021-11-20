@@ -18,11 +18,13 @@ class Model {
  public:
   explicit Model(std::string path, Shader shader, Renderer renderer);
 
-  void UpdateBoneTransformations(float delta);
+  void UpdateBoneTransformations();
 
   const std::vector<glm::mat4> &GetFinalTransforms() const;
 
   void Draw() const;
+
+  void SetDelta(float delta);
 
  private:
   Assimp::Importer importer_;
@@ -38,6 +40,7 @@ class Model {
   Renderer renderer_;
   float current_time_;
   glm::mat4 global_inverse_transform_;
+  float delta_;
 
   void LoadModel(std::string path);
 

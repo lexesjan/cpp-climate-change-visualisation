@@ -13,6 +13,8 @@ void Model::Draw() const {
   }
 }
 
+void Model::SetDelta(float delta) { delta_ = delta; }
+
 void Model::LoadModel(std::string path) {
   scene_ = importer_.ReadFile(path, aiProcess_Triangulate);
 
@@ -196,13 +198,13 @@ void Model::ExtractBoneInfo(std::vector<Vertex>& vertices, aiMesh* mesh,
   }
 }
 
-void Model::UpdateBoneTransformations(float delta) {
+void Model::UpdateBoneTransformations() {
   if (!scene_->HasAnimations()) {
     return;
   }
 
   float ticks_per_second = scene_->mAnimations[0]->mTicksPerSecond;
-  current_time_ += ticks_per_second * delta;
+  current_time_ += ticks_per_second * delta_;
   current_time_ = fmod(current_time_, scene_->mAnimations[0]->mDuration);
 
   ReadNodeHeirarchy(current_time_, scene_->mRootNode, glm::mat4(1.0f));
