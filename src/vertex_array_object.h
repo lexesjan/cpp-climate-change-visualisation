@@ -11,8 +11,7 @@ class VertexArrayObject {
   explicit VertexArrayObject();
 
   void AddBuffer(const VertexBufferObject& vertex_buffer_object,
-                 const VertexBufferLayout& vertex_buffer_layout,
-                 const ElementBufferObject& element_buffer_object);
+                 const VertexBufferLayout& vertex_buffer_layout);
 
   void Bind() const;
 

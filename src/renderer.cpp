@@ -16,5 +16,15 @@ void Renderer::Draw(const VertexArrayObject& vertex_array_object,
   shader.Bind();
   vertex_array_object.Bind();
 
+  glDrawArrays(GL_TRIANGLES, 0, count);
+}
+
+void Renderer::Draw(const VertexArrayObject& vertex_array_object,
+                    const ElementBufferObject& element_buffer_object,
+                    const Shader& shader, GLsizei count) const {
+  shader.Bind();
+  vertex_array_object.Bind();
+  element_buffer_object.Bind();
+
   glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 }

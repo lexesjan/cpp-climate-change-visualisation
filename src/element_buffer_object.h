@@ -5,6 +5,7 @@
 
 class ElementBufferObject {
  public:
+  explicit ElementBufferObject();
   explicit ElementBufferObject(const void* data, unsigned int count);
 
   void Bind() const;

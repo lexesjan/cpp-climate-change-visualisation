@@ -31,6 +31,7 @@ class Mesh {
   std::vector<Texture> textures_;
   Shader shader_;
   VertexArrayObject vertex_array_object_;
+  ElementBufferObject element_buffer_object_;
   Renderer renderer_;
 
   void InitMesh();

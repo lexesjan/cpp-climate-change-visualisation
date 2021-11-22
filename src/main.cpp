@@ -18,7 +18,6 @@ std::unique_ptr<Renderer> renderer_;
 std::unique_ptr<Shader> model_shader_;
 std::unique_ptr<Shader> animated_model_shader_;
 std::unique_ptr<Camera> camera_;
-std::unique_ptr<Model> polar_bear_;
 std::vector<Model> models_;
 
 void InitialiseScene() {
@@ -31,8 +30,11 @@ void InitialiseScene() {
 
   animated_model_shader_ = std::make_unique<Shader>(
       "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
-  polar_bear_ = std::make_unique<Model>("models/polar_bear/body.fbx",
-                                        *animated_model_shader_, *renderer_);
+
+  for (unsigned int i = 0; i < 2; i++) {
+    models_.push_back(Model("models/polar_bear/body.fbx",
+                            *animated_model_shader_, *renderer_));
+  }
 }
 
 void Display() {
@@ -41,38 +43,50 @@ void Display() {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
 
-  glm::mat4 model(1.0f);
-  glm::mat4 view(1.0f);
-  glm::mat4 persp_proj(1.0f);
+  glm::mat4 model_mat(1.0f);
+  glm::mat4 view_mat(1.0f);
+  glm::mat4 persp_proj_mat(1.0f);
 
-  view = camera_->GetMatrix();
-  persp_proj = glm::perspective<float>(45.0f, (float)width / (float)height,
-                                       1.0f, 1000.0f);
+  view_mat = camera_->GetMatrix();
+  persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
+                                           1.0f, 1000.0f);
 
   model_shader_->Bind();
-  model_shader_->SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view));
+  model_shader_->SetUniformMatrix4fv("view", GL_FALSE,
+                                     glm::value_ptr(view_mat));
   model_shader_->SetUniformMatrix4fv("proj", GL_FALSE,
-                                     glm::value_ptr(persp_proj));
-  model_shader_->SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model));
+                                     glm::value_ptr(persp_proj_mat));
+  model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
+                                     glm::value_ptr(model_mat));
 
   camera_->UpdatePosition();
 
   animated_model_shader_->Bind();
   animated_model_shader_->SetUniformMatrix4fv("view", GL_FALSE,
-                                              glm::value_ptr(view));
+                                              glm::value_ptr(view_mat));
   animated_model_shader_->SetUniformMatrix4fv("proj", GL_FALSE,
-                                              glm::value_ptr(persp_proj));
+                                              glm::value_ptr(persp_proj_mat));
   animated_model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
-                                              glm::value_ptr(model));
+                                              glm::value_ptr(model_mat));
 
-  polar_bear_->UpdateBoneTransformations();
-  const std::vector<glm::mat4>& transforms = polar_bear_->GetFinalTransforms();
+  for (unsigned int i = 0; i < models_.size(); i++) {
+    Model& model = models_[i];
 
-  animated_model_shader_->SetUniformMatrix4fv(
-      "final_bone_transforms", GL_FALSE, glm::value_ptr(transforms.front()),
-      (GLsizei)transforms.size());
+    model.UpdateBoneTransformations();
+    const std::vector<glm::mat4>& transforms = model.GetFinalTransforms();
 
-  polar_bear_->Draw();
+    animated_model_shader_->SetUniformMatrix4fv(
+        "final_bone_transforms", GL_FALSE, glm::value_ptr(transforms.front()),
+        (GLsizei)transforms.size());
+
+    model_mat =
+        glm::translate(glm::mat4(1.0f), glm::vec3(5.0f * i, 0.0f, 0.0f));
+
+    animated_model_shader_->SetUniformMatrix4fv("model", GL_FALSE,
+                                                glm::value_ptr(model_mat));
+
+    model.Draw();
+  }
 
   glutSwapBuffers();
 }
@@ -86,7 +100,6 @@ void UpdateScene() {
   last_time = curr_time;
 
   camera_->SetDelta(delta);
-  polar_bear_->SetDelta(delta);
 
   for (Model& model : models_) {
     model.SetDelta(delta);

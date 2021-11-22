@@ -1,5 +1,7 @@
 #include "element_buffer_object.h"
 
+ElementBufferObject::ElementBufferObject() : id_(0) {}
+
 ElementBufferObject::ElementBufferObject(const void* data, unsigned int count) {
   glGenBuffers(1, &id_);
   Bind();

@@ -35,7 +35,8 @@ void Mesh::Draw() const {
     shader_.SetUniform1i("material." + type + number, i);
   }
 
-  renderer_.Draw(vertex_array_object_, shader_, (GLsizei)indices_.size());
+  renderer_.Draw(vertex_array_object_, element_buffer_object_, shader_,
+                 (GLsizei)indices_.size());
 }
 
 void Mesh::InitMesh() {
@@ -50,9 +51,8 @@ void Mesh::InitMesh() {
   vertex_buffer_layout.AddElement<int>(4);
   vertex_buffer_layout.AddElement<float>(4);
 
-  ElementBufferObject element_buffer_object(indices_.data(),
-                                            (unsigned int)indices_.size());
+  element_buffer_object_ =
+      ElementBufferObject(indices_.data(), (unsigned int)indices_.size());
 
-  vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout,
-                                 element_buffer_object);
+  vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout);
 }

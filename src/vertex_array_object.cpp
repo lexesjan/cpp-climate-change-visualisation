@@ -4,11 +4,9 @@ VertexArrayObject::VertexArrayObject() { glGenVertexArrays(1, &id_); }
 
 void VertexArrayObject::AddBuffer(
     const VertexBufferObject& vertex_buffer_object,
-    const VertexBufferLayout& vertex_buffer_layout,
-    const ElementBufferObject& element_buffer_object) {
+    const VertexBufferLayout& vertex_buffer_layout) {
   Bind();
   vertex_buffer_object.Bind();
-  element_buffer_object.Bind();
 
   unsigned int offset = 0;
   const std::vector<VertexBufferObjectElement>& elements =
