@@ -57,10 +57,6 @@ void Display() {
 
   camera_->UpdatePosition();
 
-  for (Model& model : models_) {
-    model.Draw();
-  }
-
   animated_model_shader_->Bind();
   animated_model_shader_->SetUniformMatrix4fv("view", GL_FALSE,
                                               glm::value_ptr(view));
@@ -91,6 +87,10 @@ void UpdateScene() {
 
   camera_->SetDelta(delta);
   polar_bear_->SetDelta(delta);
+
+  for (Model& model : models_) {
+    model.SetDelta(delta);
+  }
 
   // Draw the next frame
   glutPostRedisplay();
