@@ -142,6 +142,7 @@
     <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
+    <None Include="models\monkey_head\body.fbx" />
     <None Include="models\polar_bear\body.fbx" />
     <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx" />
     <None Include="models\rabbit\body.fbx" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\animated_model.cpp" />
+    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
@@ -171,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animated_model.h" />
+    <ClInclude Include="src\application.h" />
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\camera.h" />
     <ClInclude Include="src\element_buffer_object.h" />

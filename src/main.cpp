@@ -1,74 +1,24 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
-#include <glm/glm.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <iostream>
-#include <vector>
 #include <memory>
-#include "vertex_buffer_object.h"
-#include "vertex_array_object.h"
-#include "camera.h"
-#include "shader.h"
-#include "renderer.h"
-#include "animated_model.h"
-#include "player.h"
+#include <iostream>
+#include "application.h"
 
-std::unique_ptr<Renderer> renderer_;
-std::unique_ptr<Camera> camera_;
+std::unique_ptr<Application> application_;
 
-void InitialiseScene() {
-  renderer_->Init();
+void Display() { application_->Display(); }
 
-  renderer_ = std::make_unique<Renderer>();
-  camera_ = std::make_unique<Camera>();
-}
-
-void Display() {
-  renderer_->Clear();
-
-  int width = glutGet(GLUT_WINDOW_WIDTH);
-  int height = glutGet(GLUT_WINDOW_HEIGHT);
-
-  glm::mat4 model_mat(1.0f);
-  glm::mat4 view_mat(1.0f);
-  glm::mat4 persp_proj_mat(1.0f);
-
-  view_mat = camera_->GetMatrix();
-  persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
-                                           1.0f, 1000.0f);
-
-  glutSwapBuffers();
-}
-
-void UpdateScene() {
-  // Wait until at least 16ms passed since start of last frame (Effectively caps
-  // framerate at ~60fps)
-  static float last_time = 0;
-  float curr_time = ((float)glutGet(GLUT_ELAPSED_TIME)) / 1000;
-  float delta = curr_time - last_time;
-  last_time = curr_time;
-
-  camera_->SetDelta(delta);
-
-  // Draw the next frame
-  glutPostRedisplay();
-}
-
-void OnMouseMove(int x, int y) { camera_->OnMouseMove(x, y); }
+void UpdateScene() { application_->UpdateScene(); }
 
 void OnKeyboardDown(unsigned char key, int x, int y) {
-  if (key == 27) {
-    glutLeaveMainLoop();
-  }
-
-  camera_->OnKeyboardDown(key);
+  application_->OnKeyboardDown(key, x, y);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
-  camera_->OnKeyboardUp(key);
+  application_->OnKeyboardUp(key, x, y);
 }
+
+void OnMouseMove(int x, int y) { application_->OnMouseMove(x, y); }
 
 int main(int argc, char** argv) {
   // Setup the window.
@@ -95,7 +45,7 @@ int main(int argc, char** argv) {
   }
 
   // Setup objects and shaders.
-  InitialiseScene();
+  application_ = std::make_unique<Application>();
 
   glutMainLoop();
 
