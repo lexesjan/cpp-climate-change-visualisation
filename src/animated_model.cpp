@@ -1,6 +1,4 @@
 #include <iostream>
-#include <glm/ext/quaternion_common.hpp>
-#include <glm/gtx/quaternion.hpp>
 #include "animated_model.h"
 #include "assimp_utils.h"
 
@@ -11,6 +9,7 @@ AnimatedModel::AnimatedModel(std::string path, Shader shader, Renderer renderer)
       ticks_per_second_(0.0f),
       animation_duration_(0.0f) {
   LoadAnimations(path);
+  UpdateBoneTransformations();
 }
 
 AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
@@ -25,13 +24,21 @@ AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
 
 void AnimatedModel::SetDelta(float delta) { delta_ = delta; }
 
-void AnimatedModel::UpdateBoneTransformations() {
+void AnimatedModel::UpdateBoneTransformations(bool backwards) {
   if (node_animations_map_.empty()) {
     return;
   }
 
-  current_time_ += ticks_per_second_ * delta_;
-  current_time_ = (float)fmod(current_time_, animation_duration_);
+  if (backwards) {
+    current_time_ -= ticks_per_second_ * delta_;
+
+    if (current_time_ <= 0.0f) {
+      current_time_ = animation_duration_ + current_time_;
+    }
+  } else {
+    current_time_ += ticks_per_second_ * delta_;
+    current_time_ = (float)fmod(current_time_, animation_duration_);
+  }
 
   ProcessNodeHeirarchy(current_time_, root_node_, glm::mat4(1.0f));
 }

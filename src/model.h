@@ -5,6 +5,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <glm/ext/matrix_float4x4.hpp>
+#include <glm/ext/quaternion_common.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <set>
 #include "shader.h"
 #include "mesh.h"
@@ -18,7 +20,7 @@ class Model {
  public:
   explicit Model(std::string path, Shader shader, Renderer renderer);
 
-  void Draw() const;
+  virtual void Draw() const;
 
  protected:
   Shader shader_;

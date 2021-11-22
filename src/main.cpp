@@ -13,12 +13,14 @@
 #include "shader.h"
 #include "renderer.h"
 #include "animated_model.h"
+#include "player.h"
 
 std::unique_ptr<Renderer> renderer_;
 std::unique_ptr<Shader> model_shader_;
 std::unique_ptr<Shader> animated_model_shader_;
 std::unique_ptr<Camera> camera_;
 std::vector<AnimatedModel> models_;
+std::unique_ptr<Player> player_;
 
 void InitialiseScene() {
   renderer_->Init();
@@ -31,13 +33,12 @@ void InitialiseScene() {
   animated_model_shader_ = std::make_unique<Shader>(
       "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
 
-  for (unsigned int i = 0; i < 1; i++) {
-    models_.push_back(AnimatedModel("models/rabbit/body.fbx",
-                                    *animated_model_shader_, *renderer_));
-  }
+  // models_.push_back(AnimatedModel("models/rabbit/body.fbx",
+  //                                *animated_model_shader_, *renderer_));
+  // models_.push_back(AnimatedModel("models/polar_bear/body.fbx",
+  //                                *animated_model_shader_, *renderer_));
 
-  models_.push_back(AnimatedModel("models/polar_bear/body.fbx",
-                                  *animated_model_shader_, *renderer_));
+  player_ = std::make_unique<Player>(*animated_model_shader_, *renderer_);
 }
 
 void Display() {
@@ -91,6 +92,9 @@ void Display() {
     model.Draw();
   }
 
+  player_->UpdatePosition();
+  player_->Draw();
+
   glutSwapBuffers();
 }
 
@@ -108,6 +112,8 @@ void UpdateScene() {
     model.SetDelta(delta);
   }
 
+  player_->SetDelta(delta);
+
   // Draw the next frame
   glutPostRedisplay();
 }
@@ -120,10 +126,12 @@ void OnKeyboardDown(unsigned char key, int x, int y) {
   }
 
   camera_->OnKeyboardDown(key);
+  player_->OnKeyboardDown(key);
 }
 
 void OnKeyboardUp(unsigned char key, int x, int y) {
   camera_->OnKeyboardUp(key);
+  player_->OnKeyboardUp(key);
 }
 
 int main(int argc, char** argv) {

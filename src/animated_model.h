@@ -37,17 +37,19 @@ class AnimatedModel : public Model {
   explicit AnimatedModel(std::string model_path, std::string animation_path,
                          Shader shader, Renderer renderer);
 
-  void UpdateBoneTransformations();
+  void UpdateBoneTransformations(bool backwards = false);
 
   const std::vector<glm::mat4> &GetFinalTransforms() const;
 
   void SetDelta(float delta);
 
- private:
+ protected:
   float delta_;
+  float current_time_;
+
+ private:
   float ticks_per_second_;
   float animation_duration_;
-  float current_time_;
   AssimpNode root_node_;
   std::vector<glm::mat4> final_transforms_;
   std::unordered_map<std::string, AssimpNodeAnimation> node_animations_map_;
