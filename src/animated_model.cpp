@@ -13,6 +13,16 @@ AnimatedModel::AnimatedModel(std::string path, Shader shader, Renderer renderer)
   LoadAnimations(path);
 }
 
+AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
+                             Shader shader, Renderer renderer)
+    : Model(model_path, shader, renderer),
+      current_time_(0.0f),
+      delta_(0.0f),
+      ticks_per_second_(0.0f),
+      animation_duration_(0.0f) {
+  LoadAnimations(animation_path);
+}
+
 void AnimatedModel::SetDelta(float delta) { delta_ = delta; }
 
 void AnimatedModel::UpdateBoneTransformations() {
