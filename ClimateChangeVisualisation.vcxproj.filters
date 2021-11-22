@@ -22,6 +22,9 @@
     <Filter Include="Solution Files\models">
       <UniqueIdentifier>{73806d73-a8f2-4876-b33f-b68c33ab4630}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Solution Files\models\polar_bear">
+      <UniqueIdentifier>{9344b0e7-221d-4e58-b9d4-cd3bccd01e97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -36,23 +39,26 @@
     <None Include="README.md">
       <Filter>Solution Files</Filter>
     </None>
-    <None Include="models\polar_bear_body.dae">
-      <Filter>Solution Files\models</Filter>
-    </None>
-    <None Include="models\polar_bear_bottom_left_leg.dae">
-      <Filter>Solution Files\models</Filter>
-    </None>
-    <None Include="models\polar_bear_bottom_right_leg.dae">
-      <Filter>Solution Files\models</Filter>
-    </None>
-    <None Include="models\polar_bear_front_left_leg.dae">
-      <Filter>Solution Files\models</Filter>
-    </None>
-    <None Include="models\polar_bear_front_right_leg.dae">
-      <Filter>Solution Files\models</Filter>
-    </None>
     <None Include="models\floor.dae">
       <Filter>Solution Files\models</Filter>
+    </None>
+    <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </None>
+    <None Include="shaders\model_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\model_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\animated_model_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="models\polar_bear\body.fbx">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </None>
+    <None Include="shaders\simple_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -80,17 +86,27 @@
     <ClCompile Include="src\mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\polar_bear.cpp">
+    <ClCompile Include="src\element_buffer_object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="shaders\simpleFragmentShader.txt">
-      <Filter>Solution Files\shaders</Filter>
-    </Text>
-    <Text Include="shaders\simpleVertexShader.txt">
-      <Filter>Solution Files\shaders</Filter>
-    </Text>
+    <ClCompile Include="src\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb_image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\assimp_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\animated_model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -114,8 +130,43 @@
     <ClInclude Include="src\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\polar_bear.h">
+    <ClInclude Include="src\element_buffer_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\assimp_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\animated_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="models\polar_bear\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
+    <Image Include="models\polar_bear\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
+    <Image Include="models\polar_bear\WaxDynaMesh129_001_TXTR.png">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
+    <Image Include="models\polar_bear\WaxDynaMesh129_001-AO_u0_v0.jpg">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
+    <Image Include="models\polar_bear\WaxDynaMesh129_001-CV_u0_v0.jpg">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
+    <Image Include="models\polar_bear\WaxDynaMesh129_001-DM(0.020153)4096_u0_v0.jpg">
+      <Filter>Solution Files\models\polar_bear</Filter>
+    </Image>
   </ItemGroup>
 </Project>

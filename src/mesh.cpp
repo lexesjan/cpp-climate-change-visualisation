@@ -1,75 +1,58 @@
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include <glm/mat4x4.hpp>
-#include <iostream>
 #include "mesh.h"
 
-Mesh::Mesh(const std::string& file_path) {
-  model_ = glm::mat4(1.0f);
-  LoadMesh(file_path);
+Mesh::Mesh(const std::vector<Vertex>& vertices,
+           const std::vector<unsigned int>& indices,
+           const std::vector<Texture>& textures, const Shader& shader,
+           const Renderer& renderer)
+    : vertices_(vertices),
+      indices_(indices),
+      textures_(textures),
+      shader_(shader),
+      renderer_(renderer) {
   InitMesh();
 }
 
-const VertexArrayObject& Mesh::GetVertexArrayObject() const {
-  return vertex_array_object_;
-}
+void Mesh::Draw() const {
+  unsigned int num_diffuse = 1;
+  unsigned int num_specular = 1;
+  unsigned int num_normals = 1;
 
-const GLsizei Mesh::GetVertexCount() const { return vertices_.size(); }
+  for (unsigned int i = 0; i < textures_.size(); i++) {
+    const Texture& texture = textures_[i];
+    texture.Bind(i);
 
-const glm::mat4& Mesh::GetModelMatrix() const { return model_; }
+    std::string number;
+    std::string type = texture.GetType();
 
-void Mesh::SetModelMatrix(const glm::mat4& model) { model_ = model; }
-
-void Mesh::LoadMesh(const std::string& file_path) {
-  Assimp::Importer import;
-  const aiScene* scene =
-      import.ReadFile(file_path.c_str(),
-                      aiProcess_Triangulate | aiProcess_PreTransformVertices);
-
-  if (!scene) {
-    std::cerr << "ERROR: reading mesh: " << file_path << std::endl;
-    exit(1);
-  }
-
-  std::cout << scene->mNumMaterials << " materials" << std::endl;
-  std::cout << scene->mNumMeshes << " meshes" << std::endl;
-  std::cout << scene->mNumTextures << " textures" << std::endl;
-
-  for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
-    const aiMesh* mesh = scene->mMeshes[i];
-
-    std::cout << mesh->mNumVertices << " vertices in mesh" << std::endl;
-
-    for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-      Vertex vertex;
-
-      if (mesh->HasPositions()) {
-        const aiVector3D* position = &(mesh->mVertices[j]);
-        vertex.position = glm::vec3(position->x, position->y, position->z);
-      }
-      if (mesh->HasNormals()) {
-        const aiVector3D* normal = &(mesh->mNormals[j]);
-        vertex.normal = glm::vec3(normal->x, normal->y, normal->z);
-      }
-      if (mesh->HasTextureCoords(0)) {
-        const aiVector3D* texture_coord = &(mesh->mTextureCoords[0][j]);
-        vertex.texture_coords = glm::vec2(texture_coord->x, texture_coord->y);
-      }
-
-      vertices_.push_back(vertex);
+    if (type == "texture_diffuse") {
+      number = std::to_string(num_diffuse++);
+    } else if (type == "texture_specular") {
+      number = std::to_string(num_specular++);
+    } else if (type == "texture_normals") {
+      number = std::to_string(num_normals++);
     }
+
+    shader_.SetUniform1i("material." + type + number, i);
   }
+
+  renderer_.Draw(vertex_array_object_, element_buffer_object_, shader_,
+                 (GLsizei)indices_.size());
 }
 
 void Mesh::InitMesh() {
   VertexBufferObject vertex_buffer_object(
-      vertices_.data(), vertices_.size() * sizeof(vertices_.front()));
+      vertices_.data(),
+      (GLsizei)(vertices_.size() * sizeof(vertices_.front())));
 
-  VertexBufferLayout layout;
-  layout.AddElement<float>(3);
-  layout.AddElement<float>(3);
-  layout.AddElement<float>(2);
+  VertexBufferLayout vertex_buffer_layout;
+  vertex_buffer_layout.AddElement<float>(3);
+  vertex_buffer_layout.AddElement<float>(3);
+  vertex_buffer_layout.AddElement<float>(2);
+  vertex_buffer_layout.AddElement<int>(4);
+  vertex_buffer_layout.AddElement<float>(4);
 
-  vertex_array_object_.AddBuffer(vertex_buffer_object, layout);
+  element_buffer_object_ =
+      ElementBufferObject(indices_.data(), (unsigned int)indices_.size());
+
+  vertex_array_object_.AddBuffer(vertex_buffer_object, vertex_buffer_layout);
 }

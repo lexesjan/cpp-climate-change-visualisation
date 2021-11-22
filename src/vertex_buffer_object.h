@@ -15,4 +15,4 @@ class VertexBufferObject {
   GLuint id_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_VERTEX_BUFFER_OBJECT_H_

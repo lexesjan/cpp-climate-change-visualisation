@@ -1,5 +1,3 @@
-#include <vector>
-#include <glm/gtc/type_ptr.hpp>
 #include "renderer.h"
 #include "mesh.h"
 
@@ -21,24 +19,12 @@ void Renderer::Draw(const VertexArrayObject& vertex_array_object,
   glDrawArrays(GL_TRIANGLES, 0, count);
 }
 
-void Renderer::Draw(const Mesh& mesh, Shader& shader) const {
+void Renderer::Draw(const VertexArrayObject& vertex_array_object,
+                    const ElementBufferObject& element_buffer_object,
+                    const Shader& shader, GLsizei count) const {
   shader.Bind();
-  mesh.GetVertexArrayObject().Bind();
+  vertex_array_object.Bind();
+  element_buffer_object.Bind();
 
-  glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
-}
-
-void Renderer::Draw(const std::vector<Mesh>& meshes, Shader& shader) const {
-  shader.Bind();
-
-  for (unsigned int i = 0; i < meshes.size(); ++i) {
-    const Mesh& mesh = meshes[i];
-
-    shader.SetUniformMatrix4fv("model", GL_FALSE,
-                               glm::value_ptr(mesh.GetModelMatrix()));
-
-    mesh.GetVertexArrayObject().Bind();
-
-    glDrawArrays(GL_TRIANGLES, 0, mesh.GetVertexCount());
-  }
+  glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 }

@@ -1,9 +1,6 @@
-#include <GL/glew.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <unordered_map>
 #include "shader.h"
 
 Shader::Shader() : id_(0) {}
@@ -17,9 +14,21 @@ void Shader::Bind() const { glUseProgram(id_); }
 
 void Shader::Unbind() const { glUseProgram(0); }
 
+void Shader::SetUniform1i(const std::string& name, const GLint data) const {
+  Bind();
+  glUniform1i(GetUniformLocation(name), data);
+}
+
+void Shader::SetUniform1f(const std::string& name, const GLfloat data) const {
+  Bind();
+  glUniform1f(GetUniformLocation(name), data);
+}
+
 void Shader::SetUniformMatrix4fv(const std::string& name,
-                                 GLboolean is_transpose, const GLfloat* data) {
-  glUniformMatrix4fv(GetUniformLocation(name), 1, is_transpose, data);
+                                 GLboolean is_transpose, const GLfloat* data,
+                                 GLsizei count) const {
+  Bind();
+  glUniformMatrix4fv(GetUniformLocation(name), count, is_transpose, data);
 }
 
 GLuint Shader::CompileShader(GLenum type, const std::string& source) const {
@@ -128,9 +137,9 @@ GLuint Shader::CreateShaderProgram(
   return program;
 }
 
-GLint Shader::GetUniformLocation(const std::string& name) {
+GLint Shader::GetUniformLocation(const std::string& name) const {
   if (uniform_location_cache_.find(name) != uniform_location_cache_.end()) {
-    return uniform_location_cache_[name];
+    return uniform_location_cache_.at(name);
   }
 
   return glGetUniformLocation(id_, name.c_str());

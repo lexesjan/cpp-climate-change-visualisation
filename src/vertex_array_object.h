@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include "vertex_buffer_layout.h"
 #include "vertex_buffer_object.h"
+#include "element_buffer_object.h"
 
 class VertexArrayObject {
  public:
@@ -20,4 +21,4 @@ class VertexArrayObject {
   GLuint id_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_VERTEX_ARRAY_OBJECT_H_

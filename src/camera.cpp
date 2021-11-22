@@ -1,8 +1,6 @@
 #include <GL/freeglut.h>
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
+#include <glm/trigonometric.hpp>
 #include <glm/ext/matrix_transform.hpp>
-#include <vector>
 #include "camera.h"
 
 Camera::Camera()
@@ -24,8 +22,8 @@ void Camera::OnMouseMove(int x, int y) {
     is_first_mouse_movement_ = false;
   }
 
-  float xoffset = x - last_x_;
-  float yoffset = last_y_ - y;
+  float x_offset = (float)(x - last_x_);
+  float y_offset = (float)(last_y_ - y);
 
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
@@ -36,11 +34,11 @@ void Camera::OnMouseMove(int x, int y) {
   last_y_ = height / 2;
 
   float sensitivity = 0.1f;
-  xoffset *= sensitivity;
-  yoffset *= sensitivity;
+  x_offset *= sensitivity;
+  y_offset *= sensitivity;
 
-  yaw_ += xoffset;
-  pitch_ += yoffset;
+  yaw_ += x_offset;
+  pitch_ += y_offset;
 
   if (pitch_ > 89.0f) {
     pitch_ = 89.0f;
@@ -62,7 +60,7 @@ void Camera::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 void Camera::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
 void Camera::UpdatePosition() {
-  float camera_speed = 0.01f * delta_;
+  float camera_speed = 8.00f * delta_;
 
   if (is_key_pressed_['w']) {
     camera_pos_ += camera_speed * camera_front_;

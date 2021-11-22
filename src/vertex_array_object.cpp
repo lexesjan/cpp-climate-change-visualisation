@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include "vertex_array_object.h"
 
 VertexArrayObject::VertexArrayObject() { glGenVertexArrays(1, &id_); }
@@ -17,9 +16,18 @@ void VertexArrayObject::AddBuffer(
     const VertexBufferObjectElement& element = elements[i];
 
     glEnableVertexAttribArray(i);
-    glVertexAttribPointer(i, element.count, element.type, element.normalised,
-                          vertex_buffer_layout.GetStride(),
-                          (const void*)offset);
+    switch (element.type) {
+      case GL_FLOAT:
+        glVertexAttribPointer(
+            i, element.count, element.type, element.normalised,
+            vertex_buffer_layout.GetStride(), (const void*)offset);
+        break;
+      case GL_INT:
+        glVertexAttribIPointer(i, element.count, element.type,
+                               vertex_buffer_layout.GetStride(),
+                               (const void*)offset);
+        break;
+    }
 
     offset += element.count * VertexBufferLayout::GetSizeOfType(element.type);
   }
