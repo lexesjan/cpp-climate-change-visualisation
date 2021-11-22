@@ -12,13 +12,13 @@
 #include "camera.h"
 #include "shader.h"
 #include "renderer.h"
-#include "model.h"
+#include "animated_model.h"
 
 std::unique_ptr<Renderer> renderer_;
 std::unique_ptr<Shader> model_shader_;
 std::unique_ptr<Shader> animated_model_shader_;
 std::unique_ptr<Camera> camera_;
-std::vector<Model> models_;
+std::vector<AnimatedModel> models_;
 
 void InitialiseScene() {
   renderer_->Init();
@@ -32,8 +32,8 @@ void InitialiseScene() {
       "shaders/animated_model_shader.vs", "shaders/model_shader.fs");
 
   for (unsigned int i = 0; i < 2; i++) {
-    models_.push_back(Model("models/polar_bear/body.fbx",
-                            *animated_model_shader_, *renderer_));
+    models_.push_back(AnimatedModel("models/polar_bear/body.fbx",
+                                    *animated_model_shader_, *renderer_));
   }
 }
 
@@ -70,7 +70,7 @@ void Display() {
                                               glm::value_ptr(model_mat));
 
   for (unsigned int i = 0; i < models_.size(); i++) {
-    Model& model = models_[i];
+    AnimatedModel& model = models_[i];
 
     model.UpdateBoneTransformations();
     const std::vector<glm::mat4>& transforms = model.GetFinalTransforms();
@@ -101,7 +101,7 @@ void UpdateScene() {
 
   camera_->SetDelta(delta);
 
-  for (Model& model : models_) {
+  for (AnimatedModel& model : models_) {
     model.SetDelta(delta);
   }
 
