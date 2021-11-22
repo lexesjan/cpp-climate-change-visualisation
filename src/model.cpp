@@ -3,7 +3,13 @@
 #include "assimp_utils.h"
 
 Model::Model(std::string path, Shader shader, Renderer renderer)
-    : shader_(shader), renderer_(renderer) {
+    : shader_(shader),
+      renderer_(renderer),
+      bone_count_(0),
+      current_time_(0.0f),
+      delta_(0.0f),
+      ticks_per_second_(0.0f),
+      animation_duration_(0.0f) {
   LoadModel(path);
 }
 
