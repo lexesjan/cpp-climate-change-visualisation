@@ -20,4 +20,4 @@ class Player : public AnimatedModel {
   glm::mat4 model_matrix_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_PLAYER_H_

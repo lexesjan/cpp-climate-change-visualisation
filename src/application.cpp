@@ -8,9 +8,11 @@ Application::Application()
     : camera_(),
       renderer_(),
       last_time_(0),
+      lighting_shader_("shaders/model_shader.vs", "shaders/model_shader.fs"),
       animated_model_shader_("shaders/animated_model_shader.vs",
                              "shaders/model_shader.fs"),
-      player_(animated_model_shader_, renderer_) {
+      player_(animated_model_shader_, renderer_),
+      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_) {
   renderer_.Init();
 }
 
@@ -28,12 +30,24 @@ void Application::Display() {
   persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
                                            1.0f, 1000.0f);
 
-  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-                                             glm::value_ptr(view_mat));
-  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-                                             glm::value_ptr(persp_proj_mat));
+  model_mat =
+      glm::rotate(model_mat, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
 
-  player_.Draw();
+  lighting_shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                       glm::value_ptr(model_mat));
+  lighting_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                       glm::value_ptr(view_mat));
+  lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                       glm::value_ptr(persp_proj_mat));
+
+  monkey_head_.Draw();
+
+  // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+  //                                           glm::value_ptr(view_mat));
+  // animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+  //                                           glm::value_ptr(persp_proj_mat));
+
+  // player_.Draw();
 
   glutSwapBuffers();
 }
@@ -46,8 +60,8 @@ void Application::UpdateScene() {
   camera_.SetDelta(delta);
   camera_.UpdatePosition();
 
-  player_.SetDelta(delta);
-  player_.UpdatePosition();
+  // player_.SetDelta(delta);
+  // player_.UpdatePosition();
 
   glutPostRedisplay();
 }

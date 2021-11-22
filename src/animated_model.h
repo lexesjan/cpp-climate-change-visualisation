@@ -76,4 +76,4 @@ class AnimatedModel : public Model {
       float animation_time, AssimpNodeAnimation &node_animation) const;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_ANIMATED_MODEL_H_
