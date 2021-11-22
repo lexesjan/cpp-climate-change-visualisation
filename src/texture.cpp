@@ -2,7 +2,7 @@
 #include <stb_image.h>
 #include "texture.h"
 
-Texture::Texture(std::string &path) : path_(path) {
+Texture::Texture(std::string &path) : path_(path), id_(0) {
   stbi_set_flip_vertically_on_load(true);
 
   int width;

@@ -14,6 +14,8 @@ Model::Model(std::string path, Shader shader, Renderer renderer)
 }
 
 void Model::Draw() const {
+  shader_.Bind();
+
   for (const Mesh& mesh : meshes_) {
     mesh.Draw();
   }
