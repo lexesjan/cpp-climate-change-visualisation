@@ -65,14 +65,14 @@ class Model {
   float GetScalingFactor(float last_time_stamp, float next_time_stamp,
                          float animation_time) const;
 
-  const glm::mat4 &InterpolateScaling(float animation_time,
+  const glm::mat4 InterpolateScaling(float animation_time,
+                                     aiNodeAnim *node_animation) const;
+
+  const glm::mat4 InterpolateRotation(float animation_time,
                                       aiNodeAnim *node_animation) const;
 
-  const glm::mat4 &InterpolateRotation(float animation_time,
-                                       aiNodeAnim *node_animation) const;
-
-  const glm::mat4 &InterpolateTranslation(float animation_time,
-                                          aiNodeAnim *node_animation) const;
+  const glm::mat4 InterpolateTranslation(float animation_time,
+                                         aiNodeAnim *node_animation) const;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_MODEL_H_

@@ -203,9 +203,9 @@ void Model::UpdateBoneTransformations() {
     return;
   }
 
-  float ticks_per_second = scene_->mAnimations[0]->mTicksPerSecond;
+  float ticks_per_second = (float)scene_->mAnimations[0]->mTicksPerSecond;
   current_time_ += ticks_per_second * delta_;
-  current_time_ = fmod(current_time_, scene_->mAnimations[0]->mDuration);
+  current_time_ = (float)fmod(current_time_, scene_->mAnimations[0]->mDuration);
 
   ReadNodeHeirarchy(current_time_, scene_->mRootNode, glm::mat4(1.0f));
 }
@@ -254,8 +254,8 @@ float Model::GetScalingFactor(float last_time_stamp, float next_time_stamp,
   return mid_way_length / frames_difference;
 }
 
-const glm::mat4& Model::InterpolateScaling(float animation_time,
-                                           aiNodeAnim* node_animation) const {
+const glm::mat4 Model::InterpolateScaling(float animation_time,
+                                          aiNodeAnim* node_animation) const {
   if (node_animation->mNumScalingKeys == 1) {
     return glm::scale(
         glm::mat4(1.0f),
@@ -275,8 +275,9 @@ const glm::mat4& Model::InterpolateScaling(float animation_time,
   unsigned int next_scaling_index = scaling_index + 1;
 
   float factor = GetScalingFactor(
-      node_animation->mScalingKeys[scaling_index].mTime,
-      node_animation->mScalingKeys[next_scaling_index].mTime, animation_time);
+      (float)node_animation->mScalingKeys[scaling_index].mTime,
+      (float)node_animation->mScalingKeys[next_scaling_index].mTime,
+      animation_time);
 
   aiVector3D start = node_animation->mScalingKeys[scaling_index].mValue;
   aiVector3D end = node_animation->mScalingKeys[next_scaling_index].mValue;
@@ -286,8 +287,8 @@ const glm::mat4& Model::InterpolateScaling(float animation_time,
   return glm::scale(glm::mat4(1.0f), assimp_utils::ConvertToVec3(scale));
 }
 
-const glm::mat4& Model::InterpolateRotation(float animation_time,
-                                            aiNodeAnim* node_animation) const {
+const glm::mat4 Model::InterpolateRotation(float animation_time,
+                                           aiNodeAnim* node_animation) const {
   if (node_animation->mNumRotationKeys == 1) {
     return glm::toMat4(
         assimp_utils::ConvertToQuat(node_animation->mRotationKeys[0].mValue));
@@ -306,8 +307,9 @@ const glm::mat4& Model::InterpolateRotation(float animation_time,
   unsigned int next_rotation_index = rotation_index + 1;
 
   float factor = GetScalingFactor(
-      node_animation->mRotationKeys[rotation_index].mTime,
-      node_animation->mRotationKeys[next_rotation_index].mTime, animation_time);
+      (float)node_animation->mRotationKeys[rotation_index].mTime,
+      (float)node_animation->mRotationKeys[next_rotation_index].mTime,
+      animation_time);
 
   const aiQuaternion& start_rotation =
       node_animation->mRotationKeys[rotation_index].mValue;
@@ -320,7 +322,7 @@ const glm::mat4& Model::InterpolateRotation(float animation_time,
   return glm::toMat4(assimp_utils::ConvertToQuat(result));
 }
 
-const glm::mat4& Model::InterpolateTranslation(
+const glm::mat4 Model::InterpolateTranslation(
     float animation_time, aiNodeAnim* node_animation) const {
   if (node_animation->mNumPositionKeys == 1) {
     return glm::translate(
@@ -341,8 +343,9 @@ const glm::mat4& Model::InterpolateTranslation(
   unsigned int next_position_index = position_index + 1;
 
   float factor = GetScalingFactor(
-      node_animation->mPositionKeys[position_index].mTime,
-      node_animation->mPositionKeys[next_position_index].mTime, animation_time);
+      (float)node_animation->mPositionKeys[position_index].mTime,
+      (float)node_animation->mPositionKeys[next_position_index].mTime,
+      animation_time);
 
   const aiVector3D& start =
       node_animation->mPositionKeys[position_index].mValue;
