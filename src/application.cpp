@@ -15,8 +15,8 @@ Application::Application()
                              "shaders/model_shader.fs"),
       default_texture_("models/white.png"),
       player_(animated_model_shader_, renderer_),
-      campfire_("models/campfire/body.fbx", lighting_shader_, renderer_,
-                &default_texture_) {
+      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_,
+                   &default_texture_) {
   renderer_.Init();
 }
 
@@ -44,10 +44,10 @@ void Application::Display() {
                                        glm::value_ptr(view_mat));
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
-  lighting_shader_.SetUniform3f("light.colour", glm::vec3(1.0f, 1.0f, 1.0f));
-  lighting_shader_.SetUniform1f("light.intensity", 1.0f);
+  lighting_shader_.SetUniform3f("light.position", glm::vec3(1.0f));
+  lighting_shader_.SetUniform3f("light.colour", glm::vec3(1.0f));
 
-  campfire_.Draw();
+  monkey_head_.Draw();
 
   // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
   //                                           glm::value_ptr(view_mat));

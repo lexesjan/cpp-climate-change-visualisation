@@ -27,6 +27,7 @@ class Model {
  protected:
   Shader shader_;
   Renderer renderer_;
+  Texture *texture_;
   std::unordered_map<std::string, BoneInfo> bone_info_map_;
   unsigned int bone_count_;
 
@@ -34,11 +35,12 @@ class Model {
                                             aiTextureType type,
                                             std::string type_name);
 
+  Material LoadMaterial(aiMaterial *material);
+
  private:
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;
   std::string directory_;
-  Texture *texture_;
 
   void LoadModel(std::string path);
 

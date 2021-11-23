@@ -192,6 +192,7 @@
     <ClInclude Include="src\vertex_buffer_object.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="models\campfire\LivingForestTexture.png" />
     <Image Include="models\polar_bear\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png" />
     <Image Include="models\polar_bear\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png" />
     <Image Include="models\polar_bear\WaxDynaMesh129_001-AO_u0_v0.jpg" />
