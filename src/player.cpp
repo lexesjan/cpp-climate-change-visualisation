@@ -44,7 +44,7 @@ void Player::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 
 void Player::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
-void Player::Draw() const {
+void Player::Draw() {
   const std::vector<glm::mat4>& transforms = GetFinalTransforms();
 
   shader_.SetUniformMatrix4fv("final_bone_transforms", GL_FALSE,

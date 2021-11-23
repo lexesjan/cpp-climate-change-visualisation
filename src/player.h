@@ -13,7 +13,7 @@ class Player : public AnimatedModel {
 
   void OnKeyboardUp(unsigned char key);
 
-  void Draw() const override;
+  void Draw() override;
 
  private:
   std::vector<bool> is_key_pressed_;

@@ -22,7 +22,7 @@ class Model {
   explicit Model(std::string path, Shader shader, Renderer renderer,
                  Texture *texture);
 
-  virtual void Draw() const;
+  virtual void Draw();
 
  protected:
   Shader shader_;

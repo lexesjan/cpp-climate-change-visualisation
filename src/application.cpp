@@ -15,7 +15,7 @@ Application::Application()
                              "shaders/model_shader.fs"),
       default_texture_("models/white.png"),
       player_(animated_model_shader_, renderer_),
-      monkey_head_("models/cube/body.fbx", lighting_shader_, renderer_,
+      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_,
                    &default_texture_) {
   renderer_.Init();
 }
@@ -50,12 +50,12 @@ void Application::Display() {
 
   monkey_head_.Draw();
 
-  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-                                             glm::value_ptr(view_mat));
-  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-                                             glm::value_ptr(persp_proj_mat));
+  // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+  //                                           glm::value_ptr(view_mat));
+  // animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+  //                                           glm::value_ptr(persp_proj_mat));
 
-  player_.Draw();
+  // player_.Draw();
 
   glutSwapBuffers();
 }

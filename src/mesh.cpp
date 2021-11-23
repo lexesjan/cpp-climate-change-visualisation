@@ -13,7 +13,7 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
   InitMesh();
 }
 
-void Mesh::Draw() const {
+void Mesh::Draw() {
   unsigned int num_diffuse = 1;
   unsigned int num_specular = 1;
   unsigned int num_normals = 1;

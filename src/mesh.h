@@ -30,7 +30,7 @@ class Mesh {
                 const std::vector<Texture>& textures, const Material& material,
                 const Shader& shader, const Renderer& renderer);
 
-  void Draw() const;
+  void Draw();
 
  private:
   std::vector<Vertex> vertices_;

@@ -13,17 +13,18 @@ Model::Model(std::string path, Shader shader, Renderer renderer,
   LoadModel(path);
 }
 
-void Model::Draw() const {
+void Model::Draw() {
   shader_.Bind();
 
-  for (const Mesh& mesh : meshes_) {
+  for (Mesh& mesh : meshes_) {
     mesh.Draw();
   }
 }
 
 void Model::LoadModel(std::string path) {
   Assimp::Importer importer;
-  const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate);
+  const aiScene* scene =
+      importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenNormals);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {

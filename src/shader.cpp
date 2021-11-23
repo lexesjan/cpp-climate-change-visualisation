@@ -14,30 +14,30 @@ void Shader::Bind() const { glUseProgram(id_); }
 
 void Shader::Unbind() const { glUseProgram(0); }
 
-void Shader::SetUniform1i(const std::string& name, const GLint data) const {
+void Shader::SetUniform1i(const std::string& name, const GLint data) {
   Bind();
   glUniform1i(GetUniformLocation(name), data);
 }
 
-void Shader::SetUniform1f(const std::string& name, const GLfloat data) const {
+void Shader::SetUniform1f(const std::string& name, const GLfloat data) {
   Bind();
   glUniform1f(GetUniformLocation(name), data);
 }
 
 void Shader::SetUniform3f(const std::string& name, const GLfloat data1,
-                          const GLfloat data2, const GLfloat data3) const {
+                          const GLfloat data2, const GLfloat data3) {
   Bind();
   glUniform3f(GetUniformLocation(name), data1, data2, data3);
 }
 
-void Shader::SetUniform3f(const std::string& name, glm::vec3 data) const {
+void Shader::SetUniform3f(const std::string& name, glm::vec3 data) {
   Bind();
   glUniform3f(GetUniformLocation(name), data.x, data.y, data.z);
 }
 
 void Shader::SetUniformMatrix4fv(const std::string& name,
                                  GLboolean is_transpose, const GLfloat* data,
-                                 GLsizei count) const {
+                                 GLsizei count) {
   Bind();
   glUniformMatrix4fv(GetUniformLocation(name), count, is_transpose, data);
 }
@@ -148,10 +148,12 @@ GLuint Shader::CreateShaderProgram(
   return program;
 }
 
-GLint Shader::GetUniformLocation(const std::string& name) const {
+GLint Shader::GetUniformLocation(const std::string& name) {
   if (uniform_location_cache_.find(name) != uniform_location_cache_.end()) {
-    return uniform_location_cache_.at(name);
+    return uniform_location_cache_[name];
   }
 
-  return glGetUniformLocation(id_, name.c_str());
+  uniform_location_cache_[name] = glGetUniformLocation(id_, name.c_str());
+
+  return uniform_location_cache_[name];
 }
