@@ -15,7 +15,7 @@ Application::Application()
                              "shaders/model_shader.fs"),
       default_texture_("models/white.png"),
       player_(animated_model_shader_, renderer_),
-      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_,
+      monkey_head_("models/cube/body.fbx", lighting_shader_, renderer_,
                    &default_texture_) {
   renderer_.Init();
 }
@@ -34,8 +34,8 @@ void Application::Display() {
   persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
                                            1.0f, 1000.0f);
 
-  model_mat =
-      glm::rotate(model_mat, glm::radians(90.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+  model_mat = glm::translate(model_mat, glm::vec3(0.0f, -10.0f, 0.0f));
+  model_mat = glm::scale(model_mat, glm::vec3(10.0f));
 
   lighting_shader_.Bind();
   lighting_shader_.SetUniformMatrix4fv("model", GL_FALSE,
@@ -44,17 +44,18 @@ void Application::Display() {
                                        glm::value_ptr(view_mat));
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
-  lighting_shader_.SetUniform3f("light.position", glm::vec3(1.0f));
-  lighting_shader_.SetUniform3f("light.colour", glm::vec3(1.0f));
+  lighting_shader_.SetUniform3f("light.position", glm::vec3(0.0f, 1.0f, 0.0f));
+  lighting_shader_.SetUniform3f("light.colour", glm::vec3(1.0f, 1.0f, 0.0f));
+  lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   monkey_head_.Draw();
 
-  // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-  //                                           glm::value_ptr(view_mat));
-  // animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-  //                                           glm::value_ptr(persp_proj_mat));
+  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                             glm::value_ptr(view_mat));
+  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                             glm::value_ptr(persp_proj_mat));
 
-  // player_.Draw();
+  player_.Draw();
 
   glutSwapBuffers();
 }

@@ -15,6 +15,8 @@ class Camera {
 
   void OnKeyboardUp(unsigned char key);
 
+  const glm::vec3& GetPosition() const;
+
   void UpdatePosition();
 
   void SetDelta(float delta);

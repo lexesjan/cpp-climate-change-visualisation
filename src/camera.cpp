@@ -59,6 +59,8 @@ void Camera::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 
 void Camera::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
+const glm::vec3& Camera::GetPosition() const { return camera_pos_; }
+
 void Camera::UpdatePosition() {
   float camera_speed = 8.00f * delta_;
 
