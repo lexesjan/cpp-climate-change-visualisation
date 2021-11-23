@@ -12,7 +12,7 @@ Application::Application()
       lighting_shader_("shaders/lighting_shader.vs",
                        "shaders/lighting_shader.fs"),
       animated_model_shader_("shaders/animated_model_shader.vs",
-                             "shaders/model_shader.fs"),
+                             "shaders/lighting_shader.fs"),
       default_texture_("models/white.png"),
       player_(animated_model_shader_, renderer_),
       monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_,
@@ -50,10 +50,18 @@ void Application::Display() {
 
   monkey_head_.Draw();
 
+  // animated_model_shader_.Bind();
   // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
   //                                           glm::value_ptr(view_mat));
   // animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
   //                                           glm::value_ptr(persp_proj_mat));
+
+  // animated_model_shader_.SetUniform3f("light.position",
+  //                                    glm::vec3(0.0f, 1.0f, 0.0f));
+  // animated_model_shader_.SetUniform3f("light.colour",
+  //                                    glm::vec3(1.0f, 1.0f, 0.0f));
+  // animated_model_shader_.SetUniform3f("view_position",
+  // camera_.GetPosition());
 
   // player_.Draw();
 
