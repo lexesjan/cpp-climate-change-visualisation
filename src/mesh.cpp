@@ -2,12 +2,11 @@
 
 Mesh::Mesh(const std::vector<Vertex>& vertices,
            const std::vector<unsigned int>& indices,
-           const std::vector<Texture>& textures, const Material& material,
-           const Shader& shader, const Renderer& renderer)
+           const std::vector<Texture>& textures, const Shader& shader,
+           const Renderer& renderer)
     : vertices_(vertices),
       indices_(indices),
       textures_(textures),
-      material_(material),
       shader_(shader),
       renderer_(renderer) {
   InitMesh();
@@ -35,8 +34,6 @@ void Mesh::Draw() {
 
     shader_.SetUniform1i("material." + type + number, i);
   }
-
-  shader_.SetUniform1f("material.shininess", material_.shininess);
 
   renderer_.Draw(vertex_array_object_, element_buffer_object_, shader_,
                  (GLsizei)indices_.size());

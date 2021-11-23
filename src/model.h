@@ -35,8 +35,6 @@ class Model {
                                             aiTextureType type,
                                             std::string type_name);
 
-  Material LoadMaterial(aiMaterial *material);
-
  private:
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;

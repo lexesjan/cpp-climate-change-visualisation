@@ -44,8 +44,26 @@ void Application::Display() {
                                        glm::value_ptr(view_mat));
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
-  lighting_shader_.SetUniform3f("light.position", glm::vec3(0.0f, 1.0f, 0.0f));
-  lighting_shader_.SetUniform3f("light.colour", glm::vec3(1.0f, 1.0f, 0.0f));
+  lighting_shader_.SetUniform3f("light[0].position",
+                                glm::vec3(0.0f, 1.0f, 0.0f));
+  lighting_shader_.SetUniform1f("light[0].constant", 1.0f);
+  lighting_shader_.SetUniform1f("light[0].linear", 0.01f);
+  lighting_shader_.SetUniform1f("light[0].quadratic", 0.01f);
+  lighting_shader_.SetUniform3f("light[0].ambient", glm::vec3(0.1f));
+  lighting_shader_.SetUniform3f("light[0].diffuse", glm::vec3(1.0f));
+  lighting_shader_.SetUniform3f("light[0].specular", glm::vec3(1.0f));
+
+  lighting_shader_.SetUniform3f("light[1].position",
+                                glm::vec3(10.0f, 0.0f, 0.0f));
+  lighting_shader_.SetUniform1f("light[1].constant", 1.0f);
+  lighting_shader_.SetUniform1f("light[1].linear", 0.01f);
+  lighting_shader_.SetUniform1f("light[1].quadratic", 0.01f);
+  lighting_shader_.SetUniform3f("light[1].ambient", glm::vec3(0.1f));
+  lighting_shader_.SetUniform3f("light[1].diffuse",
+                                glm::vec3(1.0f, 1.0f, 0.0f));
+  lighting_shader_.SetUniform3f("light[1].specular", glm::vec3(1.0f));
+
+  lighting_shader_.SetUniform1f("material.shininess", 1.0f);
   lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   monkey_head_.Draw();

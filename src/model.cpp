@@ -62,7 +62,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
   std::vector<Vertex> vertices;
   std::vector<unsigned int> indices;
   std::vector<Texture> textures;
-  Material loaded_material;
 
   for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
     Vertex vertex;
@@ -104,8 +103,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<Texture> normal_maps = LoadMaterialTextures(
         material, aiTextureType_NORMALS, "texture_normals");
     textures.insert(textures.end(), normal_maps.begin(), normal_maps.end());
-
-    loaded_material = LoadMaterial(material);
   }
 
   if (textures.empty() && texture_) {
@@ -114,7 +111,7 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
 
   ExtractBoneInfo(vertices, mesh, scene);
 
-  return Mesh(vertices, indices, textures, loaded_material, shader_, renderer_);
+  return Mesh(vertices, indices, textures, shader_, renderer_);
 }
 
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material,
@@ -142,28 +139,6 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* material,
   }
 
   return textures;
-}
-
-Material Model::LoadMaterial(aiMaterial* material) {
-  Material result;
-
-  aiVector3D ambient(0.0f);
-  material->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
-  result.ambient = assimp_utils::ConvertToVec3(ambient);
-
-  aiVector3D diffuse(0.0f);
-  material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
-  result.diffuse = assimp_utils::ConvertToVec3(diffuse);
-
-  aiVector3D specular(0.0f);
-  material->Get(AI_MATKEY_COLOR_SPECULAR, specular);
-  result.specular = assimp_utils::ConvertToVec3(specular);
-
-  float shininess = 0.0f;
-  material->Get(AI_MATKEY_SHININESS, shininess);
-  result.shininess = shininess;
-
-  return result;
 }
 
 void Model::InitialiseVertexBoneInfo(Vertex& vertex) const {

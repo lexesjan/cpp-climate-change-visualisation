@@ -16,19 +16,12 @@ struct Vertex {
   glm::vec4 weights;
 };
 
-struct Material {
-  glm::vec3 ambient;
-  glm::vec3 diffuse;
-  glm::vec3 specular;
-  float shininess;
-};
-
 class Mesh {
  public:
   explicit Mesh(const std::vector<Vertex>& vertices,
                 const std::vector<unsigned int>& indices,
-                const std::vector<Texture>& textures, const Material& material,
-                const Shader& shader, const Renderer& renderer);
+                const std::vector<Texture>& textures, const Shader& shader,
+                const Renderer& renderer);
 
   void Draw();
 
@@ -36,7 +29,6 @@ class Mesh {
   std::vector<Vertex> vertices_;
   std::vector<unsigned int> indices_;
   std::vector<Texture> textures_;
-  Material material_;
   Shader shader_;
   VertexArrayObject vertex_array_object_;
   ElementBufferObject element_buffer_object_;
