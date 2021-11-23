@@ -15,8 +15,8 @@ const int MAX_BONE_INFLUENCE = 4;
 uniform mat4 final_bone_transforms[MAX_BONES];
 
 out vec2 texture_coordinates;
-out vec3 vertex_position_in_world_space;
-out vec3 normal;
+out vec3 translated_vertex_position;
+out vec3 translated_normal;
 
 void main() {
   texture_coordinates = tex_coords;
@@ -30,7 +30,7 @@ void main() {
 
   gl_Position = proj * view * model * pos_l;
 
-  vertex_position_in_world_space = vec3(model * vec4(vert_position, 1.0f));
-  normal = mat3(transpose(inverse(model))) * vert_normal;
+  translated_vertex_position = vec3(model * vec4(vert_position, 1.0f));
+  translated_normal = mat3(transpose(inverse(model))) * vert_normal;
   texture_coordinates = tex_coords;
 }

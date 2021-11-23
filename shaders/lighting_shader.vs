@@ -9,13 +9,13 @@ uniform mat4 view;
 uniform mat4 proj;
 
 out vec2 texture_coordinates;
-out vec3 vertex_position_in_world_space;
-out vec3 normal;
+out vec3 translated_vertex_position;
+out vec3 translated_normal;
 
 void main() {
-  vertex_position_in_world_space = vec3(model * vec4(vert_position, 1.0f));
-  normal = mat3(transpose(inverse(model))) * vert_normal;
+  translated_vertex_position = vec3(model * vec4(vert_position, 1.0f));
+  translated_normal = mat3(transpose(inverse(model))) * vert_normal;
   texture_coordinates = tex_coords;
 
-  gl_Position = proj * view * vec4(vertex_position_in_world_space, 1.0f);
+  gl_Position = proj * view * vec4(translated_vertex_position, 1.0f);
 }
