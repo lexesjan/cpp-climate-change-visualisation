@@ -19,6 +19,8 @@ struct BoneInfo {
 class Model {
  public:
   explicit Model(std::string path, Shader shader, Renderer renderer);
+  explicit Model(std::string path, Shader shader, Renderer renderer,
+                 Texture *texture);
 
   virtual void Draw() const;
 
@@ -36,6 +38,7 @@ class Model {
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;
   std::string directory_;
+  Texture *texture_;
 
   void LoadModel(std::string path);
 

@@ -6,9 +6,9 @@ layout(location = 2) in vec2 tex_coords;
 layout(location = 3) in ivec4 bone_ids;
 layout(location = 4) in vec4 weights;
 
-uniform mat4 proj;
-uniform mat4 view;
 uniform mat4 model;
+uniform mat4 view;
+uniform mat4 proj;
 
 const int MAX_BONES = 100;
 const int MAX_BONE_INFLUENCE = 4;

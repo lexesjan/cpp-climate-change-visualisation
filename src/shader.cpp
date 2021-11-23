@@ -24,6 +24,17 @@ void Shader::SetUniform1f(const std::string& name, const GLfloat data) const {
   glUniform1f(GetUniformLocation(name), data);
 }
 
+void Shader::SetUniform3f(const std::string& name, const GLfloat data1,
+                          const GLfloat data2, const GLfloat data3) const {
+  Bind();
+  glUniform3f(GetUniformLocation(name), data1, data2, data3);
+}
+
+void Shader::SetUniform3f(const std::string& name, glm::vec3 data) const {
+  Bind();
+  glUniform3f(GetUniformLocation(name), data.x, data.y, data.z);
+}
+
 void Shader::SetUniformMatrix4fv(const std::string& name,
                                  GLboolean is_transpose, const GLfloat* data,
                                  GLsizei count) const {

@@ -7,7 +7,7 @@ void Renderer::Init() const {
 }
 
 void Renderer::Clear() const {
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -27,4 +27,8 @@ void Renderer::Draw(const VertexArrayObject& vertex_array_object,
   element_buffer_object.Bind();
 
   glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+
+  shader.Unbind();
+  vertex_array_object.Unbind();
+  element_buffer_object.Unbind();
 }

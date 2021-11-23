@@ -37,6 +37,11 @@ void Mesh::Draw() const {
 
   renderer_.Draw(vertex_array_object_, element_buffer_object_, shader_,
                  (GLsizei)indices_.size());
+
+  for (unsigned int i = 0; i < textures_.size(); i++) {
+    const Texture& texture = textures_[i];
+    texture.Unbind(i);
+  }
 }
 
 void Mesh::InitMesh() {

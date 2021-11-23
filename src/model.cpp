@@ -3,7 +3,13 @@
 #include "assimp_utils.h"
 
 Model::Model(std::string path, Shader shader, Renderer renderer)
-    : shader_(shader), renderer_(renderer), bone_count_(0) {
+    : shader_(shader), renderer_(renderer), bone_count_(0), texture_(nullptr) {
+  LoadModel(path);
+}
+
+Model::Model(std::string path, Shader shader, Renderer renderer,
+             Texture* texture)
+    : shader_(shader), renderer_(renderer), bone_count_(0), texture_(texture) {
   LoadModel(path);
 }
 
@@ -96,6 +102,10 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<Texture> normal_maps = LoadMaterialTextures(
         material, aiTextureType_NORMALS, "texture_normals");
     textures.insert(textures.end(), normal_maps.begin(), normal_maps.end());
+  }
+
+  if (textures.empty() && texture_) {
+    textures.push_back(*texture_);
   }
 
   ExtractBoneInfo(vertices, mesh, scene);

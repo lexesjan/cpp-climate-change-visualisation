@@ -31,6 +31,9 @@
     <Filter Include="Solution Files\models\monkey_head">
       <UniqueIdentifier>{0658ae32-9b0e-4437-b8f9-4e8d4fc5a79c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Solution Files\campfire">
+      <UniqueIdentifier>{4e9fdd48-b527-49f8-ad8c-e62b79db0cc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -71,6 +74,18 @@
     </None>
     <None Include="models\monkey_head\body.fbx">
       <Filter>Solution Files\models\monkey_head</Filter>
+    </None>
+    <None Include="shaders\lighting_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\lighting_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="models\campfire\body.fbx">
+      <Filter>Solution Files\campfire</Filter>
+    </None>
+    <None Include="models\campfire\Campfire_01.fbx">
+      <Filter>Solution Files\campfire</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +203,9 @@
     </Image>
     <Image Include="models\rabbit\Main.png">
       <Filter>Solution Files\models\rabbit</Filter>
+    </Image>
+    <Image Include="models\white.png">
+      <Filter>Solution Files\models</Filter>
     </Image>
   </ItemGroup>
 </Project>

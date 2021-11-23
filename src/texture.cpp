@@ -2,7 +2,7 @@
 #include <stb_image.h>
 #include "texture.h"
 
-Texture::Texture(std::string &path) : path_(path), id_(0) {
+Texture::Texture(std::string path) : path_(path), id_(0) {
   stbi_set_flip_vertically_on_load(true);
 
   int width;
@@ -44,6 +44,8 @@ Texture::Texture(std::string &path) : path_(path), id_(0) {
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(data);
+
+  Unbind();
 }
 
 GLuint Texture::GetId() const { return id_; }
@@ -59,4 +61,7 @@ void Texture::Bind(unsigned int slot) const {
   glBindTexture(GL_TEXTURE_2D, id_);
 }
 
-void Texture::Unbind() const { glBindTexture(GL_TEXTURE_2D, 0); }
+void Texture::Unbind(unsigned int slot) const {
+  glActiveTexture(GL_TEXTURE0 + slot);
+  glBindTexture(GL_TEXTURE_2D, 0);
+}
