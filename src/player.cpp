@@ -6,7 +6,7 @@
 Player::Player(Shader &shader, Renderer &renderer)
     : is_key_pressed_(256, false),
       model_matrix_(1.0f),
-      AnimatedModel("models/polar_bear/body.fbx", shader, renderer) {}
+      AnimatedModel("assets/polar_bear/body.fbx", shader, renderer) {}
 
 void Player::UpdatePosition() {
   bool is_moving_forwards = false;
