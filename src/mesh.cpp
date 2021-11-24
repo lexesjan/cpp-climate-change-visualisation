@@ -1,9 +1,7 @@
 #include "mesh.h"
 
-Mesh::Mesh(const std::vector<Vertex>& vertices,
-           const std::vector<unsigned int>& indices,
-           const std::vector<Texture>& textures, const Shader& shader,
-           const Renderer& renderer)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
+           std::vector<Texture> textures, Shader shader, Renderer renderer)
     : vertices_(vertices),
       indices_(indices),
       textures_(textures),

@@ -5,8 +5,8 @@
 
 Shader::Shader() : id_(0) {}
 
-Shader::Shader(const std::string& vertex_shader_file_path,
-               const std::string& fragment_shader_file_path) {
+Shader::Shader(std::string vertex_shader_file_path,
+               std::string fragment_shader_file_path) {
   id_ = CreateShaderProgram(vertex_shader_file_path, fragment_shader_file_path);
 }
 

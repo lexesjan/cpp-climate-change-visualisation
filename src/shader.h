@@ -9,8 +9,8 @@
 class Shader {
  public:
   explicit Shader();
-  explicit Shader(const std::string& vetex_shader_file_path,
-                  const std::string& fragment_shader_file_path);
+  explicit Shader(std::string vetex_shader_file_path,
+                  std::string fragment_shader_file_path);
 
   void Bind() const;
 
