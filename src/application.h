@@ -23,7 +23,7 @@ class Application {
   Renderer renderer_;
   Camera camera_;
   Shader animated_model_shader_;
-  Shader lighting_shader_;
+  Shader model_shader_;
   Player player_;
   Model monkey_head_;
   float last_time_;

@@ -1,4 +1,4 @@
-#version 330
+#version 460
 
 in vec2 texture_coordinates;
 in vec3 translated_vertex_position;

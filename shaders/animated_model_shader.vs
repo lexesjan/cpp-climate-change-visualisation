@@ -1,4 +1,4 @@
-#version 330
+#version 460
 
 layout(location = 0) in vec3 vert_position;
 layout(location = 1) in vec3 vert_normal;
@@ -31,6 +31,6 @@ void main() {
   gl_Position = proj * view * model * pos_l;
 
   translated_vertex_position = vec3(model * vec4(vert_position, 1.0f));
-  translated_normal = mat3(transpose(inverse(model))) * vert_normal;
+  translated_normal = mat3(transpose(inverse(bone_transform * model))) * vert_normal;
   texture_coordinates = tex_coords;
 }

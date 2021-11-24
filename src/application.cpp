@@ -12,12 +12,12 @@ Application::Application()
     : camera_(),
       renderer_(),
       last_time_(0),
-      lighting_shader_("shaders/lighting_shader.vs",
-                       "shaders/lighting_shader.fs"),
+      model_shader_("shaders/model_shader.vs",
+                    "shaders/light_source_shader.fs"),
       animated_model_shader_("shaders/animated_model_shader.vs",
                              "shaders/lighting_shader.fs"),
       player_(animated_model_shader_, renderer_),
-      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_) {
+      monkey_head_("models/monkey_head/body.fbx", model_shader_, renderer_) {
   renderer_.Init();
 }
 
@@ -38,13 +38,12 @@ void Application::Display() {
   model_mat = glm::translate(model_mat, glm::vec3(0.0f, -10.0f, 0.0f));
   model_mat = glm::scale(model_mat, glm::vec3(10.0f));
 
-  lighting_shader_.Bind();
-  lighting_shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                                       glm::value_ptr(model_mat));
-  lighting_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-                                       glm::value_ptr(view_mat));
-  lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-                                       glm::value_ptr(persp_proj_mat));
+  model_shader_.Bind();
+  model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                    glm::value_ptr(model_mat));
+  model_shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view_mat));
+  model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                    glm::value_ptr(persp_proj_mat));
 
   DirectedLight directed_light(glm::vec3(1.0f, 1.0f, 1.0f) * 0.2f,
                                glm::vec3(0.0f, -1.0f, 0.0f));
@@ -52,14 +51,14 @@ void Application::Display() {
   PointLight point_light_yellow(glm::vec3(1.0f, 1.0f, 0.0f),
                                 glm::vec3(10.0f, 0.0f, 0.0f));
 
-  directed_light.Set("directed_light", lighting_shader_);
-  point_light_white.Set("point_light", lighting_shader_, 0);
-  point_light_yellow.Set("point_light", lighting_shader_, 1);
+  directed_light.Set("directed_light", model_shader_);
+  point_light_white.Set("point_light", model_shader_, 0);
+  point_light_yellow.Set("point_light", model_shader_, 1);
 
   Material copper(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f),
                   glm::vec3(1.0f), 32.0f);
-  lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
-  copper.Set("material", lighting_shader_);
+  model_shader_.SetUniform3f("view_position", camera_.GetPosition());
+  copper.Set("material", model_shader_);
 
   monkey_head_.Draw();
 
