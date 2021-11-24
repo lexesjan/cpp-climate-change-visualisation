@@ -12,12 +12,14 @@ class PointLight {
 
   void Set(std::string name, Shader& shader, unsigned int index = 0.0f);
 
+  glm::vec3& GetPosition();
+
  private:
-  glm::vec3 colour_;
-  glm::vec3 position_;
   float constant_;
   float linear_;
   float quadratic_;
+  glm::vec3 colour_;
+  glm::vec3 position_;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_POINT_LIGHT_H_

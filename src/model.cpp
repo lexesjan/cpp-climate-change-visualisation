@@ -2,19 +2,18 @@
 #include "model.h"
 #include "assimp_utils.h"
 
-Model::Model(std::string path, Shader& shader, Renderer& renderer)
-    : shader_(shader), renderer_(renderer), bone_count_(0), texture_(nullptr) {
-  LoadModel(path);
-}
-
 Model::Model(std::string path, Shader& shader, Renderer& renderer,
-             std::shared_ptr<Texture>& texture)
-    : shader_(shader), renderer_(renderer), bone_count_(0), texture_(texture) {
+             Material material)
+    : shader_(shader),
+      renderer_(renderer),
+      bone_count_(0),
+      material_(material) {
   LoadModel(path);
 }
 
 void Model::Draw() {
   shader_.Bind();
+  material_.Set("material", shader_);
 
   for (Mesh& mesh : meshes_) {
     mesh.Draw();
@@ -23,8 +22,7 @@ void Model::Draw() {
 
 void Model::LoadModel(std::string path) {
   Assimp::Importer importer;
-  const aiScene* scene =
-      importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenNormals);
+  const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {
@@ -103,10 +101,6 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<Texture> normal_maps = LoadMaterialTextures(
         material, aiTextureType_NORMALS, "texture_normals");
     textures.insert(textures.end(), normal_maps.begin(), normal_maps.end());
-  }
-
-  if (textures.empty() && texture_) {
-    textures.push_back(*texture_);
   }
 
   ExtractBoneInfo(vertices, mesh, scene);

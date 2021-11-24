@@ -11,6 +11,7 @@
 #include <set>
 #include "shader.h"
 #include "mesh.h"
+#include "material.h"
 
 struct BoneInfo {
   int id;
@@ -19,16 +20,15 @@ struct BoneInfo {
 
 class Model {
  public:
-  explicit Model(std::string path, Shader &shader, Renderer &renderer);
   explicit Model(std::string path, Shader &shader, Renderer &renderer,
-                 std::shared_ptr<Texture> &texture);
+                 Material material = Material(glm::vec3(0.0f), glm::vec3(0.0f),
+                                              glm::vec3(0.0f)));
 
   virtual void Draw();
 
  protected:
   Shader shader_;
   Renderer renderer_;
-  std::shared_ptr<Texture> texture_;
   std::unordered_map<std::string, BoneInfo> bone_info_map_;
   unsigned int bone_count_;
 
@@ -40,6 +40,7 @@ class Model {
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;
   std::string directory_;
+  Material material_;
 
   void LoadModel(std::string path);
 

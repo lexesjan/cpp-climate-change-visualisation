@@ -25,3 +25,5 @@ void PointLight::Set(std::string name, Shader& shader, unsigned int index) {
   shader.SetUniform1f(name + "[" + std::to_string(index) + "].quadratic",
                       quadratic_);
 }
+
+glm::vec3& PointLight::GetPosition() { return position_; }

@@ -160,6 +160,7 @@
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\light_source.cpp" />
     <ClCompile Include="src\directed_light.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\light_source.h" />
     <ClInclude Include="src\directed_light.h" />
     <ClInclude Include="src\element_buffer_object.h" />
     <ClInclude Include="src\material.h" />

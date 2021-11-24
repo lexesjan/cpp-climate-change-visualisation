@@ -9,14 +9,25 @@
 #include "material.h"
 
 Application::Application()
-    : camera_(),
-      renderer_(),
-      last_time_(0),
-      model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
+    : renderer_(),
+      camera_(),
       animated_model_shader_("shaders/animated_model_shader.vs",
                              "shaders/lighting_shader.fs"),
+      model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
+      light_source_shader_("shaders/model_shader.vs",
+                           "shaders/light_source_shader.fs"),
       player_(animated_model_shader_, renderer_),
-      monkey_head_("models/monkey_head/body.fbx", model_shader_, renderer_) {
+      monkey_head_(
+          "models/monkey_head/body.fbx", model_shader_, renderer_,
+          Material(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f),
+                   glm::vec3(1.0f), 32.0f)),
+      directed_light_(glm::vec3(0.2f), glm::vec3(0.0f, -1.0f, 0.0f)),
+      campfire_("models/campfire/body.fbx", glm::vec3(1.0f, 1.0f, 0.0f),
+                glm::vec3(10.0f, 0.0f, 0.0f), light_source_shader_, renderer_),
+      cube_("models/cube/body.fbx", glm::vec3(1.0f),
+            glm::vec3(-10.0f, 0.0f, 0.0f), light_source_shader_, renderer_,
+            Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f))),
+      last_time_(0.0f) {
   renderer_.Init();
 }
 
@@ -44,20 +55,11 @@ void Application::Display() {
   model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                     glm::value_ptr(persp_proj_mat));
 
-  DirectedLight directed_light(glm::vec3(1.0f, 1.0f, 1.0f) * 0.2f,
-                               glm::vec3(0.0f, -1.0f, 0.0f));
-  PointLight point_light_white(glm::vec3(1.0f), glm::vec3(-10.0f, 0.0f, 0.0f));
-  PointLight point_light_yellow(glm::vec3(1.0f, 1.0f, 0.0f),
-                                glm::vec3(10.0f, 0.0f, 0.0f));
+  directed_light_.Set("directed_light", model_shader_);
+  cube_.Set("point_light", model_shader_, 0);
+  campfire_.Set("point_light", model_shader_, 1);
 
-  directed_light.Set("directed_light", model_shader_);
-  point_light_white.Set("point_light", model_shader_, 0);
-  point_light_yellow.Set("point_light", model_shader_, 1);
-
-  Material copper(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f),
-                  glm::vec3(1.0f), 32.0f);
   model_shader_.SetUniform3f("view_position", camera_.GetPosition());
-  copper.Set("material", model_shader_);
 
   monkey_head_.Draw();
 
@@ -67,14 +69,23 @@ void Application::Display() {
   animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                              glm::value_ptr(persp_proj_mat));
 
-  directed_light.Set("directed_light", animated_model_shader_);
-  point_light_white.Set("point_light", animated_model_shader_, 0);
-  point_light_yellow.Set("point_light", animated_model_shader_, 1);
+  directed_light_.Set("directed_light", animated_model_shader_);
+  cube_.Set("point_light", animated_model_shader_, 0);
+  campfire_.Set("point_light", animated_model_shader_, 1);
 
   animated_model_shader_.SetUniform1f("material.shininess", 1.0f);
   animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   player_.Draw();
+
+  light_source_shader_.Bind();
+  light_source_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                           glm::value_ptr(view_mat));
+  light_source_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                           glm::value_ptr(persp_proj_mat));
+
+  campfire_.Draw();
+  cube_.Draw();
 
   glutSwapBuffers();
 }

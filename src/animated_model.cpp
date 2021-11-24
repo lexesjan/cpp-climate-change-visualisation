@@ -3,8 +3,8 @@
 #include "assimp_utils.h"
 
 AnimatedModel::AnimatedModel(std::string path, Shader& shader,
-                             Renderer& renderer)
-    : Model(path, shader, renderer),
+                             Renderer& renderer, Material material)
+    : Model(path, shader, renderer, material),
       current_time_(0.0f),
       delta_(0.0f),
       ticks_per_second_(0.0f),
@@ -14,8 +14,9 @@ AnimatedModel::AnimatedModel(std::string path, Shader& shader,
 }
 
 AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
-                             Shader& shader, Renderer& renderer)
-    : Model(model_path, shader, renderer),
+                             Shader& shader, Renderer& renderer,
+                             Material material)
+    : Model(model_path, shader, renderer, material),
       current_time_(0.0f),
       delta_(0.0f),
       ticks_per_second_(0.0f),
