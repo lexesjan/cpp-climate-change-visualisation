@@ -1,7 +1,7 @@
 #include "mesh.h"
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
-           std::vector<Texture> textures, Shader shader, Renderer renderer)
+Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
+           std::vector<Texture> &textures, Shader &shader, Renderer &renderer)
     : vertices_(vertices),
       indices_(indices),
       textures_(textures),
@@ -16,7 +16,7 @@ void Mesh::Draw() {
   unsigned int num_normals = 1;
 
   for (unsigned int i = 0; i < textures_.size(); i++) {
-    const Texture& texture = textures_[i];
+    const Texture &texture = textures_[i];
     texture.Bind(i);
 
     std::string number;
@@ -37,7 +37,7 @@ void Mesh::Draw() {
                  (GLsizei)indices_.size());
 
   for (unsigned int i = 0; i < textures_.size(); i++) {
-    const Texture& texture = textures_[i];
+    const Texture &texture = textures_[i];
     texture.Unbind(i);
   }
 }

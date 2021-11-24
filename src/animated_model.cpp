@@ -2,7 +2,8 @@
 #include "animated_model.h"
 #include "assimp_utils.h"
 
-AnimatedModel::AnimatedModel(std::string path, Shader shader, Renderer renderer)
+AnimatedModel::AnimatedModel(std::string path, Shader& shader,
+                             Renderer& renderer)
     : Model(path, shader, renderer),
       current_time_(0.0f),
       delta_(0.0f),
@@ -13,7 +14,7 @@ AnimatedModel::AnimatedModel(std::string path, Shader shader, Renderer renderer)
 }
 
 AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
-                             Shader shader, Renderer renderer)
+                             Shader& shader, Renderer& renderer)
     : Model(model_path, shader, renderer),
       current_time_(0.0f),
       delta_(0.0f),

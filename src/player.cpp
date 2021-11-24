@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Player::Player(Shader shader, Renderer renderer)
+Player::Player(Shader &shader, Renderer &renderer)
     : is_key_pressed_(256, false),
       model_matrix_(1.0f),
       AnimatedModel("models/polar_bear/body.fbx", shader, renderer) {}
@@ -45,7 +45,7 @@ void Player::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 void Player::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
 void Player::Draw() {
-  const std::vector<glm::mat4>& transforms = GetFinalTransforms();
+  const std::vector<glm::mat4> &transforms = GetFinalTransforms();
 
   shader_.SetUniformMatrix4fv("final_bone_transforms", GL_FALSE,
                               glm::value_ptr(transforms.front()),

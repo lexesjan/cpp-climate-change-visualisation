@@ -5,7 +5,7 @@
 
 class Player : public AnimatedModel {
  public:
-  explicit Player(Shader shader, Renderer renderer);
+  explicit Player(Shader &shader, Renderer &renderer);
 
   void UpdatePosition();
 

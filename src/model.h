@@ -7,6 +7,7 @@
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/quaternion_common.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <memory>
 #include <set>
 #include "shader.h"
 #include "mesh.h"
@@ -18,16 +19,16 @@ struct BoneInfo {
 
 class Model {
  public:
-  explicit Model(std::string path, Shader shader, Renderer renderer);
-  explicit Model(std::string path, Shader shader, Renderer renderer,
-                 Texture *texture);
+  explicit Model(std::string path, Shader &shader, Renderer &renderer);
+  explicit Model(std::string path, Shader &shader, Renderer &renderer,
+                 std::shared_ptr<Texture> &texture);
 
   virtual void Draw();
 
  protected:
   Shader shader_;
   Renderer renderer_;
-  Texture *texture_;
+  std::shared_ptr<Texture> texture_;
   std::unordered_map<std::string, BoneInfo> bone_info_map_;
   unsigned int bone_count_;
 

@@ -33,9 +33,9 @@ struct AssimpNodeAnimation {
 
 class AnimatedModel : public Model {
  public:
-  explicit AnimatedModel(std::string path, Shader shader, Renderer renderer);
+  explicit AnimatedModel(std::string path, Shader &shader, Renderer &renderer);
   explicit AnimatedModel(std::string model_path, std::string animation_path,
-                         Shader shader, Renderer renderer);
+                         Shader &shader, Renderer &renderer);
 
   void UpdateBoneTransformations(bool backwards = false);
 

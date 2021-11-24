@@ -2,13 +2,13 @@
 #include "model.h"
 #include "assimp_utils.h"
 
-Model::Model(std::string path, Shader shader, Renderer renderer)
+Model::Model(std::string path, Shader& shader, Renderer& renderer)
     : shader_(shader), renderer_(renderer), bone_count_(0), texture_(nullptr) {
   LoadModel(path);
 }
 
-Model::Model(std::string path, Shader shader, Renderer renderer,
-             Texture* texture)
+Model::Model(std::string path, Shader& shader, Renderer& renderer,
+             std::shared_ptr<Texture>& texture)
     : shader_(shader), renderer_(renderer), bone_count_(0), texture_(texture) {
   LoadModel(path);
 }
