@@ -24,7 +24,6 @@ class Application {
   Camera camera_;
   Shader animated_model_shader_;
   Shader lighting_shader_;
-  Texture default_texture_;
   Player player_;
   Model monkey_head_;
   float last_time_;

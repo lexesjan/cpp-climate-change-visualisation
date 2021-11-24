@@ -6,6 +6,7 @@
 #include "application.h"
 #include "point_light.h"
 #include "directed_light.h"
+#include "material.h"
 
 Application::Application()
     : camera_(),
@@ -15,10 +16,8 @@ Application::Application()
                        "shaders/lighting_shader.fs"),
       animated_model_shader_("shaders/animated_model_shader.vs",
                              "shaders/lighting_shader.fs"),
-      default_texture_("models/white.png"),
       player_(animated_model_shader_, renderer_),
-      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_,
-                   &default_texture_) {
+      monkey_head_("models/monkey_head/body.fbx", lighting_shader_, renderer_) {
   renderer_.Init();
 }
 
@@ -47,7 +46,7 @@ void Application::Display() {
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
 
-  DirectedLight directed_light(glm::vec3(0.0f, 0.0f, 1.0f) * 0.1f,
+  DirectedLight directed_light(glm::vec3(1.0f, 1.0f, 1.0f) * 0.2f,
                                glm::vec3(0.0f, -1.0f, 0.0f));
   PointLight point_light_white(glm::vec3(1.0f), glm::vec3(-10.0f, 0.0f, 0.0f));
   PointLight point_light_yellow(glm::vec3(1.0f, 1.0f, 0.0f),
@@ -57,8 +56,10 @@ void Application::Display() {
   point_light_white.Set("point_light", lighting_shader_, 0);
   point_light_yellow.Set("point_light", lighting_shader_, 1);
 
-  lighting_shader_.SetUniform1f("material.shininess", 1.0f);
+  Material copper(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f),
+                  glm::vec3(1.0f), 32.0f);
   lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
+  copper.Set("material", lighting_shader_);
 
   monkey_head_.Draw();
 
