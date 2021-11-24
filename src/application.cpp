@@ -5,6 +5,7 @@
 #include <memory>
 #include "application.h"
 #include "point_light.h"
+#include "directed_light.h"
 
 Application::Application()
     : camera_(),
@@ -46,12 +47,15 @@ void Application::Display() {
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
 
+  DirectedLight directed_light(glm::vec3(0.0f, 0.0f, 1.0f) * 0.1f,
+                               glm::vec3(0.0f, -1.0f, 0.0f));
   PointLight point_light_white(glm::vec3(1.0f), glm::vec3(-10.0f, 0.0f, 0.0f));
   PointLight point_light_yellow(glm::vec3(1.0f, 1.0f, 0.0f),
                                 glm::vec3(10.0f, 0.0f, 0.0f));
 
-  point_light_white.Set("light", lighting_shader_, 0);
-  point_light_yellow.Set("light", lighting_shader_, 1);
+  directed_light.Set("directed_light", lighting_shader_);
+  point_light_white.Set("point_light", lighting_shader_, 0);
+  point_light_yellow.Set("point_light", lighting_shader_, 1);
 
   lighting_shader_.SetUniform1f("material.shininess", 1.0f);
   lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
@@ -64,8 +68,9 @@ void Application::Display() {
   animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                              glm::value_ptr(persp_proj_mat));
 
-  point_light_white.Set("light", animated_model_shader_, 0);
-  point_light_yellow.Set("light", animated_model_shader_, 1);
+  directed_light.Set("directed_light", animated_model_shader_);
+  point_light_white.Set("point_light", animated_model_shader_, 0);
+  point_light_yellow.Set("point_light", animated_model_shader_, 1);
 
   animated_model_shader_.SetUniform1f("material.shininess", 1.0f);
   animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());

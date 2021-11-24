@@ -23,10 +23,41 @@ struct PointLight {
   vec3 specular;
 };
 
+struct DirectedLight {
+  vec3 direction;
+  vec3 ambient;
+  vec3 diffuse;
+  vec3 specular;
+};
+
 uniform Material material;
 const int MAX_POINT_LIGHTS = 2;
-uniform PointLight light[MAX_POINT_LIGHTS];
+uniform PointLight point_light[MAX_POINT_LIGHTS];
+uniform DirectedLight directed_light;
 uniform vec3 view_position;
+
+vec3 CalculateDirectedLight(DirectedLight light, vec3 normal, vec3 vertex_position, 
+                            vec3 view_direction) {
+  vec3 light_direction = normalize(-light.direction);
+
+  // Diffuse.
+  float diff = max(dot(normal, light_direction), 0.0);
+
+  // Specular.
+  vec3 reflection_direction = reflect(-light_direction, normal);
+  float spec = pow(max(dot(view_direction, reflection_direction), 0.0),
+                   material.shininess);
+
+  vec3 ambient = light.ambient *
+                 vec3(texture(material.texture_diffuse1, texture_coordinates));
+  vec3 diffuse = light.diffuse * diff *
+                 vec3(texture(material.texture_diffuse1, texture_coordinates));
+  vec3 specular =
+      light.specular * spec *
+      vec3(texture(material.texture_specular1, texture_coordinates));
+
+  return ambient + diffuse + specular;
+}
 
 vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 vertex_position,
                          vec3 view_direction) {
@@ -63,11 +94,12 @@ void main() {
   vec3 normal = normalize(translated_normal);
   vec3 view_direction = normalize(view_position - translated_vertex_position);
 
-  vec3 result = vec3(0.0f);
+  vec3 result = CalculateDirectedLight(
+      directed_light, normal, translated_vertex_position, view_direction);
 
   for (int i = 0; i < MAX_POINT_LIGHTS; i++) {
-    result += CalculatePointLight(light[i], normal, translated_vertex_position,
-                                  view_direction);
+    result += CalculatePointLight(point_light[i], normal,
+                                  translated_vertex_position, view_direction);
   }
 
   frag_colour = vec4(result, 1.0f);
