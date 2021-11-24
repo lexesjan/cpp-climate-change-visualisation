@@ -33,9 +33,15 @@ struct AssimpNodeAnimation {
 
 class AnimatedModel : public Model {
  public:
-  explicit AnimatedModel(std::string path, Shader shader, Renderer renderer);
+  explicit AnimatedModel(std::string path, Shader &shader, Renderer &renderer,
+                         Material material = Material(glm::vec3(0.0f),
+                                                      glm::vec3(0.0f),
+                                                      glm::vec3(0.0f)));
   explicit AnimatedModel(std::string model_path, std::string animation_path,
-                         Shader shader, Renderer renderer);
+                         Shader &shader, Renderer &renderer,
+                         Material material = Material(glm::vec3(0.0f),
+                                                      glm::vec3(0.0f),
+                                                      glm::vec3(0.0f)));
 
   void UpdateBoneTransformations(bool backwards = false);
 
@@ -76,4 +82,4 @@ class AnimatedModel : public Model {
       float animation_time, AssimpNodeAnimation &node_animation) const;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_ANIMATED_MODEL_H_

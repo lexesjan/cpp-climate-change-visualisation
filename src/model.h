@@ -7,9 +7,11 @@
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/quaternion_common.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <memory>
 #include <set>
 #include "shader.h"
 #include "mesh.h"
+#include "material.h"
 
 struct BoneInfo {
   int id;
@@ -18,9 +20,11 @@ struct BoneInfo {
 
 class Model {
  public:
-  explicit Model(std::string path, Shader shader, Renderer renderer);
+  explicit Model(std::string path, Shader &shader, Renderer &renderer,
+                 Material material = Material(glm::vec3(0.0f), glm::vec3(0.0f),
+                                              glm::vec3(0.0f)));
 
-  virtual void Draw() const;
+  virtual void Draw();
 
  protected:
   Shader shader_;
@@ -36,6 +40,7 @@ class Model {
   std::set<std::string> loaded_textures_;
   std::vector<Mesh> meshes_;
   std::string directory_;
+  Material material_;
 
   void LoadModel(std::string path);
 

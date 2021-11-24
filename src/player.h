@@ -5,7 +5,7 @@
 
 class Player : public AnimatedModel {
  public:
-  explicit Player(Shader& shader, Renderer& renderer);
+  explicit Player(Shader &shader, Renderer &renderer);
 
   void UpdatePosition();
 
@@ -13,11 +13,11 @@ class Player : public AnimatedModel {
 
   void OnKeyboardUp(unsigned char key);
 
-  void Draw() const override;
+  void Draw() override;
 
  private:
   std::vector<bool> is_key_pressed_;
   glm::mat4 model_matrix_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_PLAYER_H_

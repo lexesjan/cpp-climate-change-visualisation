@@ -142,25 +142,33 @@
     <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
+    <None Include="models\campfire\body.fbx" />
+    <None Include="models\cube\body.fbx" />
+    <None Include="models\monkey_head\body.fbx" />
     <None Include="models\polar_bear\body.fbx" />
     <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx" />
     <None Include="models\rabbit\body.fbx" />
     <None Include="models\rabbit\Rabbit.FBX" />
     <None Include="README.md" />
     <None Include="shaders\animated_model_shader.vs" />
-    <None Include="shaders\model_shader.fs" />
+    <None Include="shaders\lighting_shader.fs" />
+    <None Include="shaders\light_source_shader.fs" />
     <None Include="shaders\model_shader.vs" />
-    <None Include="shaders\simple_shader.fs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\animated_model.cpp" />
+    <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\light_source.cpp" />
+    <ClCompile Include="src\directed_light.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\material.cpp" />
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\point_light.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
@@ -171,12 +179,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\animated_model.h" />
+    <ClInclude Include="src\application.h" />
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\light_source.h" />
+    <ClInclude Include="src\directed_light.h" />
     <ClInclude Include="src\element_buffer_object.h" />
+    <ClInclude Include="src\material.h" />
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\player.h" />
+    <ClInclude Include="src\point_light.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\texture.h" />
@@ -185,6 +198,8 @@
     <ClInclude Include="src\vertex_buffer_object.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="models\campfire\LivingForestTexture.png" />
+    <Image Include="models\polar_bear\MAT_BODY_metallicRoughness.png" />
     <Image Include="models\polar_bear\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png" />
     <Image Include="models\polar_bear\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png" />
     <Image Include="models\polar_bear\WaxDynaMesh129_001-AO_u0_v0.jpg" />

@@ -6,7 +6,7 @@
 
 class Texture {
  public:
-  explicit Texture(std::string& path);
+  explicit Texture(std::string path);
 
   GLuint GetId() const;
 
@@ -18,7 +18,7 @@ class Texture {
 
   void Bind(unsigned int slot = 0) const;
 
-  void Unbind() const;
+  void Unbind(unsigned int slot = 0) const;
 
  private:
   GLuint id_;

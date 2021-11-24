@@ -1,9 +1,7 @@
 #include "mesh.h"
 
-Mesh::Mesh(const std::vector<Vertex>& vertices,
-           const std::vector<unsigned int>& indices,
-           const std::vector<Texture>& textures, const Shader& shader,
-           const Renderer& renderer)
+Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
+           std::vector<Texture> &textures, Shader &shader, Renderer &renderer)
     : vertices_(vertices),
       indices_(indices),
       textures_(textures),
@@ -12,13 +10,13 @@ Mesh::Mesh(const std::vector<Vertex>& vertices,
   InitMesh();
 }
 
-void Mesh::Draw() const {
+void Mesh::Draw() {
   unsigned int num_diffuse = 1;
   unsigned int num_specular = 1;
   unsigned int num_normals = 1;
 
   for (unsigned int i = 0; i < textures_.size(); i++) {
-    const Texture& texture = textures_[i];
+    const Texture &texture = textures_[i];
     texture.Bind(i);
 
     std::string number;
@@ -37,6 +35,11 @@ void Mesh::Draw() const {
 
   renderer_.Draw(vertex_array_object_, element_buffer_object_, shader_,
                  (GLsizei)indices_.size());
+
+  for (unsigned int i = 0; i < textures_.size(); i++) {
+    const Texture &texture = textures_[i];
+    texture.Unbind(i);
+  }
 }
 
 void Mesh::InitMesh() {

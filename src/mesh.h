@@ -18,12 +18,12 @@ struct Vertex {
 
 class Mesh {
  public:
-  explicit Mesh(const std::vector<Vertex>& vertices,
-                const std::vector<unsigned int>& indices,
-                const std::vector<Texture>& textures, const Shader& shader,
-                const Renderer& renderer);
+  explicit Mesh(std::vector<Vertex> &vertices,
+                std::vector<unsigned int> &indices,
+                std::vector<Texture> &textures, Shader &shader,
+                Renderer &renderer);
 
-  void Draw() const;
+  void Draw();
 
  private:
   std::vector<Vertex> vertices_;
