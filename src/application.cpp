@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
 #include "application.h"
+#include "point_light.h"
 
 Application::Application()
     : camera_(),
@@ -44,44 +45,32 @@ void Application::Display() {
                                        glm::value_ptr(view_mat));
   lighting_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
-  lighting_shader_.SetUniform3f("light[0].position",
-                                glm::vec3(0.0f, 1.0f, 0.0f));
-  lighting_shader_.SetUniform1f("light[0].constant", 1.0f);
-  lighting_shader_.SetUniform1f("light[0].linear", 0.01f);
-  lighting_shader_.SetUniform1f("light[0].quadratic", 0.01f);
-  lighting_shader_.SetUniform3f("light[0].ambient", glm::vec3(0.1f));
-  lighting_shader_.SetUniform3f("light[0].diffuse", glm::vec3(1.0f));
-  lighting_shader_.SetUniform3f("light[0].specular", glm::vec3(1.0f));
 
-  lighting_shader_.SetUniform3f("light[1].position",
+  PointLight point_light_white(glm::vec3(1.0f), glm::vec3(-10.0f, 0.0f, 0.0f));
+  PointLight point_light_yellow(glm::vec3(1.0f, 1.0f, 0.0f),
                                 glm::vec3(10.0f, 0.0f, 0.0f));
-  lighting_shader_.SetUniform1f("light[1].constant", 1.0f);
-  lighting_shader_.SetUniform1f("light[1].linear", 0.01f);
-  lighting_shader_.SetUniform1f("light[1].quadratic", 0.01f);
-  lighting_shader_.SetUniform3f("light[1].ambient", glm::vec3(0.1f));
-  lighting_shader_.SetUniform3f("light[1].diffuse",
-                                glm::vec3(1.0f, 1.0f, 0.0f));
-  lighting_shader_.SetUniform3f("light[1].specular", glm::vec3(1.0f));
+
+  point_light_white.Set("light", lighting_shader_, 0);
+  point_light_yellow.Set("light", lighting_shader_, 1);
 
   lighting_shader_.SetUniform1f("material.shininess", 1.0f);
   lighting_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   monkey_head_.Draw();
 
-  // animated_model_shader_.Bind();
-  // animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-  //                                           glm::value_ptr(view_mat));
-  // animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-  //                                           glm::value_ptr(persp_proj_mat));
+  animated_model_shader_.Bind();
+  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                             glm::value_ptr(view_mat));
+  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                             glm::value_ptr(persp_proj_mat));
 
-  // animated_model_shader_.SetUniform3f("light.position",
-  //                                    glm::vec3(0.0f, 1.0f, 0.0f));
-  // animated_model_shader_.SetUniform3f("light.colour",
-  //                                    glm::vec3(1.0f, 1.0f, 0.0f));
-  // animated_model_shader_.SetUniform3f("view_position",
-  // camera_.GetPosition());
+  point_light_white.Set("light", animated_model_shader_, 0);
+  point_light_yellow.Set("light", animated_model_shader_, 1);
 
-  // player_.Draw();
+  animated_model_shader_.SetUniform1f("material.shininess", 1.0f);
+  animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());
+
+  player_.Draw();
 
   glutSwapBuffers();
 }
