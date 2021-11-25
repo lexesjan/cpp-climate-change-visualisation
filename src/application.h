@@ -33,6 +33,7 @@ class Application {
   std::vector<LightSource> campfires_;
   Player player_;
   Model platform_;
+  Model rock_;
   float last_time_;
 };
 

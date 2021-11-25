@@ -18,6 +18,7 @@ Application::Application()
       directed_light_(glm::vec3(0.2f), glm::vec3(0.0f, -1.0f, 0.0f)),
       player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
+      rock_("assets/rock/body.fbx", model_shader_, renderer_),
       last_time_(0.0f) {
   Init();
 }
@@ -88,6 +89,27 @@ void Application::Display() {
   model_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   platform_.Draw();
+
+  model_shader_.SetUniformMatrix4fv(
+      "model", GL_FALSE,
+      glm::value_ptr(
+          glm::translate(glm::mat4(1.0f), glm::vec3(15.0f, 0.0f, 0.0f))));
+
+  rock_.Draw();
+
+  model_shader_.SetUniformMatrix4fv(
+      "model", GL_FALSE,
+      glm::value_ptr(
+          glm::translate(glm::mat4(1.0f), glm::vec3(-15.0f, 0.0f, 0.0f))));
+
+  rock_.Draw();
+
+  model_shader_.SetUniformMatrix4fv(
+      "model", GL_FALSE,
+      glm::value_ptr(
+          glm::translate(glm::mat4(1.0f), glm::vec3(-6.0f, 0.0f, 13.0f))));
+
+  rock_.Draw();
 
   glutSwapBuffers();
 }
