@@ -7,6 +7,7 @@
 
 class Material {
  public:
+  explicit Material(glm::vec3 static_colour, float shininess = 1.0f);
   explicit Material(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular,
                     float shininess = 1.0f);
 

@@ -5,7 +5,8 @@
 
 class Player : public AnimatedModel {
  public:
-  explicit Player(Shader &shader, Renderer &renderer);
+  explicit Player(std::string path, Shader &shader, Renderer &renderer,
+                  Material = Material(glm::vec3(0.0f)));
 
   void UpdatePosition();
 

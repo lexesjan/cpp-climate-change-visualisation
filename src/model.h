@@ -21,8 +21,7 @@ struct BoneInfo {
 class Model {
  public:
   explicit Model(std::string path, Shader &shader, Renderer &renderer,
-                 Material material = Material(glm::vec3(0.0f), glm::vec3(0.0f),
-                                              glm::vec3(0.0f)));
+                 Material material = Material(glm::vec3(0.0f)));
 
   virtual void Draw();
 

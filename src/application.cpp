@@ -14,21 +14,33 @@ Application::Application()
       animated_model_shader_("shaders/animated_model_shader.vs",
                              "shaders/lighting_shader.fs"),
       model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
-      light_source_shader_("shaders/model_shader.vs",
-                           "shaders/light_source_shader.fs"),
-      player_(animated_model_shader_, renderer_),
-      monkey_head_(
-          "assets/monkey_head/body.fbx", model_shader_, renderer_,
-          Material(glm::vec3(1.0f, 0.5f, 0.31f), glm::vec3(1.0f, 0.5f, 0.31f),
-                   glm::vec3(1.0f), 32.0f)),
+      basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
       directed_light_(glm::vec3(0.2f), glm::vec3(0.0f, -1.0f, 0.0f)),
-      campfire_("assets/campfire/body.fbx", glm::vec3(1.0f, 1.0f, 0.0f),
-                glm::vec3(10.0f, 0.0f, 0.0f), light_source_shader_, renderer_),
-      cube_("assets/cube/body.fbx", glm::vec3(1.0f),
-            glm::vec3(-10.0f, 0.0f, 0.0f), light_source_shader_, renderer_,
-            Material(glm::vec3(1.0f), glm::vec3(1.0f), glm::vec3(1.0f))),
+      player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
+      platform_("assets/platform/body.fbx", model_shader_, renderer_),
       last_time_(0.0f) {
+  Init();
+}
+
+void Application::Init() {
   renderer_.Init();
+  directed_light_.Set("directed_light", animated_model_shader_);
+  directed_light_.Set("directed_light", model_shader_);
+
+  campfires_.push_back(
+      LightSource("assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
+                  glm::vec3(3.0f, 0.0f, 6.0f), basic_shader_, renderer_));
+  campfires_.push_back(
+      LightSource("assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
+                  glm::vec3(-6.0f, 0.0f, 3.0f), basic_shader_, renderer_));
+  campfires_.push_back(
+      LightSource("assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
+                  glm::vec3(-5.0f, 0.0f, -3.0f), basic_shader_, renderer_));
+
+  for (unsigned int i = 0; i < campfires_.size(); i++) {
+    campfires_[i].Set("point_light", animated_model_shader_, i);
+    campfires_[i].Set("point_light", model_shader_, i);
+  }
 }
 
 void Application::Display() {
@@ -45,8 +57,27 @@ void Application::Display() {
   persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
                                            1.0f, 1000.0f);
 
-  model_mat = glm::translate(model_mat, glm::vec3(0.0f, -10.0f, 0.0f));
-  model_mat = glm::scale(model_mat, glm::vec3(10.0f));
+  animated_model_shader_.Bind();
+  animated_model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                             glm::value_ptr(model_mat));
+  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                             glm::value_ptr(view_mat));
+  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                             glm::value_ptr(persp_proj_mat));
+  animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());
+
+  player_.Draw();
+
+  basic_shader_.Bind();
+  basic_shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                    glm::value_ptr(model_mat));
+  basic_shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view_mat));
+  basic_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                    glm::value_ptr(persp_proj_mat));
+
+  for (unsigned int i = 0; i < campfires_.size(); i++) {
+    campfires_[i].Draw();
+  }
 
   model_shader_.Bind();
   model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
@@ -54,38 +85,9 @@ void Application::Display() {
   model_shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view_mat));
   model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                     glm::value_ptr(persp_proj_mat));
-
-  directed_light_.Set("directed_light", model_shader_);
-  cube_.Set("point_light", model_shader_, 0);
-  campfire_.Set("point_light", model_shader_, 1);
-
   model_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
-  monkey_head_.Draw();
-
-  animated_model_shader_.Bind();
-  animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-                                             glm::value_ptr(view_mat));
-  animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-                                             glm::value_ptr(persp_proj_mat));
-
-  directed_light_.Set("directed_light", animated_model_shader_);
-  cube_.Set("point_light", animated_model_shader_, 0);
-  campfire_.Set("point_light", animated_model_shader_, 1);
-
-  animated_model_shader_.SetUniform1f("material.shininess", 1.0f);
-  animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());
-
-  player_.Draw();
-
-  light_source_shader_.Bind();
-  light_source_shader_.SetUniformMatrix4fv("view", GL_FALSE,
-                                           glm::value_ptr(view_mat));
-  light_source_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
-                                           glm::value_ptr(persp_proj_mat));
-
-  campfire_.Draw();
-  cube_.Draw();
+  platform_.Draw();
 
   glutSwapBuffers();
 }

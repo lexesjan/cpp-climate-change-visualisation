@@ -33,7 +33,7 @@ struct DirectedLight {
 };
 
 uniform Material material;
-const int MAX_POINT_LIGHTS = 2;
+const int MAX_POINT_LIGHTS = 3;
 uniform PointLight point_light[MAX_POINT_LIGHTS];
 uniform DirectedLight directed_light;
 uniform vec3 view_position;

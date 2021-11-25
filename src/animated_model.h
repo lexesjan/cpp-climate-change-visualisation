@@ -34,14 +34,10 @@ struct AssimpNodeAnimation {
 class AnimatedModel : public Model {
  public:
   explicit AnimatedModel(std::string path, Shader &shader, Renderer &renderer,
-                         Material material = Material(glm::vec3(0.0f),
-                                                      glm::vec3(0.0f),
-                                                      glm::vec3(0.0f)));
+                         Material material = Material(glm::vec3(0.0f)));
   explicit AnimatedModel(std::string model_path, std::string animation_path,
                          Shader &shader, Renderer &renderer,
-                         Material material = Material(glm::vec3(0.0f),
-                                                      glm::vec3(0.0f),
-                                                      glm::vec3(0.0f)));
+                         Material material = Material(glm::vec3(0.0f)));
 
   void UpdateBoneTransformations(bool backwards = false);
 

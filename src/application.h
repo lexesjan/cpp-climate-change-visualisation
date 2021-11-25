@@ -11,6 +11,8 @@ class Application {
  public:
   explicit Application();
 
+  void Init();
+
   void Display();
 
   void UpdateScene();
@@ -25,13 +27,12 @@ class Application {
   Renderer renderer_;
   Camera camera_;
   Shader animated_model_shader_;
-  Shader light_source_shader_;
+  Shader basic_shader_;
   Shader model_shader_;
-  Player player_;
-  Model monkey_head_;
   DirectedLight directed_light_;
-  LightSource campfire_;
-  LightSource cube_;
+  std::vector<LightSource> campfires_;
+  Player player_;
+  Model platform_;
   float last_time_;
 };
 

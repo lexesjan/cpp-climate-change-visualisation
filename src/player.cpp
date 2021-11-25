@@ -1,12 +1,12 @@
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 #include "player.h"
 
-#include <iostream>
-
-Player::Player(Shader &shader, Renderer &renderer)
+Player::Player(std::string path, Shader &shader, Renderer &renderer,
+               Material material)
     : is_key_pressed_(256, false),
       model_matrix_(1.0f),
-      AnimatedModel("assets/polar_bear/body.fbx", shader, renderer) {}
+      AnimatedModel(path, shader, renderer, material) {}
 
 void Player::UpdatePosition() {
   bool is_moving_forwards = false;
