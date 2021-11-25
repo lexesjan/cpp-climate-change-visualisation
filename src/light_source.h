@@ -20,4 +20,4 @@ class LightSource : public Model, public PointLight {
   glm::mat4 model_matrix_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_LIGHT_SOURCE_H_

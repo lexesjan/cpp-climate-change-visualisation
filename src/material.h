@@ -20,4 +20,4 @@ class Material {
   float shininess_;
 };
 
-#endif
+#endif  // CLIMATE_CHANGE_VISUALISATION_MATERIAL_H_
