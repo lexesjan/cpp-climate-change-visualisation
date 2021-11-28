@@ -20,9 +20,12 @@ void Model::Draw() {
   }
 }
 
+Shader& Model::GetShader() { return shader_; }
+
 void Model::LoadModel(std::string path) {
   Assimp::Importer importer;
-  const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate);
+  const aiScene* scene =
+      importer.ReadFile(path, aiProcess_Triangulate | aiProcess_OptimizeMeshes);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {

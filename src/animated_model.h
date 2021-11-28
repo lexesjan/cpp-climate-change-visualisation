@@ -43,7 +43,9 @@ class AnimatedModel : public Model {
 
   const std::vector<glm::mat4> &GetFinalTransforms() const;
 
-  void SetDelta(float delta);
+  virtual void SetDelta(float delta);
+
+  void Draw() override;
 
  protected:
   float delta_;

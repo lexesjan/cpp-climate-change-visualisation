@@ -25,6 +25,8 @@ class Model {
 
   virtual void Draw();
 
+  Shader &GetShader();
+
  protected:
   Shader shader_;
   Renderer renderer_;

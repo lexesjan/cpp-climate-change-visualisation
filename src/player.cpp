@@ -3,9 +3,10 @@
 #include "player.h"
 
 Player::Player(std::string path, Shader &shader, Renderer &renderer,
-               Material material)
+               float player_speed, Material material)
     : is_key_pressed_(256, false),
       model_matrix_(1.0f),
+      player_speed_(player_speed),
       AnimatedModel(path, shader, renderer, material) {}
 
 void Player::UpdatePosition() {
@@ -24,13 +25,13 @@ void Player::UpdatePosition() {
   }
 
   if (is_key_pressed_['j']) {
-    model_matrix_ = glm::rotate(model_matrix_, glm::radians(25.0f) * delta_,
+    model_matrix_ = glm::rotate(model_matrix_, delta_ * glm::radians(25.0f),
                                 glm::vec3(0.0f, 1.0f, 0.0f));
     is_moving_forwards = true;
   }
 
   if (is_key_pressed_['l']) {
-    model_matrix_ = glm::rotate(model_matrix_, glm::radians(25.0f) * delta_,
+    model_matrix_ = glm::rotate(model_matrix_, delta_ * glm::radians(25.0f),
                                 glm::vec3(0.0f, -1.0f, 0.0f));
     is_moving_forwards = true;
   }
@@ -45,12 +46,13 @@ void Player::OnKeyboardDown(unsigned char key) { is_key_pressed_[key] = true; }
 void Player::OnKeyboardUp(unsigned char key) { is_key_pressed_[key] = false; }
 
 void Player::Draw() {
-  const std::vector<glm::mat4> &transforms = GetFinalTransforms();
-
-  shader_.SetUniformMatrix4fv("final_bone_transforms", GL_FALSE,
-                              glm::value_ptr(transforms.front()),
-                              (GLsizei)transforms.size());
-
   shader_.SetUniformMatrix4fv("model", GL_FALSE, glm::value_ptr(model_matrix_));
+
   AnimatedModel::Draw();
 }
+
+const glm::vec3 Player::GetPosition() const {
+  return glm::vec3(model_matrix_[3]);
+}
+
+void Player::SetDelta(float delta) { delta_ = delta * player_speed_; }

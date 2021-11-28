@@ -3,10 +3,13 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
+#include <cstdlib>
+#include <ctime>
 #include "application.h"
 #include "point_light.h"
 #include "directed_light.h"
 #include "material.h"
+#include "random_utils.h"
 
 Application::Application()
     : renderer_(),
@@ -24,6 +27,8 @@ Application::Application()
 }
 
 void Application::Init() {
+  std::srand((unsigned int)std::time(0));
+
   renderer_.Init();
   directed_light_.Set("directed_light", animated_model_shader_);
   directed_light_.Set("directed_light", model_shader_);
@@ -41,6 +46,18 @@ void Application::Init() {
   for (unsigned int i = 0; i < campfires_.size(); i++) {
     campfires_[i].Set("point_light", animated_model_shader_, i);
     campfires_[i].Set("point_light", model_shader_, i);
+  }
+
+  AnimatedModel rabbit = AnimatedModel("assets/rabbit/body.fbx",
+                                       animated_model_shader_, renderer_);
+
+  int width = glutGet(GLUT_WINDOW_WIDTH);
+  int height = glutGet(GLUT_WINDOW_HEIGHT);
+
+  for (unsigned int i = 0; i < 5; i++) {
+    boids_.push_back(Boid(
+        glm::vec2(random_utils::range(-10, 10), random_utils::range(-10, 10)),
+        rabbit));
   }
 }
 
@@ -68,6 +85,10 @@ void Application::Display() {
   animated_model_shader_.SetUniform3f("view_position", camera_.GetPosition());
 
   player_.Draw();
+
+  for (Boid boid : boids_) {
+    boid.Draw();
+  }
 
   basic_shader_.Bind();
   basic_shader_.SetUniformMatrix4fv("model", GL_FALSE,
@@ -124,6 +145,16 @@ void Application::UpdateScene() {
 
   player_.SetDelta(delta);
   player_.UpdatePosition();
+
+  glm::vec3 player_position = player_.GetPosition();
+
+  std::vector<glm::vec2> obstacles{
+      glm::vec2(player_position.x, player_position.z)};
+
+  for (Boid &boid : boids_) {
+    boid.SetDelta(delta);
+    boid.UpdatePosition(boids_, obstacles, 30.0f);
+  }
 
   glutPostRedisplay();
 }

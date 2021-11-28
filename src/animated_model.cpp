@@ -1,3 +1,4 @@
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include "animated_model.h"
 #include "assimp_utils.h"
@@ -25,6 +26,16 @@ AnimatedModel::AnimatedModel(std::string model_path, std::string animation_path,
 }
 
 void AnimatedModel::SetDelta(float delta) { delta_ = delta; }
+
+void AnimatedModel::Draw() {
+  const std::vector<glm::mat4>& transforms = GetFinalTransforms();
+
+  shader_.SetUniformMatrix4fv("final_bone_transforms", GL_FALSE,
+                              glm::value_ptr(transforms.front()),
+                              (GLsizei)transforms.size());
+
+  Model::Draw();
+}
 
 void AnimatedModel::UpdateBoneTransformations(bool backwards) {
   if (node_animations_map_.empty()) {

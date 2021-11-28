@@ -6,6 +6,7 @@
 #include "player.h"
 #include "directed_light.h"
 #include "light_source.h"
+#include "boid.h"
 
 class Application {
  public:
@@ -34,6 +35,7 @@ class Application {
   Player player_;
   Model platform_;
   Model rock_;
+  std::vector<Boid> boids_;
   float last_time_;
 };
 
