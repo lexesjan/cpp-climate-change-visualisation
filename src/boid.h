@@ -5,8 +5,7 @@
 
 class Boid {
  public:
-  explicit Boid(glm::vec2 position, AnimatedModel& model,
-                float vision_radius_ = 10.0f);
+  explicit Boid(glm::vec2 position, AnimatedModel& model);
 
   void UpdatePosition(std::vector<Boid>& others,
                       std::vector<glm::vec2>& obstacles, float radius);
@@ -18,12 +17,11 @@ class Boid {
  private:
   glm::vec2 position_;
   glm::vec2 velocity_;
+  glm::vec2 acceleration_;
   AnimatedModel model_;
-  float vision_radius_;
   float max_speed_;
+  float max_force_;
   float delta_;
-
-  const std::vector<Boid> GetNeighbours(std::vector<Boid>& boids) const;
 
   const glm::vec2 GetAlignment(std::vector<Boid>& boids) const;
 

@@ -6,34 +6,39 @@
 #include "random_utils.h"
 #include "glm_utils.h"
 
-Boid::Boid(glm::vec2 position, AnimatedModel& model, float vision_radius)
+Boid::Boid(glm::vec2 position, AnimatedModel& model)
     : position_(position),
       velocity_(random_utils::range(-1.0f, 1.0f),
                 random_utils::range(-1.0f, 1.0f)),
+      acceleration_(0.0f),
       model_(model),
-      vision_radius_(vision_radius),
-      max_speed_(1.0f),
+      max_speed_(2.0f),
+      max_force_(0.001f),
       delta_(0.0f) {
   velocity_ = glm::normalize(velocity_);
 }
 
 void Boid::UpdatePosition(std::vector<Boid>& others,
                           std::vector<glm::vec2>& obstacles, float radius) {
+  // Calculate acceleration.
   glm::vec2 alignment = GetAlignment(others);
   glm::vec2 cohesion = GetCohesion(others);
   glm::vec2 separation = GetSeparation(others);
   glm::vec2 obstacle_separation = GetObstacleSeparation(obstacles);
+  glm::vec2 edges = GetEdges(radius);
 
-  cohesion = glm_utils::set_length(cohesion, 0.5f);
+  acceleration_ += alignment;
+  acceleration_ += cohesion;
+  acceleration_ += separation * 5.0f;
+  acceleration_ += obstacle_separation * 5.0f;
+  acceleration_ += edges * 5.0f;
 
-  velocity_ += alignment;
-  velocity_ += cohesion;
-  velocity_ += separation;
-  velocity_ += obstacle_separation;
-
+  // Move boid position.
+  velocity_ += acceleration_;
   velocity_ = glm_utils::limit(velocity_, max_speed_);
-
   position_ += velocity_ * delta_;
+
+  acceleration_ *= 0;
 
   model_.UpdateBoneTransformations();
 }
@@ -57,51 +62,57 @@ void Boid::SetDelta(float delta) {
   model_.SetDelta(delta);
 }
 
-const std::vector<Boid> Boid::GetNeighbours(std::vector<Boid>& boids) const {
-  std::vector<Boid> neighbours;
+const glm::vec2 Boid::GetAlignment(std::vector<Boid>& boids) const {
+  float neighbour_radius = 10.0f;
+  unsigned int count = 0;
+
+  glm::vec2 sum(0.0f);
 
   for (Boid& boid : boids) {
-    float distance = glm::distance(boid.position_, position_);
+    float distance = glm::distance(position_, boid.position_);
 
-    if (&boid != this && distance < vision_radius_) {
-      neighbours.push_back(boid);
+    if (distance > 0 && distance < neighbour_radius) {
+      sum += boid.velocity_;
+      count++;
     }
   }
 
-  return neighbours;
-}
+  if (count > 0) {
+    glm::vec2 desired = sum / (float)count;
+    desired = glm_utils::set_length(desired, max_speed_);
 
-const glm::vec2 Boid::GetAlignment(std::vector<Boid>& boids) const {
-  const std::vector<Boid>& neighbours = GetNeighbours(boids);
+    glm::vec2 steering = desired - velocity_;
+    steering = glm_utils::limit(steering, max_force_);
 
-  glm::vec2 average(0.0f);
-
-  for (const Boid& boid : neighbours) {
-    float distance = glm::distance(boid.position_, position_);
-
-    glm::vec2 copy = boid.velocity_;
-    copy = glm::normalize(copy);
-    copy /= distance;
-
-    average += copy;
+    return steering;
   }
 
-  return average;
+  return glm::vec2(0.0f);
 }
 
 const glm::vec2 Boid::GetCohesion(std::vector<Boid>& boids) const {
-  const std::vector<Boid>& neighbours = GetNeighbours(boids);
+  float neighbour_radius = 10.0f;
+  unsigned int count = 0;
 
-  glm::vec2 average(0.0f);
+  glm::vec2 sum(0.0f);
 
-  for (const Boid& boid : neighbours) {
-    average += boid.position_;
+  for (Boid& boid : boids) {
+    float distance = glm::distance(position_, boid.position_);
+
+    if (distance > 0 && distance < neighbour_radius) {
+      sum += boid.position_;
+      count++;
+    }
   }
 
-  if (neighbours.size() > 0) {
-    average /= neighbours.size();
+  if (count > 0) {
+    sum /= count;
 
-    glm::vec2 steering = average - position_;
+    glm::vec2 desired = sum - position_;
+    desired = glm_utils::set_length(desired, max_speed_);
+
+    glm::vec2 steering = desired - velocity_;
+    steering = glm_utils::limit(steering, max_force_);
 
     return steering;
   }
@@ -110,38 +121,92 @@ const glm::vec2 Boid::GetCohesion(std::vector<Boid>& boids) const {
 }
 
 const glm::vec2 Boid::GetSeparation(std::vector<Boid>& boids) const {
-  const std::vector<Boid>& neighbours = GetNeighbours(boids);
+  float separation_radius = 5.0f;
+  unsigned int count = 0;
 
-  glm::vec2 average(0.0f);
+  glm::vec2 steering(0.0f);
 
-  for (const Boid& boid : neighbours) {
-    float distance = glm::distance(boid.position_, position_);
+  for (Boid& boid : boids) {
+    float distance = glm::distance(position_, boid.position_);
 
-    glm::vec2 difference = position_ - boid.position_;
-    difference = glm::normalize(difference);
-    difference /= distance;
+    if (distance > 0 && distance < separation_radius) {
+      glm::vec2 difference = position_ - boid.position_;
+      difference = glm::normalize(difference);
+      difference /= distance;
 
-    average += difference;
+      steering += difference;
+      count++;
+    }
   }
 
-  return average;
+  if (count > 0) {
+    steering /= count;
+  }
+
+  if (glm::length(steering) > 0) {
+    glm::vec2 desired = glm_utils::set_length(steering, max_speed_);
+
+    steering = desired - velocity_;
+    steering = glm_utils::limit(steering, max_force_);
+  }
+
+  return steering;
 }
 
 const glm::vec2 Boid::GetObstacleSeparation(
     std::vector<glm::vec2>& obstacles) const {
-  glm::vec2 average(0.0f);
+  float separation_radius = 5.0f;
+  unsigned int count = 0;
+
+  glm::vec2 steering(0.0f);
 
   for (glm::vec2& obstacle : obstacles) {
-    float distance = glm::distance(obstacle, position_);
+    float distance = glm::distance(position_, obstacle);
 
-    if (distance > 0) {
+    if (distance > 0 && distance < separation_radius) {
       glm::vec2 difference = position_ - obstacle;
       difference = glm::normalize(difference);
       difference /= distance;
 
-      average += difference;
+      steering += difference;
+      count++;
     }
   }
 
-  return average;
+  if (count > 0) {
+    steering /= count;
+  }
+
+  if (glm::length(steering) > 0) {
+    glm::vec2 desired = glm_utils::set_length(steering, max_speed_);
+
+    steering = desired - velocity_;
+    steering = glm_utils::limit(steering, max_force_);
+  }
+
+  return steering;
+}
+
+const glm::vec2 Boid::GetEdges(float radius) const {
+  glm::vec2 steering(0.0f);
+
+  float separation_radius = 5.0f;
+  float distance = glm::distance(position_, glm::vec2(0.0f));
+
+  if (distance > 0 && distance > radius - separation_radius) {
+    glm::vec2 difference = glm::vec2(0.0f) - position_;
+    difference = glm::normalize(difference);
+    difference /= distance;
+
+    steering += difference;
+  }
+
+  if (glm::length(steering) > 0) {
+    glm::vec2 desired = glm_utils::set_length(steering, max_speed_);
+
+    steering = desired - velocity_;
+    steering = glm_utils::limit(steering, max_force_);
+  }
+
+  return steering;
 }

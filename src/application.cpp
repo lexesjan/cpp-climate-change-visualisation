@@ -19,7 +19,7 @@ Application::Application()
       model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
       basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
       skybox_shader_("shaders/skybox_shader.vs", "shaders/skybox_shader.fs"),
-      directed_light_(glm::vec3(0.2f), glm::vec3(0.0f, -1.0f, 0.0f)),
+      directed_light_(glm::vec3(0.3f), glm::vec3(0.0f, -1.0f, 0.0f)),
       player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_,
               10.0f),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
@@ -60,7 +60,7 @@ void Application::Init() {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
 
-  for (unsigned int i = 0; i < 5; i++) {
+  for (unsigned int i = 0; i < 10; i++) {
     boids_.push_back(Boid(
         glm::vec2(random_utils::range(-10, 10), random_utils::range(-10, 10)),
         rabbit));
