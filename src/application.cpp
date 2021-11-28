@@ -18,10 +18,16 @@ Application::Application()
                              "shaders/lighting_shader.fs"),
       model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
       basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
+      skybox_shader_("shaders/skybox_shader.vs", "shaders/skybox_shader.fs"),
       directed_light_(glm::vec3(0.2f), glm::vec3(0.0f, -1.0f, 0.0f)),
-      player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
+      player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_,
+              10.0f),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
+      skybox_({"assets/skybox/right.jpg", "assets/skybox/left.jpg",
+               "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
+               "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
+              skybox_shader_, renderer_),
       last_time_(0.0f) {
   Init();
 }
@@ -73,7 +79,13 @@ void Application::Display() {
 
   view_mat = camera_.GetMatrix();
   persp_proj_mat = glm::perspective<float>(45.0f, (float)width / (float)height,
-                                           1.0f, 1000.0f);
+                                           0.1f, 1000.0f);
+
+  skybox_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                     glm::value_ptr(persp_proj_mat));
+  skybox_shader_.SetUniformMatrix4fv(
+      "view", GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(view_mat))));
+  skybox_.Draw();
 
   animated_model_shader_.Bind();
   animated_model_shader_.SetUniformMatrix4fv("model", GL_FALSE,

@@ -36,13 +36,16 @@
     <None Include="shaders\animated_model_shader.vs">
       <Filter>Solution Files\shaders</Filter>
     </None>
-    <None Include="shaders\light_source_shader.fs">
-      <Filter>Solution Files\shaders</Filter>
-    </None>
     <None Include="shaders\lighting_shader.fs">
       <Filter>Solution Files\shaders</Filter>
     </None>
     <None Include="shaders\model_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_shader.fs">
       <Filter>Solution Files\shaders</Filter>
     </None>
   </ItemGroup>
@@ -116,6 +119,9 @@
     <ClCompile Include="src\glm_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -179,6 +185,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\glm_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skybox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

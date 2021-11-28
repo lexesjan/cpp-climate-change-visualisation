@@ -7,6 +7,7 @@
 #include "directed_light.h"
 #include "light_source.h"
 #include "boid.h"
+#include "skybox.h"
 
 class Application {
  public:
@@ -30,12 +31,14 @@ class Application {
   Shader animated_model_shader_;
   Shader basic_shader_;
   Shader model_shader_;
+  Shader skybox_shader_;
   DirectedLight directed_light_;
   std::vector<LightSource> campfires_;
   Player player_;
   Model platform_;
   Model rock_;
   std::vector<Boid> boids_;
+  Skybox skybox_;
   float last_time_;
 };
 
