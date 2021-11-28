@@ -59,7 +59,7 @@ void Boid::Draw() {
 
 void Boid::SetDelta(float delta) {
   delta_ = delta;
-  model_.SetDelta(delta);
+  model_.SetDelta(delta * glm::length(velocity_));
 }
 
 const glm::vec2 Boid::GetAlignment(std::vector<Boid>& boids) const {
