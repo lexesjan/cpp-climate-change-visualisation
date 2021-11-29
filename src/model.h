@@ -32,6 +32,10 @@ class Model {
 
   Shader &GetShader();
 
+  void SetMatrial(Material &material);
+
+  void SetUseTexture(bool use_texture);
+
  protected:
   Shader shader_;
   Renderer renderer_;

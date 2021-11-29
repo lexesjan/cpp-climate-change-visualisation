@@ -6,7 +6,8 @@ Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<unsigned int> &indices,
       indices_(indices),
       textures_(textures),
       shader_(shader),
-      renderer_(renderer) {
+      renderer_(renderer),
+      use_texture_(true) {
   InitMesh();
 }
 
@@ -15,7 +16,7 @@ void Mesh::Draw() {
   unsigned int num_specular = 1;
   unsigned int num_normals = 1;
 
-  for (unsigned int i = 0; i < textures_.size(); i++) {
+  for (unsigned int i = 0; i < textures_.size() && use_texture_; i++) {
     const Texture &texture = textures_[i];
     texture.Bind(i);
 
@@ -41,6 +42,8 @@ void Mesh::Draw() {
     texture.Unbind(i);
   }
 }
+
+void Mesh::SetUseTexture(bool use_texture) { use_texture_ = use_texture; }
 
 void Mesh::InitMesh() {
   VertexBufferObject vertex_buffer_object(

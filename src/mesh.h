@@ -25,6 +25,8 @@ class Mesh {
 
   void Draw();
 
+  void SetUseTexture(bool use_texture);
+
  private:
   std::vector<Vertex> vertices_;
   std::vector<unsigned int> indices_;
@@ -33,6 +35,7 @@ class Mesh {
   VertexArrayObject vertex_array_object_;
   ElementBufferObject element_buffer_object_;
   Renderer renderer_;
+  bool use_texture_;
 
   void InitMesh();
 };

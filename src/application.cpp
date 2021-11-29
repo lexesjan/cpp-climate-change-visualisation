@@ -65,7 +65,50 @@ void Application::Init() {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
 
+  Material emerald(glm::vec3(0.0215f, 0.1745f, 0.0215f),
+                   glm::vec3(0.07568f, 0.61424f, 0.07568f),
+                   glm::vec3(0.633f, 0.727811f, 0.633f), 76.8f);
+  Material bronze(glm::vec3(0.2125f, 0.1275f, 0.054f),
+                  glm::vec3(0.714f, 0.4284f, 0.18144f),
+                  glm::vec3(0.393548f, 0.271906f, 0.166721f), 25.6f);
+  Material gold(glm::vec3(0.24725f, 0.1995f, 0.0745f),
+                glm::vec3(0.75164f, 0.60648f, 0.22648f),
+                glm::vec3(0.628281f, 0.555802f, 0.366065f), 51.2f);
+  Material black_plastic(glm::vec3(0.0f, 0.0f, 0.0f),
+                         glm::vec3(0.01f, 0.01f, 0.01f),
+                         glm::vec3(0.50f, 0.50f, 0.50f), 32.0f);
+  Material chrome(glm::vec3(0.25f, 0.25f, 0.25f), glm::vec3(0.4f, 0.4f, 0.4f),
+                  glm::vec3(0.774597f, 0.774597f, 0.774597f), 76.8f);
+  Material default_material(glm::vec3(0.0f), 1.0f);
+
   for (unsigned int i = 0; i < 10; i++) {
+    switch (i) {
+      case 0:
+        rabbit.SetMatrial(emerald);
+        rabbit.SetUseTexture(false);
+        break;
+      case 1:
+        rabbit.SetMatrial(gold);
+        rabbit.SetUseTexture(false);
+        break;
+      case 2:
+        rabbit.SetMatrial(black_plastic);
+        rabbit.SetUseTexture(false);
+        break;
+      case 3:
+        rabbit.SetMatrial(chrome);
+        rabbit.SetUseTexture(false);
+        break;
+      case 4:
+        rabbit.SetMatrial(bronze);
+        rabbit.SetUseTexture(false);
+        break;
+      default:
+        rabbit.SetMatrial(default_material);
+        rabbit.SetUseTexture(true);
+        break;
+    }
+
     boids_.push_back(Boid(
         glm::vec2(random_utils::range(-10, 10), random_utils::range(-10, 10)),
         rabbit, 30.0f));
