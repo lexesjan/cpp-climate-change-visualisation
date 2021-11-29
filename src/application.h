@@ -40,6 +40,7 @@ class Application {
   std::vector<Boid> boids_;
   std::vector<ModelPosition> rock_positions_;
   Skybox skybox_;
+  bool pause_crowd_;
   float last_time_;
 };
 

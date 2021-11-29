@@ -22,8 +22,7 @@ Application::Application()
       basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
       skybox_shader_("shaders/skybox_shader.vs", "shaders/skybox_shader.fs"),
       directed_light_(glm::vec3(0.3f), glm::vec3(0.0f, -1.0f, 0.0f)),
-      player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_,
-              10.0f),
+      player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
       rock_positions_({{glm::vec3(-5.94219f, 0.0f, 17.0918f), 0.0f},
@@ -33,6 +32,7 @@ Application::Application()
                "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
               skybox_shader_, renderer_),
+      pause_crowd_(false),
       last_time_(0.0f) {
   Init();
 }
@@ -208,9 +208,11 @@ void Application::UpdateScene() {
   }
 
   for (Boid &boid : boids_) {
-    boid.SetDelta(delta);
-    boid.SetObstacles(obstacles);
-    boid.UpdatePosition(boids_);
+    if (!pause_crowd_) {
+      boid.SetDelta(delta);
+      boid.SetObstacles(obstacles);
+      boid.UpdatePosition(boids_);
+    }
   }
 
   glutPostRedisplay();
@@ -219,8 +221,14 @@ void Application::UpdateScene() {
 void Application::OnMouseMove(int x, int y) { camera_.OnMouseMove(x, y); }
 
 void Application::OnKeyboardDown(unsigned char key, int x, int y) {
-  if (key == 27) {
-    glutLeaveMainLoop();
+  switch (key) {
+    case 27:
+      glutLeaveMainLoop();
+      break;
+    case 'p':
+    case 'P':
+      pause_crowd_ = !pause_crowd_;
+      break;
   }
 
   camera_.OnKeyboardDown(key);
