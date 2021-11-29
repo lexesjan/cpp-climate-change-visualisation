@@ -13,6 +13,11 @@
 #include "mesh.h"
 #include "material.h"
 
+struct ModelPosition {
+  glm::vec3 position;
+  float rotation;
+};
+
 struct BoneInfo {
   int id;
   glm::mat4 offset;

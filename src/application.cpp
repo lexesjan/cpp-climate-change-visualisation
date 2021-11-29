@@ -11,6 +11,8 @@
 #include "material.h"
 #include "random_utils.h"
 
+#include <stdio.h>
+
 Application::Application()
     : renderer_(),
       camera_(),
@@ -24,6 +26,9 @@ Application::Application()
               10.0f),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
+      rock_positions_({{glm::vec3(-12.7405f, 0.0f, 19.2361f), 0.0f},
+                       {glm::vec3(-16.4027f, 0.0f, 0.0f), -43.6154f},
+                       {glm::vec3(-5.94219f, 0.0f, -17.0918f), -75.0218f}}),
       skybox_({"assets/skybox/right.jpg", "assets/skybox/left.jpg",
                "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
@@ -39,15 +44,15 @@ void Application::Init() {
   directed_light_.Set("directed_light", animated_model_shader_);
   directed_light_.Set("directed_light", model_shader_);
 
-  campfires_.push_back(
-      LightSource("assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
-                  glm::vec3(3.0f, 0.0f, 6.0f), basic_shader_, renderer_));
-  campfires_.push_back(
-      LightSource("assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
-                  glm::vec3(-6.0f, 0.0f, 3.0f), basic_shader_, renderer_));
-  campfires_.push_back(
-      LightSource("assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
-                  glm::vec3(-5.0f, 0.0f, -3.0f), basic_shader_, renderer_));
+  campfires_.push_back(LightSource(
+      "assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
+      glm::vec3(0.041548f, 0.0f, 5.25218f), basic_shader_, renderer_));
+  campfires_.push_back(LightSource(
+      "assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
+      glm::vec3(-5.63723f, 0.0f, -0.11825f), basic_shader_, renderer_));
+  campfires_.push_back(LightSource(
+      "assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
+      glm::vec3(3.51629f, 0.0f, -2.96193f), basic_shader_, renderer_));
 
   for (unsigned int i = 0; i < campfires_.size(); i++) {
     campfires_[i].Set("point_light", animated_model_shader_, i);
@@ -73,7 +78,6 @@ void Application::Display() {
   int width = glutGet(GLUT_WINDOW_WIDTH);
   int height = glutGet(GLUT_WINDOW_HEIGHT);
 
-  glm::mat4 model_mat(1.0f);
   glm::mat4 view_mat(1.0f);
   glm::mat4 persp_proj_mat(1.0f);
 
@@ -89,7 +93,7 @@ void Application::Display() {
 
   animated_model_shader_.Bind();
   animated_model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                                             glm::value_ptr(model_mat));
+                                             glm::value_ptr(glm::mat4(1.0f)));
   animated_model_shader_.SetUniformMatrix4fv("view", GL_FALSE,
                                              glm::value_ptr(view_mat));
   animated_model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
@@ -104,7 +108,7 @@ void Application::Display() {
 
   basic_shader_.Bind();
   basic_shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                                    glm::value_ptr(model_mat));
+                                    glm::value_ptr(glm::mat4(1.0f)));
   basic_shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view_mat));
   basic_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                     glm::value_ptr(persp_proj_mat));
@@ -115,7 +119,7 @@ void Application::Display() {
 
   model_shader_.Bind();
   model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
-                                    glm::value_ptr(model_mat));
+                                    glm::value_ptr(glm::mat4(1.0f)));
   model_shader_.SetUniformMatrix4fv("view", GL_FALSE, glm::value_ptr(view_mat));
   model_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                     glm::value_ptr(persp_proj_mat));
@@ -123,26 +127,16 @@ void Application::Display() {
 
   platform_.Draw();
 
-  model_shader_.SetUniformMatrix4fv(
-      "model", GL_FALSE,
-      glm::value_ptr(
-          glm::translate(glm::mat4(1.0f), glm::vec3(15.0f, 0.0f, 0.0f))));
+  for (ModelPosition &rock_position : rock_positions_) {
+    glm::mat4 model_mat(1.0f);
+    model_mat = glm::translate(model_mat, rock_position.position);
+    model_mat = glm::rotate(model_mat, glm::radians(rock_position.rotation),
+                            glm::vec3(0.0f, 1.0f, 0.0f));
 
-  rock_.Draw();
-
-  model_shader_.SetUniformMatrix4fv(
-      "model", GL_FALSE,
-      glm::value_ptr(
-          glm::translate(glm::mat4(1.0f), glm::vec3(-15.0f, 0.0f, 0.0f))));
-
-  rock_.Draw();
-
-  model_shader_.SetUniformMatrix4fv(
-      "model", GL_FALSE,
-      glm::value_ptr(
-          glm::translate(glm::mat4(1.0f), glm::vec3(-6.0f, 0.0f, 13.0f))));
-
-  rock_.Draw();
+    model_shader_.SetUniformMatrix4fv("model", GL_FALSE,
+                                      glm::value_ptr(model_mat));
+    rock_.Draw();
+  }
 
   glutSwapBuffers();
 }
@@ -162,10 +156,13 @@ void Application::UpdateScene() {
 
   std::shared_ptr<std::vector<Obstacle>> obstacles =
       std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{
-          {glm::vec2(player_position.x, player_position.z), 1.87f},
-          {glm::vec2(-6.0f, 13.0f), 4.135f},
-          {glm::vec2(15.0f, 0.0f), 4.135f},
-          {glm::vec2(-15.0f, 0.0f), 4.135f}});
+          {glm::vec2(player_position.x, player_position.z), 1.87f}});
+
+  for (ModelPosition &rock_position : rock_positions_) {
+    obstacles->push_back(
+        {glm::vec2(rock_position.position.x, rock_position.position.z),
+         4.135f});
+  }
 
   for (Boid &boid : boids_) {
     boid.SetDelta(delta);

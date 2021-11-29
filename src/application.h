@@ -38,6 +38,7 @@ class Application {
   Model platform_;
   Model rock_;
   std::vector<Boid> boids_;
+  std::vector<ModelPosition> rock_positions_;
   Skybox skybox_;
   float last_time_;
 };
