@@ -63,7 +63,7 @@ void Application::Init() {
   for (unsigned int i = 0; i < 10; i++) {
     boids_.push_back(Boid(
         glm::vec2(random_utils::range(-10, 10), random_utils::range(-10, 10)),
-        rabbit));
+        rabbit, 30.0f));
   }
 }
 
@@ -98,7 +98,7 @@ void Application::Display() {
 
   player_.Draw();
 
-  for (Boid boid : boids_) {
+  for (Boid &boid : boids_) {
     boid.Draw();
   }
 
@@ -160,12 +160,17 @@ void Application::UpdateScene() {
 
   glm::vec3 player_position = player_.GetPosition();
 
-  std::vector<glm::vec2> obstacles{
-      glm::vec2(player_position.x, player_position.z)};
+  std::shared_ptr<std::vector<Obstacle>> obstacles =
+      std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{
+          {glm::vec2(player_position.x, player_position.z), 1.87f},
+          {glm::vec2(-6.0f, 13.0f), 4.135f},
+          {glm::vec2(15.0f, 0.0f), 4.135f},
+          {glm::vec2(-15.0f, 0.0f), 4.135f}});
 
   for (Boid &boid : boids_) {
     boid.SetDelta(delta);
-    boid.UpdatePosition(boids_, obstacles, 30.0f);
+    boid.SetObstacles(obstacles);
+    boid.UpdatePosition(boids_);
   }
 
   glutPostRedisplay();

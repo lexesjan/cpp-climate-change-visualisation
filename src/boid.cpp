@@ -6,7 +6,7 @@
 #include "random_utils.h"
 #include "glm_utils.h"
 
-Boid::Boid(glm::vec2 position, AnimatedModel& model)
+Boid::Boid(glm::vec2 position, AnimatedModel& model, float platform_radius)
     : position_(position),
       velocity_(random_utils::range(-1.0f, 1.0f),
                 random_utils::range(-1.0f, 1.0f)),
@@ -14,23 +14,24 @@ Boid::Boid(glm::vec2 position, AnimatedModel& model)
       model_(model),
       max_speed_(2.0f),
       max_force_(0.001f),
-      delta_(0.0f) {
+      delta_(0.0f),
+      platform_radius_(platform_radius),
+      obstacles_(std::make_shared<std::vector<Obstacle>>()) {
   velocity_ = glm::normalize(velocity_);
 }
 
-void Boid::UpdatePosition(std::vector<Boid>& others,
-                          std::vector<glm::vec2>& obstacles, float radius) {
+void Boid::UpdatePosition(std::vector<Boid>& others) {
   // Calculate acceleration.
   glm::vec2 alignment = GetAlignment(others);
   glm::vec2 cohesion = GetCohesion(others);
   glm::vec2 separation = GetSeparation(others);
-  glm::vec2 obstacle_separation = GetObstacleSeparation(obstacles);
-  glm::vec2 edges = GetEdges(radius);
+  glm::vec2 obstacle_separation = GetObstacleSeparation();
+  glm::vec2 edges = GetEdges(platform_radius_);
 
   acceleration_ += alignment;
   acceleration_ += cohesion;
   acceleration_ += separation * 5.0f;
-  acceleration_ += obstacle_separation * 5.0f;
+  acceleration_ += obstacle_separation * 10.0f;
   acceleration_ += edges * 5.0f;
 
   // Move boid position.
@@ -60,6 +61,10 @@ void Boid::Draw() {
 void Boid::SetDelta(float delta) {
   delta_ = delta;
   model_.SetDelta(delta * glm::length(velocity_));
+}
+
+void Boid::SetObstacles(std::shared_ptr<std::vector<Obstacle>> obstacles) {
+  obstacles_ = obstacles;
 }
 
 const glm::vec2 Boid::GetAlignment(std::vector<Boid>& boids) const {
@@ -153,18 +158,17 @@ const glm::vec2 Boid::GetSeparation(std::vector<Boid>& boids) const {
   return steering;
 }
 
-const glm::vec2 Boid::GetObstacleSeparation(
-    std::vector<glm::vec2>& obstacles) const {
+const glm::vec2 Boid::GetObstacleSeparation() const {
   float separation_radius = 5.0f;
   unsigned int count = 0;
 
   glm::vec2 steering(0.0f);
 
-  for (glm::vec2& obstacle : obstacles) {
-    float distance = glm::distance(position_, obstacle);
+  for (Obstacle& obstacle : *obstacles_) {
+    float distance = glm::distance(position_, obstacle.position);
 
-    if (distance > 0 && distance < separation_radius) {
-      glm::vec2 difference = position_ - obstacle;
+    if (distance > 0 && distance < separation_radius + obstacle.radius) {
+      glm::vec2 difference = position_ - obstacle.position;
       difference = glm::normalize(difference);
       difference /= distance;
 

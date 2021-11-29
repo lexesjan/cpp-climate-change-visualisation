@@ -3,16 +3,23 @@
 
 #include "animated_model.h"
 
+struct Obstacle {
+  glm::vec2 position;
+  float radius;
+};
+
 class Boid {
  public:
-  explicit Boid(glm::vec2 position, AnimatedModel& model);
+  explicit Boid(glm::vec2 position, AnimatedModel& model,
+                float platform_radius);
 
-  void UpdatePosition(std::vector<Boid>& others,
-                      std::vector<glm::vec2>& obstacles, float radius);
+  void UpdatePosition(std::vector<Boid>& others);
 
   void Draw();
 
   void SetDelta(float delta);
+
+  void SetObstacles(std::shared_ptr<std::vector<Obstacle>> obstacles);
 
  private:
   glm::vec2 position_;
@@ -22,6 +29,8 @@ class Boid {
   float max_speed_;
   float max_force_;
   float delta_;
+  float platform_radius_;
+  std::shared_ptr<std::vector<Obstacle>> obstacles_;
 
   const glm::vec2 GetAlignment(std::vector<Boid>& boids) const;
 
@@ -29,8 +38,7 @@ class Boid {
 
   const glm::vec2 GetSeparation(std::vector<Boid>& boids) const;
 
-  const glm::vec2 GetObstacleSeparation(
-      std::vector<glm::vec2>& obstacles) const;
+  const glm::vec2 GetObstacleSeparation() const;
 
   const glm::vec2 GetEdges(float radius) const;
 };
