@@ -26,9 +26,9 @@ Application::Application()
               10.0f),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
-      rock_positions_({{glm::vec3(-12.7405f, 0.0f, 19.2361f), 0.0f},
+      rock_positions_({{glm::vec3(-5.94219f, 0.0f, 17.0918f), 0.0f},
                        {glm::vec3(-16.4027f, 0.0f, 0.0f), -43.6154f},
-                       {glm::vec3(-5.94219f, 0.0f, -17.0918f), -75.0218f}}),
+                       {glm::vec3(-12.7405f, 0.0f, -19.2361f), -75.0218f}}),
       skybox_({"assets/skybox/right.jpg", "assets/skybox/left.jpg",
                "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
@@ -46,13 +46,13 @@ void Application::Init() {
 
   campfires_.push_back(LightSource(
       "assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
-      glm::vec3(0.041548f, 0.0f, 5.25218f), basic_shader_, renderer_));
+      glm::vec3(0.041548f, 0.0f, -5.25218f), basic_shader_, renderer_));
   campfires_.push_back(LightSource(
       "assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
-      glm::vec3(-5.63723f, 0.0f, -0.11825f), basic_shader_, renderer_));
+      glm::vec3(-5.63723f, 0.0f, 0.11825f), basic_shader_, renderer_));
   campfires_.push_back(LightSource(
       "assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
-      glm::vec3(3.51629f, 0.0f, -2.96193f), basic_shader_, renderer_));
+      glm::vec3(3.51629f, 0.0f, 2.96193f), basic_shader_, renderer_));
 
   for (unsigned int i = 0; i < campfires_.size(); i++) {
     campfires_[i].Set("point_light", animated_model_shader_, i);
