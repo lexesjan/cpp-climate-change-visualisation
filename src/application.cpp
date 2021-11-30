@@ -192,20 +192,23 @@ void Application::UpdateScene() {
   camera_.SetDelta(delta);
   camera_.UpdatePosition();
 
-  player_.SetDelta(delta);
-  player_.UpdatePosition();
-
-  glm::vec3 player_position = player_.GetPosition();
-
   std::shared_ptr<std::vector<Obstacle>> obstacles =
-      std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{
-          {glm::vec2(player_position.x, player_position.z), 1.87f}});
+      std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{});
 
   for (ModelPosition &rock_position : rock_positions_) {
     obstacles->push_back(
         {glm::vec2(rock_position.position.x, rock_position.position.z),
          4.135f});
   }
+
+  player_.SetObstacles(obstacles);
+  player_.SetDelta(delta);
+  player_.UpdatePosition();
+
+  glm::vec3 player_position = player_.GetPosition();
+
+  obstacles->push_back(
+      {glm::vec2(player_position.x, player_position.z), 1.87f});
 
   for (Boid &boid : boids_) {
     if (!pause_crowd_) {
