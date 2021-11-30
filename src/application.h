@@ -6,10 +6,14 @@
 #include "player.h"
 #include "directed_light.h"
 #include "light_source.h"
+#include "boid.h"
+#include "skybox.h"
 
 class Application {
  public:
   explicit Application();
+
+  void Init();
 
   void Display();
 
@@ -25,13 +29,18 @@ class Application {
   Renderer renderer_;
   Camera camera_;
   Shader animated_model_shader_;
-  Shader light_source_shader_;
+  Shader basic_shader_;
   Shader model_shader_;
-  Player player_;
-  Model monkey_head_;
+  Shader skybox_shader_;
   DirectedLight directed_light_;
-  LightSource campfire_;
-  LightSource cube_;
+  std::vector<LightSource> campfires_;
+  Player player_;
+  Model platform_;
+  Model rock_;
+  std::vector<Boid> boids_;
+  std::vector<ModelPosition> rock_positions_;
+  Skybox skybox_;
+  bool pause_crowd_;
   float last_time_;
 };
 

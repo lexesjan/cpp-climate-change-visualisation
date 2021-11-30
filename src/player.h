@@ -5,7 +5,9 @@
 
 class Player : public AnimatedModel {
  public:
-  explicit Player(Shader &shader, Renderer &renderer);
+  explicit Player(std::string path, Shader &shader, Renderer &renderer,
+                  float player_speed = 1.0f,
+                  Material = Material(glm::vec3(0.0f)));
 
   void UpdatePosition();
 
@@ -15,9 +17,14 @@ class Player : public AnimatedModel {
 
   void Draw() override;
 
+  const glm::vec3 GetPosition() const;
+
+  void SetDelta(float delta) override;
+
  private:
   std::vector<bool> is_key_pressed_;
   glm::mat4 model_matrix_;
+  float player_speed_;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_PLAYER_H_

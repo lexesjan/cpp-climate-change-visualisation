@@ -142,24 +142,20 @@
     <None Include=".clang-format" />
     <None Include=".gitignore" />
     <None Include="LICENSE" />
-    <None Include="models\campfire\body.fbx" />
-    <None Include="models\cube\body.fbx" />
-    <None Include="models\monkey_head\body.fbx" />
-    <None Include="models\polar_bear\body.fbx" />
-    <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx" />
-    <None Include="models\rabbit\body.fbx" />
-    <None Include="models\rabbit\Rabbit.FBX" />
     <None Include="README.md" />
     <None Include="shaders\animated_model_shader.vs" />
     <None Include="shaders\lighting_shader.fs" />
-    <None Include="shaders\light_source_shader.fs" />
     <None Include="shaders\model_shader.vs" />
+    <None Include="shaders\skybox_shader.fs" />
+    <None Include="shaders\skybox_shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\animated_model.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\assimp_utils.cpp" />
+    <ClCompile Include="src\boid.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\glm_utils.cpp" />
     <ClCompile Include="src\light_source.cpp" />
     <ClCompile Include="src\directed_light.cpp" />
     <ClCompile Include="src\element_buffer_object.cpp" />
@@ -169,8 +165,10 @@
     <ClCompile Include="src\model.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\point_light.cpp" />
+    <ClCompile Include="src\random_utils.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\skybox.cpp" />
     <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\vertex_array_object.cpp" />
@@ -181,7 +179,9 @@
     <ClInclude Include="src\animated_model.h" />
     <ClInclude Include="src\application.h" />
     <ClInclude Include="src\assimp_utils.h" />
+    <ClInclude Include="src\boid.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\glm_utils.h" />
     <ClInclude Include="src\light_source.h" />
     <ClInclude Include="src\directed_light.h" />
     <ClInclude Include="src\element_buffer_object.h" />
@@ -190,23 +190,14 @@
     <ClInclude Include="src\model.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\point_light.h" />
+    <ClInclude Include="src\random_utils.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\shader.h" />
+    <ClInclude Include="src\skybox.h" />
     <ClInclude Include="src\texture.h" />
     <ClInclude Include="src\vertex_array_object.h" />
     <ClInclude Include="src\vertex_buffer_layout.h" />
     <ClInclude Include="src\vertex_buffer_object.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="models\campfire\LivingForestTexture.png" />
-    <Image Include="models\polar_bear\MAT_BODY_metallicRoughness.png" />
-    <Image Include="models\polar_bear\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png" />
-    <Image Include="models\polar_bear\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png" />
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-AO_u0_v0.jpg" />
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-CV_u0_v0.jpg" />
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-DM(0.020153)4096_u0_v0.jpg" />
-    <Image Include="models\polar_bear\WaxDynaMesh129_001_TXTR.png" />
-    <Image Include="models\rabbit\Main.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

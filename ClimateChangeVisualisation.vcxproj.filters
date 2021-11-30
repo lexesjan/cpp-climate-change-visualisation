@@ -19,24 +19,6 @@
     <Filter Include="Solution Files\shaders">
       <UniqueIdentifier>{4647eb15-6100-4cb7-bc44-025e20952990}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Solution Files\models">
-      <UniqueIdentifier>{73806d73-a8f2-4876-b33f-b68c33ab4630}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Solution Files\models\polar_bear">
-      <UniqueIdentifier>{9344b0e7-221d-4e58-b9d4-cd3bccd01e97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Solution Files\models\rabbit">
-      <UniqueIdentifier>{78065264-439a-4121-9a0c-52ce1ba6cbe0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Solution Files\models\monkey_head">
-      <UniqueIdentifier>{0658ae32-9b0e-4437-b8f9-4e8d4fc5a79c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Solution Files\models\campfire">
-      <UniqueIdentifier>{5e91fb4b-167a-4e1c-812e-7c107878ed12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Solution Files\models\cube">
-      <UniqueIdentifier>{f4f7ba7c-1ad7-42b2-b83e-7cf4cd217460}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format">
@@ -51,25 +33,7 @@
     <None Include="README.md">
       <Filter>Solution Files</Filter>
     </None>
-    <None Include="models\polar_bear\PB_WALK_IDLE_POUND.fbx">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </None>
-    <None Include="models\polar_bear\body.fbx">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </None>
-    <None Include="models\rabbit\body.fbx">
-      <Filter>Solution Files\models\rabbit</Filter>
-    </None>
-    <None Include="models\rabbit\Rabbit.FBX">
-      <Filter>Solution Files\models\rabbit</Filter>
-    </None>
-    <None Include="models\monkey_head\body.fbx">
-      <Filter>Solution Files\models\monkey_head</Filter>
-    </None>
     <None Include="shaders\animated_model_shader.vs">
-      <Filter>Solution Files\shaders</Filter>
-    </None>
-    <None Include="shaders\light_source_shader.fs">
       <Filter>Solution Files\shaders</Filter>
     </None>
     <None Include="shaders\lighting_shader.fs">
@@ -78,11 +42,11 @@
     <None Include="shaders\model_shader.vs">
       <Filter>Solution Files\shaders</Filter>
     </None>
-    <None Include="models\cube\body.fbx">
-      <Filter>Solution Files\models\cube</Filter>
+    <None Include="shaders\skybox_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
     </None>
-    <None Include="models\campfire\body.fbx">
-      <Filter>Solution Files\models\campfire</Filter>
+    <None Include="shaders\skybox_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +110,18 @@
     <ClCompile Include="src\light_source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\boid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\random_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glm_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -202,34 +178,17 @@
     <ClInclude Include="src\light_source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="models\polar_bear\PM3D_LeftEyePM3D_Sphere3D1-TM_u0_v0.png">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\polar_bear\PM3D_Right_EyePM3D_Sphere3D2-TM_u0_v0.png">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\polar_bear\WaxDynaMesh129_001_TXTR.png">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-AO_u0_v0.jpg">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-CV_u0_v0.jpg">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\polar_bear\WaxDynaMesh129_001-DM(0.020153)4096_u0_v0.jpg">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
-    <Image Include="models\rabbit\Main.png">
-      <Filter>Solution Files\models\rabbit</Filter>
-    </Image>
-    <Image Include="models\campfire\LivingForestTexture.png">
-      <Filter>Solution Files\models\campfire</Filter>
-    </Image>
-    <Image Include="models\polar_bear\MAT_BODY_metallicRoughness.png">
-      <Filter>Solution Files\models\polar_bear</Filter>
-    </Image>
+    <ClInclude Include="src\boid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\random_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\glm_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,9 +20,20 @@ void Model::Draw() {
   }
 }
 
+Shader& Model::GetShader() { return shader_; }
+
+void Model::SetMatrial(Material& material) { material_ = material; }
+
+void Model::SetUseTexture(bool use_texture) {
+  for (Mesh& mesh : meshes_) {
+    mesh.SetUseTexture(use_texture);
+  }
+}
+
 void Model::LoadModel(std::string path) {
   Assimp::Importer importer;
-  const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate);
+  const aiScene* scene =
+      importer.ReadFile(path, aiProcess_Triangulate | aiProcess_OptimizeMeshes);
 
   if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||
       !scene->mRootNode) {

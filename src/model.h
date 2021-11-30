@@ -13,6 +13,11 @@
 #include "mesh.h"
 #include "material.h"
 
+struct ModelPosition {
+  glm::vec3 position;
+  float rotation;
+};
+
 struct BoneInfo {
   int id;
   glm::mat4 offset;
@@ -21,10 +26,15 @@ struct BoneInfo {
 class Model {
  public:
   explicit Model(std::string path, Shader &shader, Renderer &renderer,
-                 Material material = Material(glm::vec3(0.0f), glm::vec3(0.0f),
-                                              glm::vec3(0.0f)));
+                 Material material = Material(glm::vec3(0.0f)));
 
   virtual void Draw();
+
+  Shader &GetShader();
+
+  void SetMatrial(Material &material);
+
+  void SetUseTexture(bool use_texture);
 
  protected:
   Shader shader_;
