@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <glm/ext/vector_float3.hpp>
+#include <glm/ext/vector_float4.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -24,6 +25,12 @@ class Shader {
                     const GLfloat data2, const GLfloat data3);
 
   void SetUniform3f(const std::string& name, glm::vec3 data);
+
+  void SetUniform4f(const std::string& name, const GLfloat data1,
+                    const GLfloat data2, const GLfloat data3,
+                    const GLfloat data4);
+
+  void SetUniform4f(const std::string& name, glm::vec4 data);
 
   void SetUniformMatrix4fv(const std::string& name, GLboolean is_transpose,
                            const GLfloat* data, GLsizei count = 1);

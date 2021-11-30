@@ -31,8 +31,18 @@ void Shader::SetUniform3f(const std::string& name, const GLfloat data1,
 }
 
 void Shader::SetUniform3f(const std::string& name, glm::vec3 data) {
+  SetUniform3f(name, data.x, data.y, data.z);
+}
+
+void Shader::SetUniform4f(const std::string& name, const GLfloat data1,
+                          const GLfloat data2, const GLfloat data3,
+                          const GLfloat data4) {
   Bind();
-  glUniform3f(GetUniformLocation(name), data.x, data.y, data.z);
+  glUniform4f(GetUniformLocation(name), data1, data2, data3, data4);
+}
+
+void Shader::SetUniform4f(const std::string& name, glm::vec4 data) {
+  SetUniform4f(name, data.x, data.y, data.z, data.w);
 }
 
 void Shader::SetUniformMatrix4fv(const std::string& name,
