@@ -13,6 +13,8 @@ class Material {
 
   void Set(std::string name, Shader& shader);
 
+  const float GetShininess() const;
+
  private:
   glm::vec3 ambient_;
   glm::vec3 diffuse_;

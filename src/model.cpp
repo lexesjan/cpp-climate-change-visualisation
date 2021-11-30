@@ -24,6 +24,8 @@ Shader& Model::GetShader() { return shader_; }
 
 void Model::SetMatrial(Material& material) { material_ = material; }
 
+const Material& Model::GetMaterial() const { return material_; }
+
 void Model::SetUseTexture(bool use_texture) {
   for (Mesh& mesh : meshes_) {
     mesh.SetUseTexture(use_texture);

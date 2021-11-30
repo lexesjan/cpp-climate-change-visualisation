@@ -34,6 +34,8 @@ class Model {
 
   void SetMatrial(Material &material);
 
+  const Material &GetMaterial() const;
+
   void SetUseTexture(bool use_texture);
 
  protected:

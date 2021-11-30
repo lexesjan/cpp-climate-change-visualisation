@@ -19,3 +19,5 @@ void Material::Set(std::string name, Shader& shader) {
   shader.SetUniform3f(name + ".specular", specular_);
   shader.SetUniform1f(name + ".shininess", shininess_);
 }
+
+const float Material::GetShininess() const { return shininess_; }
