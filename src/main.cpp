@@ -24,9 +24,10 @@ int main(int argc, char** argv) {
   // Setup the window.
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowSize(800, 600);
+  glutInitWindowSize(1920, 1080);
   glutCreateWindow("Climate Change Visualisation");
   glutSetCursor(GLUT_CURSOR_NONE);
+  glutFullScreen();
 
   // Register callbacks.
   glutDisplayFunc(Display);
