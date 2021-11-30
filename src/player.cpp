@@ -44,15 +44,14 @@ void Player::UpdatePosition() {
 
   if (is_key_pressed_['g']) {
     Material shiny_material(glm::vec3(0.0f), 32.0f);
+
+    SetMatrial(shiny_material);
+  }
+
+  if (is_key_pressed_['G']) {
     Material default_material(glm::vec3(0.0f));
 
-    const Material &material = GetMaterial();
-
-    if (material.GetShininess() == 1.0f) {
-      SetMatrial(shiny_material);
-    } else {
-      SetMatrial(default_material);
-    }
+    SetMatrial(default_material);
   }
 
   glm::vec3 current_position = GetPosition();
