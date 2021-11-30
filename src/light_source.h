@@ -17,7 +17,7 @@ class LightSource : public Model, public PointLight {
   void Draw() override;
 
  private:
-  glm::mat4 model_matrix_;
+  glm::vec3 position_;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_LIGHT_SOURCE_H_

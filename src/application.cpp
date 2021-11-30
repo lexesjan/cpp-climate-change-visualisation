@@ -21,7 +21,9 @@ Application::Application()
       model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
       basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
       skybox_shader_("shaders/skybox_shader.vs", "shaders/skybox_shader.fs"),
-      directed_light_(glm::vec3(0.3f), glm::vec3(0.0f, -1.0f, 0.0f)),
+      particle_shader_("shaders/particle_shader.vs",
+                       "shaders/particle_shader.fs"),
+      directed_light_(glm::vec3(0.5f), glm::vec3(0.0f, -1.0f, 0.0f)),
       player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
@@ -32,6 +34,7 @@ Application::Application()
                "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
               skybox_shader_, renderer_),
+      particle_system_(particle_shader_, renderer_),
       pause_crowd_(false),
       last_time_(0.0f) {
   Init();
@@ -44,15 +47,18 @@ void Application::Init() {
   directed_light_.Set("directed_light", animated_model_shader_);
   directed_light_.Set("directed_light", model_shader_);
 
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
-      glm::vec3(0.041548f, 0.0f, -5.25218f), basic_shader_, renderer_));
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
-      glm::vec3(-5.63723f, 0.0f, 0.11825f), basic_shader_, renderer_));
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
-      glm::vec3(3.51629f, 0.0f, 2.96193f), basic_shader_, renderer_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.949f, 0.490f, 0.047f),
+                                glm::vec3(0.041548f, 0.0f, -5.25218f),
+                                basic_shader_, renderer_, particle_system_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.501f, 0.035f, 0.035f),
+                                glm::vec3(-5.63723f, 0.0f, 0.11825f),
+                                basic_shader_, renderer_, particle_system_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.862f, 0.960f, 0.031f),
+                                glm::vec3(3.51629f, 0.0f, 2.96193f),
+                                basic_shader_, renderer_, particle_system_));
 
   for (unsigned int i = 0; i < campfires_.size(); i++) {
     campfires_[i].Set("point_light", animated_model_shader_, i);
@@ -61,9 +67,6 @@ void Application::Init() {
 
   AnimatedModel rabbit = AnimatedModel("assets/rabbit/body.fbx",
                                        animated_model_shader_, renderer_);
-
-  int width = glutGet(GLUT_WINDOW_WIDTH);
-  int height = glutGet(GLUT_WINDOW_HEIGHT);
 
   Material emerald(glm::vec3(0.0215f, 0.1745f, 0.0215f),
                    glm::vec3(0.07568f, 0.61424f, 0.07568f),
@@ -181,6 +184,14 @@ void Application::Display() {
     rock_.Draw();
   }
 
+  particle_shader_.Bind();
+  particle_shader_.SetUniformMatrix4fv("view", GL_FALSE,
+                                       glm::value_ptr(view_mat));
+  particle_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
+                                       glm::value_ptr(persp_proj_mat));
+
+  particle_system_.Draw();
+
   glutSwapBuffers();
 }
 
@@ -192,20 +203,23 @@ void Application::UpdateScene() {
   camera_.SetDelta(delta);
   camera_.UpdatePosition();
 
-  player_.SetDelta(delta);
-  player_.UpdatePosition();
-
-  glm::vec3 player_position = player_.GetPosition();
-
   std::shared_ptr<std::vector<Obstacle>> obstacles =
-      std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{
-          {glm::vec2(player_position.x, player_position.z), 1.87f}});
+      std::make_shared<std::vector<Obstacle>>(std::vector<Obstacle>{});
 
   for (ModelPosition &rock_position : rock_positions_) {
     obstacles->push_back(
         {glm::vec2(rock_position.position.x, rock_position.position.z),
          4.135f});
   }
+
+  player_.SetObstacles(obstacles);
+  player_.SetDelta(delta);
+  player_.UpdatePosition();
+
+  glm::vec3 player_position = player_.GetPosition();
+
+  obstacles->push_back(
+      {glm::vec2(player_position.x, player_position.z), 1.87f});
 
   for (Boid &boid : boids_) {
     if (!pause_crowd_) {
@@ -214,6 +228,9 @@ void Application::UpdateScene() {
       boid.UpdatePosition(boids_);
     }
   }
+
+  particle_system_.SetDelta(delta);
+  particle_system_.UpdatePosition();
 
   glutPostRedisplay();
 }

@@ -144,8 +144,11 @@
     <None Include="LICENSE" />
     <None Include="README.md" />
     <None Include="shaders\animated_model_shader.vs" />
+    <None Include="shaders\basic_shader.fs" />
     <None Include="shaders\lighting_shader.fs" />
     <None Include="shaders\model_shader.vs" />
+    <None Include="shaders\particle_shader.fs" />
+    <None Include="shaders\particle_shader.vs" />
     <None Include="shaders\skybox_shader.fs" />
     <None Include="shaders\skybox_shader.vs" />
   </ItemGroup>
@@ -155,6 +158,7 @@
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\boid.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\campfire.cpp" />
     <ClCompile Include="src\glm_utils.cpp" />
     <ClCompile Include="src\light_source.cpp" />
     <ClCompile Include="src\directed_light.cpp" />
@@ -163,6 +167,7 @@
     <ClCompile Include="src\material.cpp" />
     <ClCompile Include="src\mesh.cpp" />
     <ClCompile Include="src\model.cpp" />
+    <ClCompile Include="src\particle_system.cpp" />
     <ClCompile Include="src\player.cpp" />
     <ClCompile Include="src\point_light.cpp" />
     <ClCompile Include="src\random_utils.cpp" />
@@ -181,6 +186,7 @@
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\boid.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\campfire.h" />
     <ClInclude Include="src\glm_utils.h" />
     <ClInclude Include="src\light_source.h" />
     <ClInclude Include="src\directed_light.h" />
@@ -188,6 +194,7 @@
     <ClInclude Include="src\material.h" />
     <ClInclude Include="src\mesh.h" />
     <ClInclude Include="src\model.h" />
+    <ClInclude Include="src\particle_system.h" />
     <ClInclude Include="src\player.h" />
     <ClInclude Include="src\point_light.h" />
     <ClInclude Include="src\random_utils.h" />

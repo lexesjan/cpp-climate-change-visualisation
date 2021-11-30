@@ -2,6 +2,7 @@
 #define CLIMATE_CHANGE_VISUALISATION_PLAYER_H_
 
 #include "animated_model.h"
+#include "boid.h"
 
 class Player : public AnimatedModel {
  public:
@@ -19,12 +20,17 @@ class Player : public AnimatedModel {
 
   const glm::vec3 GetPosition() const;
 
+  void SetPosition(glm::vec3 &position);
+
   void SetDelta(float delta) override;
+
+  void SetObstacles(std::shared_ptr<std::vector<Obstacle>> obstacles);
 
  private:
   std::vector<bool> is_key_pressed_;
   glm::mat4 model_matrix_;
   float player_speed_;
+  std::shared_ptr<std::vector<Obstacle>> obstacles_;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_PLAYER_H_

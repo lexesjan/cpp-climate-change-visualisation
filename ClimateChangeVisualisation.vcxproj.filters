@@ -48,6 +48,15 @@
     <None Include="shaders\skybox_shader.fs">
       <Filter>Solution Files\shaders</Filter>
     </None>
+    <None Include="shaders\basic_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\particle_shader.fs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
+    <None Include="shaders\particle_shader.vs">
+      <Filter>Solution Files\shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -122,6 +131,12 @@
     <ClCompile Include="src\skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\particle_system.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\campfire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\camera.h">
@@ -188,6 +203,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\particle_system.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\campfire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
