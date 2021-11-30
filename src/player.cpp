@@ -36,6 +36,18 @@ void Player::UpdatePosition() {
     is_moving_forwards = true;
   }
 
+  if (is_key_pressed_['+']) {
+    player_speed_ += 0.1f;
+  }
+
+  if (is_key_pressed_['-']) {
+    player_speed_ -= 0.1f;
+  }
+
+  if (is_key_pressed_['r'] || is_key_pressed_['R']) {
+    player_speed_ = 1.0f;
+  }
+
   if (is_moving_forwards || is_moving_backwards) {
     UpdateBoneTransformations(is_moving_backwards);
   }

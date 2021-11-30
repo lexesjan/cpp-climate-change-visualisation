@@ -21,7 +21,7 @@ Application::Application()
       model_shader_("shaders/model_shader.vs", "shaders/lighting_shader.fs"),
       basic_shader_("shaders/model_shader.vs", "shaders/basic_shader.fs"),
       skybox_shader_("shaders/skybox_shader.vs", "shaders/skybox_shader.fs"),
-      directed_light_(glm::vec3(0.3f), glm::vec3(0.0f, -1.0f, 0.0f)),
+      directed_light_(glm::vec3(0.5f), glm::vec3(0.0f, -1.0f, 0.0f)),
       player_("assets/polar_bear/body.fbx", animated_model_shader_, renderer_),
       platform_("assets/platform/body.fbx", model_shader_, renderer_),
       rock_("assets/rock/body.fbx", model_shader_, renderer_),
