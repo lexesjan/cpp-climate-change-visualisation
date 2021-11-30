@@ -8,6 +8,7 @@
 #include "light_source.h"
 #include "boid.h"
 #include "skybox.h"
+#include "particle_system.h"
 
 class Application {
  public:
@@ -32,6 +33,7 @@ class Application {
   Shader basic_shader_;
   Shader model_shader_;
   Shader skybox_shader_;
+  Shader particle_shader_;
   DirectedLight directed_light_;
   std::vector<LightSource> campfires_;
   Player player_;
@@ -40,6 +42,8 @@ class Application {
   std::vector<Boid> boids_;
   std::vector<ModelPosition> rock_positions_;
   Skybox skybox_;
+  ParticleSystem particle_system_;
+  ParticleProps smoke_particle_props_;
   bool pause_crowd_;
   float last_time_;
 };

@@ -50,8 +50,8 @@ class ParticleSystem {
   float delta_;
   Shader shader_;
   Renderer renderer_;
-  std::vector<glm::vec3> vertices_;
   VertexArrayObject vertex_array_object_;
+  std::vector<float> vertices_;
 };
 
 #endif  // CLIMATE_CHANGE_VISUALISATION_PARTICLE_SYSTEM_H_
