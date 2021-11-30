@@ -158,6 +158,7 @@
     <ClCompile Include="src\assimp_utils.cpp" />
     <ClCompile Include="src\boid.cpp" />
     <ClCompile Include="src\camera.cpp" />
+    <ClCompile Include="src\campfire.cpp" />
     <ClCompile Include="src\glm_utils.cpp" />
     <ClCompile Include="src\light_source.cpp" />
     <ClCompile Include="src\directed_light.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="src\assimp_utils.h" />
     <ClInclude Include="src\boid.h" />
     <ClInclude Include="src\camera.h" />
+    <ClInclude Include="src\campfire.h" />
     <ClInclude Include="src\glm_utils.h" />
     <ClInclude Include="src\light_source.h" />
     <ClInclude Include="src\directed_light.h" />

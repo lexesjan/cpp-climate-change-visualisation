@@ -35,7 +35,6 @@ Application::Application()
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
               skybox_shader_, renderer_),
       particle_system_(particle_shader_, renderer_),
-      smoke_particle_props_(),
       pause_crowd_(false),
       last_time_(0.0f) {
   Init();
@@ -48,15 +47,18 @@ void Application::Init() {
   directed_light_.Set("directed_light", animated_model_shader_);
   directed_light_.Set("directed_light", model_shader_);
 
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.949f, 0.490f, 0.047f),
-      glm::vec3(0.041548f, 0.0f, -5.25218f), basic_shader_, renderer_));
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.501f, 0.035f, 0.035f),
-      glm::vec3(-5.63723f, 0.0f, 0.11825f), basic_shader_, renderer_));
-  campfires_.push_back(LightSource(
-      "assets/campfire/body.fbx", glm::vec3(0.862f, 0.960f, 0.031f),
-      glm::vec3(3.51629f, 0.0f, 2.96193f), basic_shader_, renderer_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.949f, 0.490f, 0.047f),
+                                glm::vec3(0.041548f, 0.0f, -5.25218f),
+                                basic_shader_, renderer_, particle_system_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.501f, 0.035f, 0.035f),
+                                glm::vec3(-5.63723f, 0.0f, 0.11825f),
+                                basic_shader_, renderer_, particle_system_));
+  campfires_.push_back(Campfire("assets/campfire/body.fbx",
+                                glm::vec3(0.862f, 0.960f, 0.031f),
+                                glm::vec3(3.51629f, 0.0f, 2.96193f),
+                                basic_shader_, renderer_, particle_system_));
 
   for (unsigned int i = 0; i < campfires_.size(); i++) {
     campfires_[i].Set("point_light", animated_model_shader_, i);
@@ -65,9 +67,6 @@ void Application::Init() {
 
   AnimatedModel rabbit = AnimatedModel("assets/rabbit/body.fbx",
                                        animated_model_shader_, renderer_);
-
-  int width = glutGet(GLUT_WINDOW_WIDTH);
-  int height = glutGet(GLUT_WINDOW_HEIGHT);
 
   Material emerald(glm::vec3(0.0215f, 0.1745f, 0.0215f),
                    glm::vec3(0.07568f, 0.61424f, 0.07568f),
@@ -117,18 +116,6 @@ void Application::Init() {
         glm::vec2(random_utils::range(-10, 10), random_utils::range(-10, 10)),
         rabbit, 30.0f));
   }
-
-  smoke_particle_props_.colour_begin =
-      glm::vec4(242.0f / 255.0f, 125.0f / 255.0f, 12.0f / 255.0f, 1.0f);
-  smoke_particle_props_.colour_end =
-      glm::vec4(117.0f / 255.0f, 118.0f / 255.0f, 118.0f / 255.0f, 1.0f);
-  smoke_particle_props_.life_time = 1.0f;
-  smoke_particle_props_.position = glm::vec3(0.0f, 0.0f, 0.0f);
-  smoke_particle_props_.size_begin = 0.1f;
-  smoke_particle_props_.size_end = 0.05f;
-  smoke_particle_props_.size_variation = 0.5f;
-  smoke_particle_props_.velocity = glm::vec3(0.0f, 1.0f, 0.0f);
-  smoke_particle_props_.velocity_variation = glm::vec3(1.0f);
 }
 
 void Application::Display() {
@@ -203,7 +190,6 @@ void Application::Display() {
   particle_shader_.SetUniformMatrix4fv("proj", GL_FALSE,
                                        glm::value_ptr(persp_proj_mat));
 
-  particle_system_.Emit(smoke_particle_props_);
   particle_system_.Draw();
 
   glutSwapBuffers();

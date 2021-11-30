@@ -5,10 +5,10 @@
 #include "camera.h"
 #include "player.h"
 #include "directed_light.h"
-#include "light_source.h"
 #include "boid.h"
 #include "skybox.h"
 #include "particle_system.h"
+#include "campfire.h"
 
 class Application {
  public:
@@ -35,7 +35,7 @@ class Application {
   Shader skybox_shader_;
   Shader particle_shader_;
   DirectedLight directed_light_;
-  std::vector<LightSource> campfires_;
+  std::vector<Campfire> campfires_;
   Player player_;
   Model platform_;
   Model rock_;
@@ -43,7 +43,6 @@ class Application {
   std::vector<ModelPosition> rock_positions_;
   Skybox skybox_;
   ParticleSystem particle_system_;
-  ParticleProps smoke_particle_props_;
   bool pause_crowd_;
   float last_time_;
 };
