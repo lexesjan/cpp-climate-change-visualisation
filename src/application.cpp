@@ -34,7 +34,7 @@ Application::Application()
                "assets/skybox/top.jpg", "assets/skybox/bottom.jpg",
                "assets/skybox/front.jpg", "assets/skybox/back.jpg"},
               skybox_shader_, renderer_),
-      particle_system_(particle_shader_, renderer_),
+      particle_system_(particle_shader_, renderer_, 10000),
       pause_crowd_(false),
       last_time_(0.0f) {
   Init();

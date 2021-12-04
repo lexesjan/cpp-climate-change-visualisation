@@ -4,9 +4,10 @@
 #include "particle_system.h"
 #include "random_utils.h"
 
-ParticleSystem::ParticleSystem(Shader& shader, Renderer& renderer)
+ParticleSystem::ParticleSystem(Shader& shader, Renderer& renderer,
+                               unsigned int max_particles)
     : particle_pool_(),
-      pool_index_(999),
+      pool_index_(max_particles - 1),
       delta_(0.0f),
       shader_(shader),
       renderer_(renderer_),
@@ -30,7 +31,7 @@ ParticleSystem::ParticleSystem(Shader& shader, Renderer& renderer)
           -0.5f, 0.5f,  -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  0.5f,
           0.5f,  0.5f,  0.5f,  -0.5f, 0.5f,  0.5f,  -0.5f, 0.5f,  -0.5f,
       }) {
-  particle_pool_.resize(1000);
+  particle_pool_.resize(max_particles);
 
   VertexBufferObject vertex_buffer_object(
       vertices_.data(),

@@ -21,7 +21,8 @@ struct ParticleProps {
 
 class ParticleSystem {
  public:
-  explicit ParticleSystem(Shader& shader, Renderer& renderer);
+  explicit ParticleSystem(Shader& shader, Renderer& renderer,
+                          unsigned int max_particles);
 
   void Emit(ParticleProps& props);
 
